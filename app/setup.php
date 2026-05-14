@@ -194,3 +194,21 @@ add_action('widgets_init', function () {
         'id' => 'sidebar-footer',
     ] + $config);
 });
+
+/**
+ * Fix Sage local development CORS errors
+ */
+add_action('init', function () {
+    // Check if the request comes from your local Bud/Vite asset server
+    if (isset($_SERVER['HTTP_ORIGIN'])) {
+        $origin = $_SERVER['HTTP_ORIGIN'];
+
+        // Dynamically allow localhost ports common to Bud (3000) and Vite (5173)
+        if (preg_match('~^https?://localhost:(3000|5173|5174)$~', $origin)) {
+            header("Access-Control-Allow-Origin: {$origin}");
+            header("Access-Control-Allow-Methods: GET, POST, OPTIONS, HEAD");
+            header("Access-Control-Allow-Headers: Origin, Content-Type, Accept, Authorization, X-Requested-With");
+            header("Access-Control-Allow-Credentials: true");
+        }
+    }
+});
