@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-@php use App\Data\StaticData; $devs = StaticData::developers(); @endphp
+@php use App\Data\StaticData; $devs = $developers ?? StaticData::developers(); @endphp
 
 <section class="section" style="padding-top:140px">
   <div class="container" style="position:relative">
@@ -26,13 +26,19 @@
           <div>
             <div class="name">{{ $d['name'] }}</div>
             <div class="meta">
-              <span>{{ implode(' · ', $d['locations']) }}</span>
-              <span style="color:var(--line-2)">·</span>
-              <span style="color:var(--ink-3)">{{ $d['portfolio'] }}</span>
+              @if (! empty($d['locations']))<span>{{ implode(' · ', $d['locations']) }}</span>@endif
+              @if (! empty($d['locations']) && ! empty($d['portfolio']))<span style="color:var(--line-2)">·</span>@endif
+              @if (! empty($d['portfolio']))<span style="color:var(--ink-3)">{{ $d['portfolio'] }}</span>@endif
             </div>
-            <p class="desc">{{ $d['desc'] }}</p>
+            @if (! empty($d['desc']))<p class="desc">{{ $d['desc'] }}</p>@endif
           </div>
-          <div class="sigil">{{ $d['sigil'] }}</div>
+          <div class="sigil">
+            @if (! empty($d['logo']))
+              <img src="{{ $d['logo'] }}" alt="{{ $d['name'] }}" style="max-width:60px;max-height:60px;object-fit:contain">
+            @else
+              {{ $d['sigil'] ?? mb_substr($d['name'], 0, 1) }}
+            @endif
+          </div>
         </div>
       @endforeach
     </div>

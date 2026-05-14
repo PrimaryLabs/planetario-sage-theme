@@ -2,11 +2,13 @@
 
 namespace App\Providers;
 
+use App\Fields\Developer as DeveloperFields;
 use App\Fields\FrontPage;
 use App\Fields\Property as PropertyFields;
 use App\Fields\SiteSettings;
 use App\Fields\TeamMember as TeamMemberFields;
 use App\Fields\Testimonial as TestimonialFields;
+use App\PostTypes\Developer as DeveloperPostType;
 use App\PostTypes\Property as PropertyPostType;
 use App\PostTypes\TeamMember as TeamMemberPostType;
 use App\PostTypes\Testimonial as TestimonialPostType;
@@ -36,10 +38,12 @@ class ThemeServiceProvider extends SageServiceProvider
         \add_action('init', [PropertyPostType::class, 'register']);
         \add_action('init', [TestimonialPostType::class, 'register']);
         \add_action('init', [TeamMemberPostType::class, 'register']);
+        \add_action('init', [DeveloperPostType::class, 'register']);
         \add_action('acf/init', [SiteSettings::class, 'register']);
         \add_action('acf/init', [FrontPage::class, 'register']);
         \add_action('acf/init', [PropertyFields::class, 'register']);
         \add_action('acf/init', [TestimonialFields::class, 'register']);
         \add_action('acf/init', [TeamMemberFields::class, 'register']);
+        \add_action('acf/init', [DeveloperFields::class, 'register']);
     }
 }
