@@ -4,7 +4,8 @@
 @php
 use App\Data\StaticData;
 $properties = $featuredProperties ?? array_slice(StaticData::properties(), 0, 6);
-$services = StaticData::services();
+$servicesData = $site['services'] ?? null;
+$services = $servicesData['items'] ?? array_map(fn($s) => ['number' => $s['num'], 'title' => $s['title'], 'description' => $s['desc']], StaticData::services());
 $testimonialItems = $testimonialsHighlights ?? array_slice(StaticData::testimonials(), 0, 2);
 @endphp
 
@@ -200,13 +201,15 @@ $testimonialItems = $testimonialsHighlights ?? array_slice(StaticData::testimoni
   <div class="container">
     <div class="section-head-col">
       <div class="reveal items-center justify-center flex flex-col">
-        <span class="eyebrow">What we do</span>
-        <h2 class="h2" style="margin-top:14px">Six services. <em>One promise.</em></h2>
+        @if (! empty($servicesData['eyebrow']))<span class="eyebrow">{{ $servicesData['eyebrow'] }}</span>@endif
+        <h2 class="h2" style="margin-top:14px">
+          {{ $servicesData['headlineLead'] ?? 'Six services.' }}
+          @if (! empty($servicesData['headlineEm'])) <em>{{ $servicesData['headlineEm'] }}</em>@endif
+        </h2>
       </div>
-      <p class="lead reveal text-center" style="transition-delay:.1s">
-        Property goals are personal. Our services are built around the actual
-        decisions you'll need to make not the listings we want to push.
-      </p>
+      @if (! empty($servicesData['intro']))
+        <p class="lead reveal text-center" style="transition-delay:.1s">{{ $servicesData['intro'] }}</p>
+      @endif
     </div>
     @php
     $serviceIcons = [
@@ -240,12 +243,12 @@ $testimonialItems = $testimonialsHighlights ?? array_slice(StaticData::testimoni
       @foreach ($services as $s)
       <div class="feature">
         <svg class="bg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          {!! $serviceIcons[$s['num']] ?? '' !!}
+          {!! $serviceIcons[$s['number'] ?? ''] ?? '' !!}
         </svg>
         <div class="feature-body">
-          <div class="num">{{ $s['num'] }}</div>
+          <div class="num">{{ $s['number'] ?? '' }}</div>
           <div class="ttl">{{ $s['title'] }}</div>
-          <p class="desc">{{ $s['desc'] }}</p>
+          <p class="desc">{{ $s['description'] ?? '' }}</p>
         </div>
       </div>
       @endforeach

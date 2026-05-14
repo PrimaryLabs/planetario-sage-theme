@@ -14,7 +14,7 @@ class SiteSettings
         }
 
         if (function_exists('acf_add_options_page')) {
-            acf_add_options_page([
+            \acf_add_options_page([
                 'page_title'  => 'Site Settings',
                 'menu_title'  => 'Site Settings',
                 'menu_slug'   => self::OPTIONS_PAGE_KEY,
@@ -26,7 +26,7 @@ class SiteSettings
             ]);
         }
 
-        acf_add_local_field_group([
+        \acf_add_local_field_group([
             'key'      => self::GROUP_KEY,
             'title'    => 'Site Settings',
             'location' => [[
@@ -52,9 +52,84 @@ class SiteSettings
             self::contactFields(),
             [['key' => 'field_ss_tab_socials', 'label' => 'Socials', 'type' => 'tab']],
             self::socialFields(),
+            [['key' => 'field_ss_tab_services', 'label' => 'Services', 'type' => 'tab']],
+            self::servicesFields(),
             [['key' => 'field_ss_tab_footer', 'label' => 'Footer', 'type' => 'tab']],
             self::footerFields(),
         );
+    }
+
+    private static function servicesFields(): array
+    {
+        return [
+            [
+                'key'           => 'field_ss_services_eyebrow',
+                'label'         => 'Section eyebrow',
+                'name'          => 'services_eyebrow',
+                'type'          => 'text',
+                'default_value' => 'What we do',
+            ],
+            [
+                'key'           => 'field_ss_services_headline_lead',
+                'label'         => 'Headline — lead',
+                'name'          => 'services_headline_lead',
+                'type'          => 'text',
+                'default_value' => 'Six services.',
+            ],
+            [
+                'key'           => 'field_ss_services_headline_em',
+                'label'         => 'Headline — emphasis',
+                'name'          => 'services_headline_emphasis',
+                'type'          => 'text',
+                'default_value' => 'One promise.',
+            ],
+            [
+                'key'           => 'field_ss_services_intro',
+                'label'         => 'Intro paragraph',
+                'name'          => 'services_intro',
+                'type'          => 'textarea',
+                'rows'          => 3,
+                'new_lines'     => '',
+                'default_value' => "Property goals are personal. Our services are built around the actual decisions you'll need to make not the listings we want to push.",
+            ],
+            [
+                'key'          => 'field_ss_services_items',
+                'label'        => 'Service items',
+                'name'         => 'services_items',
+                'type'         => 'repeater',
+                'min'          => 0,
+                'max'          => 12,
+                'layout'       => 'block',
+                'button_label' => 'Add service',
+                'sub_fields'   => [
+                    [
+                        'key'      => 'field_ss_service_num',
+                        'label'    => 'Number',
+                        'name'     => 'number',
+                        'type'     => 'text',
+                        'wrapper'  => ['width' => '15'],
+                        'instructions' => 'e.g. 01, 02 — used to look up icon glyph.',
+                    ],
+                    [
+                        'key'      => 'field_ss_service_title',
+                        'label'    => 'Title',
+                        'name'     => 'title',
+                        'type'     => 'text',
+                        'wrapper'  => ['width' => '35'],
+                        'required' => 1,
+                    ],
+                    [
+                        'key'       => 'field_ss_service_desc',
+                        'label'     => 'Description',
+                        'name'      => 'description',
+                        'type'      => 'textarea',
+                        'rows'      => 3,
+                        'new_lines' => '',
+                        'wrapper'   => ['width' => '50'],
+                    ],
+                ],
+            ],
+        ];
     }
 
     private static function brandFields(): array

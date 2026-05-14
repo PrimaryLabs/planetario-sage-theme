@@ -23,7 +23,34 @@ class SiteSettings extends Composer
             'brand'    => $this->brand(),
             'contact'  => $this->contact(),
             'socials'  => $this->socials(),
+            'services' => $this->services(),
             'footer'   => $this->footer(),
+        ];
+    }
+
+    private function services(): array
+    {
+        $rows = $this->repeater('services_items');
+        if (empty($rows)) {
+            $items = array_map(static fn ($s) => [
+                'number'      => $s['num'],
+                'title'       => $s['title'],
+                'description' => $s['desc'],
+            ], \App\Data\StaticData::services());
+        } else {
+            $items = array_map(static fn ($r) => [
+                'number'      => (string) ($r['number'] ?? ''),
+                'title'       => (string) ($r['title'] ?? ''),
+                'description' => (string) ($r['description'] ?? ''),
+            ], $rows);
+        }
+
+        return [
+            'eyebrow'      => $this->option('services_eyebrow', 'What we do'),
+            'headlineLead' => $this->option('services_headline_lead', 'Six services.'),
+            'headlineEm'   => $this->option('services_headline_emphasis', 'One promise.'),
+            'intro'        => $this->option('services_intro', "Property goals are personal. Our services are built around the actual decisions you'll need to make not the listings we want to push."),
+            'items'        => $items,
         ];
     }
 
