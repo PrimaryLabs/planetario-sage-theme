@@ -3,13 +3,7 @@
 @section('content')
 @php
   use App\Data\StaticData;
-  $stories = StaticData::stories();
-  $storyImages = [
-    'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=800&h=600&fit=crop&q=80',
-    'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&h=600&fit=crop&q=80',
-    'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=600&fit=crop&q=80',
-    'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&h=600&fit=crop&q=80',
-  ];
+  $stories = $stories ?? StaticData::stories();
 @endphp
 
 <section class="section" style="padding-top:140px">
@@ -32,8 +26,10 @@
     @foreach ($stories as $i => $s)
       <article class="story reveal {{ $i % 2 === 0 ? 'reveal-left' : 'reveal-right' }}" style="transition-delay:{{ $i * 0.08 }}s">
         <div class="story-media">
-          <img src="{{ $storyImages[$i] ?? $storyImages[0] }}"
-               alt="{{ esc_attr($s['client']) }}" loading="lazy">
+          @if (! empty($s['image']))
+            <img src="{{ $s['image'] }}"
+                 alt="{{ esc_attr($s['client']) }}" loading="lazy">
+          @endif
         </div>
         <div class="story-body">
           <div class="tag-row">
@@ -54,6 +50,14 @@
               </div>
             @endforeach
           </div>
+          @if (! empty($s['property']))
+            <div style="margin-top:18px">
+              <a href="{{ $s['property']['url'] }}" class="btn">
+                View the property — {{ $s['property']['name'] }}
+                <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+            </div>
+          @endif
         </div>
       </article>
     @endforeach
