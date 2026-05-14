@@ -11,14 +11,13 @@
 <section class="section" style="padding-top:140px">
   <div class="container" style="position:relative">
     <x-orbit-deco style="right:-220px;top:-40px;opacity:.22" />
-    <span class="eyebrow">Current portfolio · {{ count($all) }} listings</span>
+    @if ($pageIntro['eyebrow'])<span class="eyebrow">{{ $pageIntro['eyebrow'] }} · {{ count($all) }} listings</span>@endif
     <h1 class="display" style="margin-top:18px;max-width:18ch">
-      Every listing here has <em>passed our review.</em>
+      {{ $pageIntro['headlineLead'] }}@if ($pageIntro['headlineEm']) <em>{{ $pageIntro['headlineEm'] }}</em>@endif@if ($pageIntro['headlineTrail']) {{ $pageIntro['headlineTrail'] }}@endif
     </h1>
-    <p class="lead" style="margin-top:22px;max-width:62ch">
-      Title verified, build inspected, price benchmarked. If a property
-      isn't on this page, we didn't think it was ready to be.
-    </p>
+    @if ($pageIntro['lead'])
+      <p class="lead" style="margin-top:22px;max-width:62ch">{{ $pageIntro['lead'] }}</p>
+    @endif
   </div>
 </section>
 
@@ -109,23 +108,21 @@
 <section class="section" style="background:var(--bg-2);border-top:1px solid var(--line)">
   <div class="container" style="display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center" class="private-grid">
     <div class="reveal">
-      <span class="eyebrow">Private inventory</span>
+      @if ($pageClosing['eyebrow'])<span class="eyebrow">{{ $pageClosing['eyebrow'] }}</span>@endif
       <h2 class="h2" style="margin-top:14px">
-        Some properties never see <em>the public site.</em>
+        {{ $pageClosing['headlineLead'] }}@if ($pageClosing['headlineEm']) <em>{{ $pageClosing['headlineEm'] }}</em>@endif
       </h2>
     </div>
     <div class="reveal" style="transition-delay:.1s">
-      <p class="lead">
-        Estate sales, off-market villas, developer pre-launches. If your brief is
-        specific, send it to us directly and we'll match against listings held
-        quietly with the firm.
-      </p>
-      <div style="margin-top:22px">
-        <a href="{{ home_url('/contact') }}" class="btn btn-primary">
-          Send a private brief
-          <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
-      </div>
+      @if ($pageClosing['body'])<p class="lead">{{ $pageClosing['body'] }}</p>@endif
+      @if ($pageClosing['primaryLabel'])
+        <div style="margin-top:22px">
+          <a href="{{ $pageClosing['primaryUrl'] }}" class="btn btn-primary">
+            {{ $pageClosing['primaryLabel'] }}
+            <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      @endif
     </div>
   </div>
   <style>@media (max-width:860px){.private-grid{grid-template-columns:1fr!important;gap:24px!important}}</style>

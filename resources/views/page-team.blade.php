@@ -16,15 +16,13 @@ $groups   = $teamGroups ?? [
 <section class="section" style="padding-top:140px">
   <div class="container" style="position:relative">
     <x-orbit-deco style="right:-220px;top:-20px;opacity:.25" />
-    <span class="eyebrow">The Planetario bench</span>
+    @if ($pageIntro['eyebrow'])<span class="eyebrow">{{ $pageIntro['eyebrow'] }}</span>@endif
     <h1 class="display" style="margin-top:18px;max-width:18ch">
-      The people you'll actually <em>shake hands with.</em>
+      {{ $pageIntro['headlineLead'] }}@if ($pageIntro['headlineEm']) <em>{{ $pageIntro['headlineEm'] }}</em>@endif@if ($pageIntro['headlineTrail']) {{ $pageIntro['headlineTrail'] }}@endif
     </h1>
-    <p class="lead" style="margin-top:24px;max-width:62ch">
-      A PRC-licensed brokerage between Tagbilaran and Cebu City. Most of our bench has
-      lived in the Visayas their whole lives. None of them will hand your file to
-      someone else once your name is on it.
-    </p>
+    @if ($pageIntro['lead'])
+      <p class="lead" style="margin-top:24px;max-width:62ch">{{ $pageIntro['lead'] }}</p>
+    @endif
   </div>
 </section>
 
@@ -109,25 +107,23 @@ $groups   = $teamGroups ?? [
   <div class="container">
     <div style="display:grid;grid-template-columns:1fr 1.2fr;gap:60px;align-items:center" class="join-grid">
       <div class="reveal">
-        <span class="eyebrow">Sales partnership</span>
+        @if ($pageClosing['eyebrow'])<span class="eyebrow">{{ $pageClosing['eyebrow'] }}</span>@endif
         <h2 class="h2" style="margin-top:14px">
-          Want to join the <em>Planetario salesfloor?</em>
+          {{ $pageClosing['headlineLead'] }}@if ($pageClosing['headlineEm']) <em>{{ $pageClosing['headlineEm'] }}</em>@endif
         </h2>
       </div>
       <div class="reveal" style="transition-delay:.1s">
-        <p class="lead">
-          We accredit a small, vetted network of independent sales associates across
-          Bohol and Cebu. Strong training, generous splits, and the quiet credibility
-          of working under a PRC-licensed brokerage.
-        </p>
-        <div style="margin-top:24px">
-          <a href="{{ home_url('/contact') }}" class="btn btn-primary">
-            Apply to partner
-            <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-              <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-          </a>
-        </div>
+        @if ($pageClosing['body'])<p class="lead">{{ $pageClosing['body'] }}</p>@endif
+        @if ($pageClosing['primaryLabel'])
+          <div style="margin-top:24px">
+            <a href="{{ $pageClosing['primaryUrl'] }}" class="btn btn-primary">
+              {{ $pageClosing['primaryLabel'] }}
+              <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </a>
+          </div>
+        @endif
       </div>
     </div>
   </div>

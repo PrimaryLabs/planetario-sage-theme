@@ -5,14 +5,13 @@
 <section class="section" style="padding-top:140px">
   <div class="container" style="position:relative">
     <x-orbit-deco style="right:-260px;top:-40px;opacity:.25" />
-    <span class="eyebrow">Contact us</span>
+    @if ($pageIntro['eyebrow'])<span class="eyebrow">{{ $pageIntro['eyebrow'] }}</span>@endif
     <h1 class="display" style="margin-top:18px;max-width:18ch">
-      Tell us what you're <em>looking for.</em>
+      {{ $pageIntro['headlineLead'] }}@if ($pageIntro['headlineEm']) <em>{{ $pageIntro['headlineEm'] }}</em>@endif@if ($pageIntro['headlineTrail']) {{ $pageIntro['headlineTrail'] }}@endif
     </h1>
-    <p class="lead" style="margin-top:22px;max-width:60ch">
-      A real broker reads every message that comes through this form. Most replies
-      go out within four working hours, often the same morning.
-    </p>
+    @if ($pageIntro['lead'])
+      <p class="lead" style="margin-top:22px;max-width:60ch">{{ $pageIntro['lead'] }}</p>
+    @endif
   </div>
 </section>
 

@@ -6,15 +6,13 @@
 <section class="section" style="padding-top:140px">
   <div class="container" style="position:relative">
     <x-orbit-deco style="right:-220px;top:-40px;opacity:.22" />
-    <span class="eyebrow">In our clients' words</span>
+    @if ($pageIntro['eyebrow'])<span class="eyebrow">{{ $pageIntro['eyebrow'] }}</span>@endif
     <h1 class="display" style="margin-top:18px;max-width:22ch">
-      We don't ask for these. <em>They arrive anyway.</em>
+      {{ $pageIntro['headlineLead'] }}@if ($pageIntro['headlineEm']) <em>{{ $pageIntro['headlineEm'] }}</em>@endif@if ($pageIntro['headlineTrail']) {{ $pageIntro['headlineTrail'] }}@endif
     </h1>
-    <p class="lead" style="margin-top:22px;max-width:62ch">
-      What follows is unedited — pulled from emails, voice notes, and handwritten
-      cards that have come through our Tagbilaran office over the years. Names
-      shared with permission.
-    </p>
+    @if ($pageIntro['lead'])
+      <p class="lead" style="margin-top:22px;max-width:62ch">{{ $pageIntro['lead'] }}</p>
+    @endif
   </div>
 </section>
 
@@ -77,12 +75,14 @@
 
 <section class="section" style="text-align:center">
   <div class="container">
-    <a href="{{ home_url('/stories') }}" class="btn">
-      Read the full success stories
-      <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-        <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </a>
+    @if ($pageClosing['primaryLabel'])
+      <a href="{{ $pageClosing['primaryUrl'] }}" class="btn">
+        {{ $pageClosing['primaryLabel'] }}
+        <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    @endif
   </div>
 </section>
 @endsection

@@ -9,15 +9,13 @@
 <section class="section" style="padding-top:140px">
   <div class="container" style="position:relative">
     <x-orbit-deco style="right:-220px;top:-40px;opacity:.22" />
-    <span class="eyebrow">Success stories</span>
+    @if ($pageIntro['eyebrow'])<span class="eyebrow">{{ $pageIntro['eyebrow'] }}</span>@endif
     <h1 class="display" style="margin-top:18px;max-width:20ch">
-      Four families. <em>Four small chapters</em> in a longer book.
+      {{ $pageIntro['headlineLead'] }}@if ($pageIntro['headlineEm']) <em>{{ $pageIntro['headlineEm'] }}</em>@endif@if ($pageIntro['headlineTrail']) {{ $pageIntro['headlineTrail'] }}@endif
     </h1>
-    <p class="lead" style="margin-top:22px;max-width:62ch">
-      Every closing is a private milestone. With permission, we share a few here —
-      not because the numbers are big, but because the people behind them trusted
-      us with something that mattered.
-    </p>
+    @if ($pageIntro['lead'])
+      <p class="lead" style="margin-top:22px;max-width:62ch">{{ $pageIntro['lead'] }}</p>
+    @endif
   </div>
 </section>
 
@@ -67,17 +65,21 @@
 <section class="section" style="background:var(--bg-2);border-top:1px solid var(--line)">
   <div class="container" style="text-align:center">
     <p class="banner-quote">
-      What will <em>your story</em> sound like, three years from now?
+      {{ $pageClosing['headlineLead'] }}@if ($pageClosing['headlineEm']) <em>{{ $pageClosing['headlineEm'] }}</em>@endif @if ($pageClosing['body']){{ $pageClosing['body'] }}@endif
     </p>
     <div style="display:flex;gap:12px;justify-content:center;margin-top:32px;flex-wrap:wrap">
-      <a href="{{ home_url('/contact') }}" class="btn btn-primary">
-        Start a conversation
-        <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
-      <a href="{{ home_url('/properties') }}" class="btn">
-        Browse listings
-        <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
+      @if ($pageClosing['primaryLabel'])
+        <a href="{{ $pageClosing['primaryUrl'] }}" class="btn btn-primary">
+          {{ $pageClosing['primaryLabel'] }}
+          <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      @endif
+      @if ($pageClosing['secondaryLabel'])
+        <a href="{{ $pageClosing['secondaryUrl'] }}" class="btn">
+          {{ $pageClosing['secondaryLabel'] }}
+          <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      @endif
     </div>
   </div>
 </section>
