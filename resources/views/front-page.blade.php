@@ -2,16 +2,17 @@
 
 @section('content')
 @php
-  use App\Data\StaticData;
-  $properties  = array_slice(StaticData::properties(), 0, 6);
-  $services    = StaticData::services();
-  $testimonials = array_slice(StaticData::testimonials(), 0, 2);
+use App\Data\StaticData;
+$properties = array_slice(StaticData::properties(), 0, 6);
+$services = StaticData::services();
+$testimonials = array_slice(StaticData::testimonials(), 0, 2);
 @endphp
 
 {{-- Hero --}}
 <section class="hero">
   <div class="hero-bg">
-    <img src="https://picsum.photos/seed/planetario-hero/1600/900" alt="" aria-hidden="true">
+    <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&h=1080&fit=crop&q=80"
+      alt="" aria-hidden="true">
   </div>
   <div class="hero-overlay"></div>
   <x-orbit-deco />
@@ -31,13 +32,13 @@
       <a href="{{ home_url('/properties') }}" class="btn btn-primary">
         Browse properties
         <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-          <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
       </a>
       <a href="{{ home_url('/contact') }}" class="btn">
         Talk to a broker
         <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-          <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
       </a>
     </div>
@@ -86,13 +87,22 @@
         <div style="margin-top:28px">
           <a href="{{ home_url('/about') }}" class="btn">
             Read our story
-            <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
           </a>
         </div>
       </div>
     </div>
   </div>
-  <style>@media (max-width:860px){.home-intro-grid{grid-template-columns:1fr!important;gap:24px!important}}</style>
+  <style>
+    @media (max-width:860px) {
+      .home-intro-grid {
+        grid-template-columns: 1fr !important;
+        gap: 24px !important
+      }
+    }
+  </style>
 </section>
 
 {{-- Featured properties --}}
@@ -113,7 +123,9 @@
         <div style="margin-top:18px">
           <a href="{{ home_url('/properties') }}" class="btn">
             View all {{ count(StaticData::properties()) }} listings
-            <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
           </a>
         </div>
       </div>
@@ -121,7 +133,7 @@
 
     <div class="stagger-children prop-grid">
       @foreach ($properties as $p)
-        <x-property-card :property="$p" />
+      <x-property-card :property="$p" />
       @endforeach
     </div>
   </div>
@@ -142,11 +154,11 @@
     </div>
     <div class="stagger-children feature-grid">
       @foreach ($services as $s)
-        <div class="feature">
-          <div class="num">{{ $s['num'] }}</div>
-          <div class="ttl">{{ $s['title'] }}</div>
-          <p class="desc">{{ $s['desc'] }}</p>
-        </div>
+      <div class="feature">
+        <div class="num">{{ $s['num'] }}</div>
+        <div class="ttl">{{ $s['title'] }}</div>
+        <p class="desc">{{ $s['desc'] }}</p>
+      </div>
       @endforeach
     </div>
   </div>
@@ -167,8 +179,8 @@
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:28px" class="loc-grid">
       <div class="reveal reveal-left" style="position:relative;border-radius:14px;overflow:hidden;aspect-ratio:4/3;border:1px solid var(--line)">
-        <img src="https://picsum.photos/seed/bohol-loc/800/600" alt="Bohol"
-             style="width:100%;height:100%;object-fit:cover;filter:brightness(.7)">
+        <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=1000&h=750&fit=crop&q=80" alt="Bohol"
+          style="width:100%;height:100%;object-fit:cover;filter:brightness(.7)">
         <div style="position:absolute;inset:0;padding:32px;display:flex;flex-direction:column;justify-content:flex-end;background:linear-gradient(180deg,transparent 40%,rgba(6,13,31,.9))">
           <span class="eyebrow">Bohol — home</span>
           <h3 class="h2" style="font-size:clamp(22px,2.4vw,36px);margin-top:10px">Tagbilaran, Panglao, Loboc, Carmen, Anda</h3>
@@ -176,8 +188,8 @@
         </div>
       </div>
       <div class="reveal reveal-right" style="position:relative;border-radius:14px;overflow:hidden;aspect-ratio:4/3;border:1px solid var(--line);transition-delay:.1s">
-        <img src="https://picsum.photos/seed/cebu-loc/800/600" alt="Cebu"
-             style="width:100%;height:100%;object-fit:cover;filter:brightness(.7)">
+        <img src="https://images.unsplash.com/photo-1514924013411-cbf25faa35bb?w=1000&h=750&fit=crop&q=80" alt="Cebu"
+          style="width:100%;height:100%;object-fit:cover;filter:brightness(.7)">
         <div style="position:absolute;inset:0;padding:32px;display:flex;flex-direction:column;justify-content:flex-end;background:linear-gradient(180deg,transparent 40%,rgba(6,13,31,.9))">
           <span class="eyebrow">Cebu — sister team</span>
           <h3 class="h2" style="font-size:clamp(22px,2.4vw,36px);margin-top:10px">Cebu City, Mactan, Talisay, Liloan</h3>
@@ -186,7 +198,13 @@
       </div>
     </div>
   </div>
-  <style>@media (max-width:800px){.loc-grid{grid-template-columns:1fr!important}}</style>
+  <style>
+    @media (max-width:800px) {
+      .loc-grid {
+        grid-template-columns: 1fr !important
+      }
+    }
+  </style>
 </section>
 
 {{-- Testimonials snippet --}}
@@ -194,27 +212,35 @@
   <div class="container">
     <div class="stagger-children" style="display:grid;grid-template-columns:1fr 1fr;gap:28px" class="t-grid">
       @foreach ($testimonials as $t)
-        <div class="testimonial">
-          <div class="quote-mk">"</div>
-          <blockquote>{{ $t['quote'] }}</blockquote>
-          <div class="who">
-            <img src="https://i.pravatar.cc/96?u={{ urlencode($t['name']) }}" alt="" width="48" height="48">
-            <div>
-              <div class="name">{{ $t['name'] }}</div>
-              <div class="role">{{ $t['role'] }}</div>
-            </div>
+      <div class="testimonial">
+        <div class="quote-mk">"</div>
+        <blockquote>{{ $t['quote'] }}</blockquote>
+        <div class="who">
+          <img src="https://i.pravatar.cc/96?u={{ urlencode($t['name']) }}" alt="" width="48" height="48">
+          <div>
+            <div class="name">{{ $t['name'] }}</div>
+            <div class="role">{{ $t['role'] }}</div>
           </div>
         </div>
+      </div>
       @endforeach
     </div>
     <div style="margin-top:28px;text-align:center">
       <a href="{{ home_url('/testimonials') }}" class="btn">
         More testimonials
-        <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
       </a>
     </div>
   </div>
-  <style>@media (max-width:800px){.t-grid{grid-template-columns:1fr!important}}</style>
+  <style>
+    @media (max-width:800px) {
+      .t-grid {
+        grid-template-columns: 1fr !important
+      }
+    }
+  </style>
 </section>
 
 {{-- CTA Banner --}}
@@ -228,11 +254,15 @@
     <div style="display:flex;gap:12px;justify-content:center;margin-top:36px;flex-wrap:wrap">
       <a href="{{ home_url('/contact') }}" class="btn btn-primary">
         Book a tripping
-        <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
       </a>
       <a href="{{ home_url('/properties') }}" class="btn">
         Browse listings
-        <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
       </a>
     </div>
   </div>

@@ -31,15 +31,33 @@ if (menuToggle && navLinks) {
 }
 
 // Scroll reveal (IntersectionObserver)
-const revealTargets = document.querySelectorAll('.reveal, .stagger-children');
-if (revealTargets.length) {
+function initReveal() {
+  const targets = document.querySelectorAll('.reveal, .stagger-children');
+  if (!targets.length) return;
+
+  // Fallback: if IntersectionObserver isn't supported, show everything.
+  if (!('IntersectionObserver' in window)) {
+    targets.forEach(el => el.classList.add('in'));
+    return;
+  }
+
   const io = new IntersectionObserver(
-    entries => entries.forEach(e => {
-      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    (entries, obs) => entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        obs.unobserve(e.target);
+      }
     }),
-    { rootMargin: '-8% 0px -8% 0px', threshold: 0.05 }
+    { rootMargin: '0px 0px -10% 0px', threshold: 0.1 }
   );
-  revealTargets.forEach(el => io.observe(el));
+
+  targets.forEach(el => io.observe(el));
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initReveal);
+} else {
+  initReveal();
 }
 
 // CountUp — triggered when element enters viewport

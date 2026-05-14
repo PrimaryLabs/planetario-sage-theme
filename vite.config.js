@@ -10,6 +10,15 @@ if (! process.env.APP_URL) {
 
 export default defineConfig({
   base: '/app/themes/sage/public/build/',
+  server: {
+    host: 'localhost',
+    port: 5174,
+    strictPort: true,
+    origin: 'http://localhost:5174',
+    cors: {
+      origin: /^https?:\/\/([^/]+\.)?(localhost|127\.0\.0\.1|\[::1\]|.*\.test)(:\d+)?$/,
+    },
+  },
   plugins: [
     tailwindcss(),
     laravel({

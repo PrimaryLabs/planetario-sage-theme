@@ -58,7 +58,7 @@
     <div class="footer-bottom">
       <div>&copy; {{ date('Y') }} Planetario Realty &amp; Brokerage Services Inc.</div>
       <div class="sigil-line">
-        <span>PRC Licensed Brokerage</span>
+        <span>PRC Lic. No. ████-██</span>
         <span style="color:var(--line-2)">·</span>
         <span>Tagbilaran · Cebu</span>
       </div>

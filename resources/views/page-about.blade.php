@@ -25,7 +25,8 @@
 <section style="padding:0 0 60px">
   <div class="container">
     <div class="reveal" style="aspect-ratio:21/9;border-radius:14px;overflow:hidden;border:1px solid var(--line)">
-      <img src="https://picsum.photos/seed/bohol-about/1200/514" alt="Bohol landscape"
+      <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=1600&h=686&fit=crop&q=80"
+           alt="Bohol landscape"
            style="width:100%;height:100%;object-fit:cover;filter:brightness(.85)">
     </div>
   </div>

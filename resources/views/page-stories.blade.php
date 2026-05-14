@@ -1,7 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
-@php use App\Data\StaticData; $stories = StaticData::stories(); @endphp
+@php
+  use App\Data\StaticData;
+  $stories = StaticData::stories();
+  $storyImages = [
+    'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=800&h=600&fit=crop&q=80',
+    'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&h=600&fit=crop&q=80',
+    'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=600&fit=crop&q=80',
+    'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&h=600&fit=crop&q=80',
+  ];
+@endphp
 
 <section class="section" style="padding-top:140px">
   <div class="container" style="position:relative">
@@ -23,7 +32,7 @@
     @foreach ($stories as $i => $s)
       <article class="story reveal {{ $i % 2 === 0 ? 'reveal-left' : 'reveal-right' }}" style="transition-delay:{{ $i * 0.08 }}s">
         <div class="story-media">
-          <img src="https://picsum.photos/seed/story-{{ $i }}/800/600"
+          <img src="{{ $storyImages[$i] ?? $storyImages[0] }}"
                alt="{{ esc_attr($s['client']) }}" loading="lazy">
         </div>
         <div class="story-body">
