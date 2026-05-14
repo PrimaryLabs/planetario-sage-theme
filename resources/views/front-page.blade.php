@@ -67,29 +67,32 @@ $testimonials = array_slice(StaticData::testimonials(), 0, 2);
   <div class="container">
     <div style="display:grid;grid-template-columns:1fr 1.4fr;gap:60px;align-items:center" class="home-intro-grid">
       <div class="reveal reveal-left">
-        <span class="eyebrow">Our commitment</span>
+        @if ($commitment['eyebrow'])
+          <span class="eyebrow">{{ $commitment['eyebrow'] }}</span>
+        @endif
         <h2 class="h2" style="margin-top:14px">
-          We walk with you from <em>first viewing</em> to final signature.
+          {{ $commitment['headlineLead'] }}
+          @if ($commitment['headlineEm'])<em>{{ $commitment['headlineEm'] }}</em>@endif
+          @if ($commitment['headlineTrail']) {{ $commitment['headlineTrail'] }}@endif
         </h2>
       </div>
       <div class="reveal reveal-right" style="transition-delay:.12s">
-        <p class="lead">
-          You don't have to worry about documentation, coordination, or negotiation.
-          We handle it all and we'll tell you to wait if the unit isn't right.
-          That kind of honesty is rarer than a clean title.
-        </p>
-        <p class="lead" style="margin-top:18px">
-          Most of our clients are referrals from clients. That's a number we work
-          quietly to keep true.
-        </p>
-        <div style="margin-top:28px">
-          <a href="{{ home_url('/about') }}" class="btn">
-            Read our story
-            <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-              <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-          </a>
-        </div>
+        @if ($commitment['paragraph1'])
+          <p class="lead">{{ $commitment['paragraph1'] }}</p>
+        @endif
+        @if ($commitment['paragraph2'])
+          <p class="lead" style="margin-top:18px">{{ $commitment['paragraph2'] }}</p>
+        @endif
+        @if ($commitment['cta']['label'])
+          <div style="margin-top:28px">
+            <a href="{{ $commitment['cta']['url'] }}" class="btn">
+              {{ $commitment['cta']['label'] }}
+              <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </a>
+          </div>
+        @endif
       </div>
     </div>
   </div>
@@ -108,45 +111,45 @@ $testimonials = array_slice(StaticData::testimonials(), 0, 2);
   <div class="container">
     <div class="section-head-col">
       <div class="reveal flex flex-col items-center">
-        <span class="eyebrow">Who we are</span>
-        <h2 class="h2" style="margin-top:14px">A <em>steady house</em> with a planet-sized horizon.</h2>
+        @if ($vm['eyebrow'])
+          <span class="eyebrow">{{ $vm['eyebrow'] }}</span>
+        @endif
+        <h2 class="h2" style="margin-top:14px">
+          {{ $vm['headlineLead'] }}
+          @if ($vm['headlineEm']) <em>{{ $vm['headlineEm'] }}</em>@endif
+          @if ($vm['headlineTrail']) {{ $vm['headlineTrail'] }}@endif
+        </h2>
       </div>
-      <p class="lead reveal text-center" style="transition-delay:.1s">
-        Two quiet commitments anchor everything we do the company we want to be, and
-        the work we promise our clients every day.
-      </p>
+      @if ($vm['intro'])
+        <p class="lead reveal text-center" style="transition-delay:.1s">{{ $vm['intro'] }}</p>
+      @endif
     </div>
 
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:60px" class="vm-grid">
       <div class="reveal reveal-left">
         <span class="eyebrow">Vision</span>
-        <p style="font-family:var(--font-display);font-size:clamp(16px,2vw,24px);line-height:1.35;margin-top:18px;color:var(--ink)">
-          To be a <em style="color:var(--accent);font-style:italic">world-class</em> real-estate
-          company delivering exceptional service to clients, salespeople, business partners, and
-          team members transforming lives by creating opportunities for growth, empowering
-          communities, and fostering progress, all while contributing to a sustainable future
-          for our planet.
-        </p>
+        <div class="vm-body" style="font-family:var(--font-display);font-size:clamp(16px,2vw,24px);line-height:1.35;margin-top:18px;color:var(--ink)">
+          {!! $vm['vision'] !!}
+        </div>
       </div>
       <div class="reveal reveal-right" style="transition-delay:.15s">
         <span class="eyebrow">Mission</span>
-        <p style="font-family:var(--font-display);font-size:clamp(16px,2vw,24px);line-height:1.35;margin-top:18px;color:var(--ink)">
-          To deliver <em style="color:var(--accent);font-style:italic">world-class</em> services
-          in the realty industry ensuring our clients' happiness and complete satisfaction.
-          We continuously enhance our competitive edge through innovation, motivation, and
-          training, while fostering long-term relationships built on trust and excellence.
-        </p>
+        <div class="vm-body" style="font-family:var(--font-display);font-size:clamp(16px,2vw,24px);line-height:1.35;margin-top:18px;color:var(--ink)">
+          {!! $vm['mission'] !!}
+        </div>
       </div>
     </div>
 
-    <div style="margin-top:48px">
-      <a href="{{ home_url('/about') }}" class="btn">
-        Read the full story
-        <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-          <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
-      </a>
-    </div>
+    @if ($vm['cta']['label'])
+      <div style="margin-top:48px">
+        <a href="{{ $vm['cta']['url'] }}" class="btn">
+          {{ $vm['cta']['label'] }}
+          <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </a>
+      </div>
+    @endif
   </div>
   <style>
     @media (max-width:860px) {
@@ -255,34 +258,39 @@ $testimonials = array_slice(StaticData::testimonials(), 0, 2);
   <div class="container">
     <div class="section-head-col">
       <div class="reveal flex flex-col items-center">
-        <span class="eyebrow">Where we work</span>
-        <h2 class="h2" style="margin-top:14px">Two islands. <em>One quiet sea between them.</em></h2>
+        @if ($locations['eyebrow'])
+          <span class="eyebrow">{{ $locations['eyebrow'] }}</span>
+        @endif
+        <h2 class="h2" style="margin-top:14px">
+          {{ $locations['headlineLead'] }}
+          @if ($locations['headlineEm']) <em>{{ $locations['headlineEm'] }}</em>@endif
+        </h2>
       </div>
-      <p class="lead reveal text-center" style="transition-delay:.1s">
-        Planetario operates from Tagbilaran, with active brokerage across Bohol's
-        coastal towns and a senior team in Cebu City.
-      </p>
+      @if ($locations['intro'])
+        <p class="lead reveal text-center" style="transition-delay:.1s">{{ $locations['intro'] }}</p>
+      @endif
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:28px" class="loc-grid">
-      <div class="reveal reveal-left" style="position:relative;border-radius:14px;overflow:hidden;aspect-ratio:4/3;border:1px solid var(--line)">
-        <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=1000&h=750&fit=crop&q=80" alt="Bohol"
-          style="width:100%;height:100%;object-fit:cover;filter:brightness(.7)">
-        <div style="position:absolute;inset:0;padding:32px;display:flex;flex-direction:column;justify-content:flex-end;background:linear-gradient(180deg,transparent 40%,rgba(6,13,31,.9))">
-          <span class="eyebrow">Bohol home</span>
-          <h3 class="h2" style="font-size:clamp(22px,2.4vw,36px);margin-top:10px">Tagbilaran, Panglao, Loboc, Carmen, Anda</h3>
-          <p class="muted" style="margin-top:8px;max-width:36ch">Our headquarters and where we know every road, every notary, and every honest builder.</p>
-        </div>
+    @if (! empty($locations['items']))
+      <div style="display:grid;grid-template-columns:repeat({{ min(count($locations['items']), 2) }}, 1fr);gap:28px" class="loc-grid">
+        @foreach ($locations['items'] as $i => $loc)
+          <div class="reveal {{ $i % 2 === 0 ? 'reveal-left' : 'reveal-right' }}" style="position:relative;border-radius:14px;overflow:hidden;aspect-ratio:4/3;border:1px solid var(--line){{ $i > 0 ? ';transition-delay:.1s' : '' }}">
+            @if ($loc['image'] && $loc['image']['url'])
+              <img src="{{ $loc['image']['url'] }}" alt="{{ $loc['image']['alt'] }}"
+                style="width:100%;height:100%;object-fit:cover;filter:brightness(.7)">
+            @endif
+            <div style="position:absolute;inset:0;padding:32px;display:flex;flex-direction:column;justify-content:flex-end;background:linear-gradient(180deg,transparent 40%,rgba(6,13,31,.9))">
+              @if ($loc['eyebrow'])
+                <span class="eyebrow">{{ $loc['eyebrow'] }}</span>
+              @endif
+              <h3 class="h2" style="font-size:clamp(22px,2.4vw,36px);margin-top:10px">{{ $loc['title'] }}</h3>
+              @if ($loc['description'])
+                <p class="muted" style="margin-top:8px;max-width:36ch">{{ $loc['description'] }}</p>
+              @endif
+            </div>
+          </div>
+        @endforeach
       </div>
-      <div class="reveal reveal-right" style="position:relative;border-radius:14px;overflow:hidden;aspect-ratio:4/3;border:1px solid var(--line);transition-delay:.1s">
-        <img src="https://images.unsplash.com/photo-1514924013411-cbf25faa35bb?w=1000&h=750&fit=crop&q=80" alt="Cebu"
-          style="width:100%;height:100%;object-fit:cover;filter:brightness(.7)">
-        <div style="position:absolute;inset:0;padding:32px;display:flex;flex-direction:column;justify-content:flex-end;background:linear-gradient(180deg,transparent 40%,rgba(6,13,31,.9))">
-          <span class="eyebrow">Cebu sister team</span>
-          <h3 class="h2" style="font-size:clamp(22px,2.4vw,36px);margin-top:10px">Cebu City, Mactan, Talisay, Liloan</h3>
-          <p class="muted" style="margin-top:8px;max-width:36ch">Urban and bayfront condominiums, commercial floors, and gated family residences.</p>
-        </div>
-      </div>
-    </div>
+    @endif
   </div>
   <style>
     @media (max-width:800px) {
@@ -334,22 +342,27 @@ $testimonials = array_slice(StaticData::testimonials(), 0, 2);
   <div class="container" style="position:relative;text-align:center">
     <x-orbit-deco style="right:auto;left:-180px;top:-50px;width:380px;height:380px;opacity:.25" />
     <p class="banner-quote">
-      Tell us what your next <em>five years</em> should look like.<br>
-      We'll find the address.
+      {{ $ctaBanner['quoteLead'] }}
+      @if ($ctaBanner['quoteEm']) <em>{{ $ctaBanner['quoteEm'] }}</em>@endif
+      @if ($ctaBanner['quoteTrail'])<br>{{ $ctaBanner['quoteTrail'] }}@endif
     </p>
     <div style="display:flex;gap:12px;justify-content:center;margin-top:36px;flex-wrap:wrap">
-      <a href="{{ home_url('/contact') }}" class="btn btn-primary">
-        Book a tripping
-        <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-          <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
-      </a>
-      <a href="{{ home_url('/properties') }}" class="btn">
-        Browse listings
-        <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-          <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
-      </a>
+      @if ($ctaBanner['primary']['label'])
+        <a href="{{ $ctaBanner['primary']['url'] }}" class="btn btn-primary">
+          {{ $ctaBanner['primary']['label'] }}
+          <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </a>
+      @endif
+      @if ($ctaBanner['secondary']['label'])
+        <a href="{{ $ctaBanner['secondary']['url'] }}" class="btn">
+          {{ $ctaBanner['secondary']['label'] }}
+          <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </a>
+      @endif
     </div>
   </div>
 </section>
