@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Fields\AboutPage;
 use App\Fields\Developer as DeveloperFields;
 use App\Fields\FrontPage;
 use App\Fields\Property as PropertyFields;
@@ -49,5 +50,6 @@ class ThemeServiceProvider extends SageServiceProvider
         \add_action('acf/init', [TeamMemberFields::class, 'register']);
         \add_action('acf/init', [DeveloperFields::class, 'register']);
         \add_action('acf/init', [StoryFields::class, 'register']);
+        \add_action('acf/init', [AboutPage::class, 'register']);
     }
 }
