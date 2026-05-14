@@ -5,7 +5,7 @@
 use App\Data\StaticData;
 $properties = $featuredProperties ?? array_slice(StaticData::properties(), 0, 6);
 $services = StaticData::services();
-$testimonials = array_slice(StaticData::testimonials(), 0, 2);
+$testimonialItems = $testimonialsHighlights ?? array_slice(StaticData::testimonials(), 0, 2);
 @endphp
 
 {{-- Hero --}}
@@ -305,12 +305,12 @@ $testimonials = array_slice(StaticData::testimonials(), 0, 2);
 <section class="section" style="padding-top:0">
   <div class="container">
     <div class="stagger-children" style="display:grid;grid-template-columns:1fr 1fr;gap:28px" class="t-grid">
-      @foreach ($testimonials as $t)
+      @foreach ($testimonialItems as $t)
       <div class="testimonial">
         <div class="quote-mk">"</div>
         <blockquote>{{ $t['quote'] }}</blockquote>
         <div class="who">
-          <img src="https://i.pravatar.cc/96?u={{ urlencode($t['name']) }}" alt="" width="48" height="48">
+          <img src="{{ $t['avatar'] ?? ('https://i.pravatar.cc/96?u=' . urlencode($t['name'])) }}" alt="" width="48" height="48">
           <div>
             <div class="name">{{ $t['name'] }}</div>
             <div class="role">{{ $t['role'] }}</div>

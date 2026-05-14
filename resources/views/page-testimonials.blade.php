@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-@php use App\Data\StaticData; $testimonials = StaticData::testimonials(); @endphp
+@php use App\Data\StaticData; $testimonials = $testimonials ?? StaticData::testimonials(); @endphp
 
 <section class="section" style="padding-top:140px">
   <div class="container" style="position:relative">
@@ -27,7 +27,7 @@
           <div class="quote-mk">"</div>
           <blockquote>{{ $t['quote'] }}</blockquote>
           <div class="who">
-            <img src="https://i.pravatar.cc/96?u={{ urlencode($t['name']) }}"
+            <img src="{{ $t['avatar'] ?? ('https://i.pravatar.cc/96?u=' . urlencode($t['name'])) }}"
                  alt="" width="48" height="48">
             <div>
               <div class="name">{{ $t['name'] }}</div>
