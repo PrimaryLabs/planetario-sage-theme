@@ -84,3 +84,11 @@ This theme is built on **[Sage](https://roots.io/sage/)** — the Roots starter 
 - **Entry points** — `app.js` / `app.css` for front-end; `editor.js` / `editor.css` for block editor.
 - **WP-CLI + Acorn CLI** — use `wp acorn` commands (e.g. `wp acorn make:composer`) to scaffold Sage-specific classes.
 - **No `functions.php` bloat** — register hooks inside service providers or dedicated setup files under `app/setup.php`.
+
+### Content architecture
+
+- **CPTs live in `app/PostTypes/`** — `Property`, `Testimonial`, `TeamMember`, `Developer`, `Story`. Each class registers the post type + taxonomies and exposes an idempotent `seed()` method that imports the legacy `StaticData` rows on first run (guarded by an option flag).
+- **ACF field groups live in `app/Fields/`** — code-defined via `acf_add_local_field_group()`. Page-bound groups (`FrontPage`, `AboutPage`, `PageIntros`) resolve their target page by slug at registration. CPT field groups bind by `post_type`. `SiteSettings` provides a global options page with Brand, Contact, Socials, Services, and Footer tabs.
+- **View composers in `app/View/Composers/`** normalize WP/ACF data into uniform array shapes that Blade templates consume — keep Blade logic-free. Composers maintain a `StaticData` fallback so views render even before seeders run.
+- **`App\Data\StaticData` is deprecated** — retained only as the bootstrap source for `seed()` methods and as a runtime safety net. Do not add new consumers; pull through composers instead.
+- **Service provider** — `ThemeServiceProvider::boot()` hooks all CPT registrations on `init` and all ACF field group registrations on `acf/init`. Prefix global WP/ACF functions with `\` inside namespaced classes to keep static analysis clean.

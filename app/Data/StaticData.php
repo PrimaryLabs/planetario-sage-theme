@@ -2,6 +2,23 @@
 
 namespace App\Data;
 
+/**
+ * @deprecated Use the corresponding CPT and ACF field group instead. This class is now
+ *             retained only as a bootstrap source for the one-time PostType::seed() methods
+ *             and as a safety-net fallback inside composers when no published posts exist.
+ *
+ * Replacements:
+ *   - properties()    → \App\PostTypes\Property + \App\Fields\Property
+ *   - testimonials()  → \App\PostTypes\Testimonial + \App\Fields\Testimonial
+ *   - team()          → \App\PostTypes\TeamMember + \App\Fields\TeamMember
+ *   - developers()    → \App\PostTypes\Developer + \App\Fields\Developer
+ *   - stories()       → \App\PostTypes\Story + \App\Fields\Story
+ *   - brand()         → \App\Fields\SiteSettings (Brand tab)
+ *   - services()      → \App\Fields\SiteSettings (Services tab)
+ *   - values()        → \App\Fields\AboutPage (Core Values repeater)
+ *
+ * Do not add new consumers. New code should pull data through the relevant composer.
+ */
 class StaticData
 {
     public static function brand(): array
