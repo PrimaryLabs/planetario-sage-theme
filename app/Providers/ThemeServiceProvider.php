@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Fields\FrontPage;
 use Roots\Acorn\Sage\SageServiceProvider;
 
 class ThemeServiceProvider extends SageServiceProvider
@@ -24,5 +25,7 @@ class ThemeServiceProvider extends SageServiceProvider
     public function boot()
     {
         parent::boot();
+
+        add_action('acf/init', [FrontPage::class, 'register']);
     }
 }

@@ -11,56 +11,54 @@ $testimonials = array_slice(StaticData::testimonials(), 0, 2);
 {{-- Hero --}}
 <section class="hero">
   <div class="hero-bg">
-    <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&h=1080&fit=crop&q=80"
-      alt="" aria-hidden="true">
+    <img src="{{ $hero['image']['url'] }}" alt="{{ $hero['image']['alt'] }}" aria-hidden="true">
   </div>
   <div class="hero-overlay"></div>
   <x-orbit-deco />
 
   <div class="container hero-inner">
-    <span class="eyebrow">Bohol · Cebu · Visayas</span>
+    @if ($hero['eyebrow'])
+      <span class="eyebrow">{{ $hero['eyebrow'] }}</span>
+    @endif
     <h1 class="display hero-headline">
-      A home is the long answer to a <em>short prayer.</em>
+      {{ $hero['headlineLead'] }} @if ($hero['headlineEm'])<em>{{ $hero['headlineEm'] }}</em>@endif
     </h1>
-    <p class="hero-sub">
-      Planetario Realty &amp; Brokerage Services Inc. has guided Boholano families,
-      OFW investors, and first-time buyers across the Visayas for nearly a decade
-      with patience, with paperwork done right, and with the kind of honesty that
-      keeps clients coming back.
-    </p>
+    @if ($hero['sub'])
+      <p class="hero-sub">{!! nl2br(e($hero['sub'])) !!}</p>
+    @endif
     <div class="hero-actions">
-      <a href="{{ home_url('/properties') }}" class="btn btn-primary">
-        Browse properties
-        <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-          <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
-      </a>
-      <a href="{{ home_url('/contact') }}" class="btn">
-        Talk to a broker
-        <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-          <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
-      </a>
+      @if ($hero['primaryCta']['label'])
+        <a href="{{ $hero['primaryCta']['url'] }}" class="btn btn-primary">
+          {{ $hero['primaryCta']['label'] }}
+          <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </a>
+      @endif
+      @if ($hero['secondaryCta']['label'])
+        <a href="{{ $hero['secondaryCta']['url'] }}" class="btn">
+          {{ $hero['secondaryCta']['label'] }}
+          <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </a>
+      @endif
     </div>
 
-    <div class="hero-meta">
-      <div class="item">
-        <div class="num"><span data-countup="2018" data-decimals="0">2018</span></div>
-        <div class="lbl">Established</div>
+    @if (! empty($hero['stats']))
+      <div class="hero-meta">
+        @foreach ($hero['stats'] as $stat)
+          <div class="item">
+            <div class="num">{{ $stat['prefix'] }}<span
+                data-countup="{{ $stat['value'] }}"
+                data-decimals="{{ $stat['decimals'] }}"
+                @if ($stat['suffix']) data-suffix="{{ $stat['suffix'] }}" @endif
+              >{{ $stat['value'] }}{{ $stat['suffix'] }}</span></div>
+            <div class="lbl">{{ $stat['label'] }}</div>
+          </div>
+        @endforeach
       </div>
-      <div class="item">
-        <div class="num">₱<span data-countup="2.4" data-decimals="1" data-suffix="B+">2.4B+</span></div>
-        <div class="lbl">Transactions Closed</div>
-      </div>
-      <div class="item">
-        <div class="num"><span data-countup="420" data-suffix="+">420+</span></div>
-        <div class="lbl">Families Placed</div>
-      </div>
-      <div class="item">
-        <div class="num"><span data-countup="6">6</span></div>
-        <div class="lbl">Developer Partners</div>
-      </div>
-    </div>
+    @endif
   </div>
 </section>
 
