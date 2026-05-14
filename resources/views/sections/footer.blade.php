@@ -7,27 +7,37 @@
       <div>
         <a href="{{ home_url('/') }}" class="brand">
           <div class="brand-mark">
-            <span style="font-family:var(--font-display);font-size:17px;font-weight:700;color:var(--accent);line-height:1">P</span>
+            <span style="font-family:var(--font-display);font-size:17px;font-weight:700;color:var(--accent);line-height:1">{{ mb_substr($site['brand']['name'], 0, 1) }}</span>
           </div>
           <div class="brand-text">
-            <span class="name">Planetario</span>
+            <span class="name">{{ explode(' ', $site['brand']['name'])[0] }}</span>
             <span class="sub">Realty &amp; Brokerage</span>
           </div>
         </a>
-        <p class="muted" style="margin-top:22px;max-width:38ch;font-size:14px;line-height:1.65">
-          A Bohol-rooted realty house, brokering homes and investments across the Visayas with care and clarity.
-        </p>
-        <p class="tagline-mark" style="margin-top:18px">"Turning Property Dreams into Reality"</p>
+        @if ($site['brand']['short'])
+          <p class="muted" style="margin-top:22px;max-width:38ch;font-size:14px;line-height:1.65">
+            {{ $site['brand']['short'] }}
+          </p>
+        @endif
+        @if ($site['brand']['tagline'])
+          <p class="tagline-mark" style="margin-top:18px">"{{ $site['brand']['tagline'] }}"</p>
+        @endif
+        @if (! empty($site['socials']))
+          <div style="margin-top:22px;display:flex;gap:12px">
+            @foreach ($site['socials'] as $platform => $url)
+              <a href="{{ $url }}" target="_blank" rel="noopener" aria-label="{{ ucfirst($platform) }}" style="color:var(--ink-2);font-size:13px;text-transform:capitalize">{{ $platform }}</a>
+            @endforeach
+          </div>
+        @endif
       </div>
 
       {{-- Explore --}}
       <div>
         <h4>Explore</h4>
         <ul>
-          <li><a href="{{ home_url('/properties') }}">Properties</a></li>
-          <li><a href="{{ home_url('/developers') }}">Developers</a></li>
-          <li><a href="{{ home_url('/stories') }}">Success Stories</a></li>
-          <li><a href="{{ home_url('/testimonials') }}">Testimonials</a></li>
+          @foreach ($site['footer']['explore'] as $link)
+            <li><a href="{{ $link['url'] }}">{{ $link['label'] }}</a></li>
+          @endforeach
         </ul>
       </div>
 
@@ -35,9 +45,9 @@
       <div>
         <h4>Company</h4>
         <ul>
-          <li><a href="{{ home_url('/about') }}">About Us</a></li>
-          <li><a href="{{ home_url('/team') }}">Our Team</a></li>
-          <li><a href="{{ home_url('/contact') }}">Contact</a></li>
+          @foreach ($site['footer']['company'] as $link)
+            <li><a href="{{ $link['url'] }}">{{ $link['label'] }}</a></li>
+          @endforeach
         </ul>
       </div>
 
@@ -45,22 +55,28 @@
       <div>
         <h4>Reach Us</h4>
         <ul>
-          <li><a href="tel:09102671424">0910 267 1424</a></li>
-          <li><a href="mailto:planetariorealtyandbrokerage@gmail.com">planetariorealtyandbrokerage@gmail.com</a></li>
-          <li style="color:var(--ink-2);font-size:14px;line-height:1.55">
-            66 Remolador Ext., Brgy. Cogon,<br>Tagbilaran City, Bohol
-          </li>
+          @if ($site['contact']['phone'])
+            <li><a href="tel:{{ $site['contact']['phoneLink'] }}">{{ $site['contact']['phone'] }}</a></li>
+          @endif
+          @if ($site['contact']['email'])
+            <li><a href="mailto:{{ $site['contact']['email'] }}">{{ $site['contact']['email'] }}</a></li>
+          @endif
+          @if ($site['contact']['addressLine1'] || $site['contact']['addressLine2'])
+            <li style="color:var(--ink-2);font-size:14px;line-height:1.55">
+              {{ $site['contact']['addressLine1'] }}@if ($site['contact']['addressLine2'])<br>{{ $site['contact']['addressLine2'] }}@endif
+            </li>
+          @endif
         </ul>
       </div>
 
     </div>{{-- /.footer-grid --}}
 
     <div class="footer-bottom">
-      <div>&copy; {{ date('Y') }} Planetario Realty &amp; Brokerage Services Inc.</div>
+      <div>&copy; {{ date('Y') }} {{ $site['footer']['copyrightOwner'] }}</div>
       <div class="sigil-line">
-        <span>PRC Lic. No. ████-██</span>
-        <span style="color:var(--line-2)">·</span>
-        <span>Tagbilaran · Cebu</span>
+        @if ($site['footer']['sigilLeft'])<span>{{ $site['footer']['sigilLeft'] }}</span>@endif
+        @if ($site['footer']['sigilLeft'] && $site['footer']['sigilRight'])<span style="color:var(--line-2)">·</span>@endif
+        @if ($site['footer']['sigilRight'])<span>{{ $site['footer']['sigilRight'] }}</span>@endif
       </div>
     </div>
 

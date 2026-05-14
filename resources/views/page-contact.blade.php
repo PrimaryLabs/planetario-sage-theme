@@ -24,42 +24,48 @@
       <aside style="background:var(--bg-2);border:1px solid var(--line);border-radius:14px;padding:36px;position:relative;overflow:hidden">
         <span class="eyebrow">Reach us directly</span>
 
-        <div style="margin-top:32px">
-          <div style="font-family:var(--font-mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3)">Office</div>
-          <div style="font-family:var(--font-display);font-size:20px;margin-top:6px;line-height:1.35">
-            66 Remolador Ext., Brgy. Cogon,<br>Tagbilaran City, Bohol
+        @if ($site['contact']['addressLine1'] || $site['contact']['addressLine2'])
+          <div style="margin-top:32px">
+            <div style="font-family:var(--font-mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3)">Office</div>
+            <div style="font-family:var(--font-display);font-size:20px;margin-top:6px;line-height:1.35">
+              {{ $site['contact']['addressLine1'] }}@if ($site['contact']['addressLine2'])<br>{{ $site['contact']['addressLine2'] }}@endif
+            </div>
           </div>
-        </div>
+        @endif
 
-        <div style="margin-top:28px">
-          <div style="font-family:var(--font-mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3)">Phone</div>
-          <a href="tel:09102671424" style="font-family:var(--font-display);font-size:22px;margin-top:6px;display:inline-block;color:var(--accent)">
-            0910 267 1424
-          </a>
-        </div>
-
-        <div style="margin-top:28px">
-          <div style="font-family:var(--font-mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3)">Email</div>
-          <a href="mailto:planetariorealtyandbrokerage@gmail.com"
-             style="font-family:var(--font-display);font-size:16px;margin-top:6px;display:inline-block;color:var(--accent);word-break:break-all">
-            planetariorealtyandbrokerage@gmail.com
-          </a>
-        </div>
-
-        <div style="margin-top:28px">
-          <div style="font-family:var(--font-mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3)">Office hours</div>
-          <div style="margin-top:6px;color:var(--ink-2);font-size:14.5px;line-height:1.7">
-            Monday – Saturday · 8:00 to 18:00<br>
-            Sunday · by appointment
+        @if ($site['contact']['phone'])
+          <div style="margin-top:28px">
+            <div style="font-family:var(--font-mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3)">Phone</div>
+            <a href="tel:{{ $site['contact']['phoneLink'] }}" style="font-family:var(--font-display);font-size:22px;margin-top:6px;display:inline-block;color:var(--accent)">
+              {{ $site['contact']['phone'] }}
+            </a>
           </div>
-        </div>
+        @endif
+
+        @if ($site['contact']['email'])
+          <div style="margin-top:28px">
+            <div style="font-family:var(--font-mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3)">Email</div>
+            <a href="mailto:{{ $site['contact']['email'] }}"
+               style="font-family:var(--font-display);font-size:16px;margin-top:6px;display:inline-block;color:var(--accent);word-break:break-all">
+              {{ $site['contact']['email'] }}
+            </a>
+          </div>
+        @endif
+
+        @if ($site['contact']['hoursWeekday'] || $site['contact']['hoursWeekend'])
+          <div style="margin-top:28px">
+            <div style="font-family:var(--font-mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3)">Office hours</div>
+            <div style="margin-top:6px;color:var(--ink-2);font-size:14.5px;line-height:1.7">
+              {{ $site['contact']['hoursWeekday'] }}@if ($site['contact']['hoursWeekday'] && $site['contact']['hoursWeekend'])<br>@endif{{ $site['contact']['hoursWeekend'] }}
+            </div>
+          </div>
+        @endif
 
         <div class="hr-orbit"><span class="dot"></span></div>
 
-        <p class="muted" style="font-size:13.5px;line-height:1.6">
-          Walk-ins welcome at our Tagbilaran office. For Cebu meetings, our
-          senior team coordinates a private appointment at a venue convenient to you.
-        </p>
+        @if ($site['contact']['note'])
+          <p class="muted" style="font-size:13.5px;line-height:1.6">{{ $site['contact']['note'] }}</p>
+        @endif
       </aside>
 
       {{-- Contact form --}}
@@ -76,7 +82,7 @@
             </h3>
             <p class="lead" style="margin:16px auto 0;text-align:center">
               A senior broker will read this and reply within four working hours.
-              If urgent, please call us at <a href="tel:09102671424" style="color:var(--accent)">0910 267 1424</a>.
+              If urgent, please call us at <a href="tel:{{ $site['contact']['phoneLink'] }}" style="color:var(--accent)">{{ $site['contact']['phone'] }}</a>.
             </p>
           </div>
         @else
