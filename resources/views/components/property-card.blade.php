@@ -1,6 +1,7 @@
 @props(['property'])
 @php($p = $property)
-<a href="{{ home_url('/properties/' . $p['id']) }}" class="prop-card reveal">
+@php($href = $p['url'] ?? home_url('/properties/' . ($p['id'] ?? '')))
+<a href="{{ $href }}" class="prop-card reveal">
   <div class="media">
     @if (!empty($p['image']))
       <img src="{{ $p['image'] }}" alt="{{ $p['name'] }}" loading="lazy">

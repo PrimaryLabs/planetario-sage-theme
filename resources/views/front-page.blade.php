@@ -3,7 +3,7 @@
 @section('content')
 @php
 use App\Data\StaticData;
-$properties = array_slice(StaticData::properties(), 0, 6);
+$properties = $featuredProperties ?? array_slice(StaticData::properties(), 0, 6);
 $services = StaticData::services();
 $testimonials = array_slice(StaticData::testimonials(), 0, 2);
 @endphp
@@ -178,7 +178,7 @@ $testimonials = array_slice(StaticData::testimonials(), 0, 2);
         </p>
         <div class="mx-auto mt-4 text-center">
           <a href="{{ home_url('/properties') }}" class="btn">
-            View all {{ count(StaticData::properties()) }} listings
+            View all {{ $propertyCount ?? count(StaticData::properties()) }} listings
             <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
               <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
             </svg>

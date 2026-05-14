@@ -2,11 +2,10 @@
 
 @section('content')
 @php
-  use App\Data\StaticData;
-  $all = StaticData::properties();
-  usort($all, fn($a, $b) => $b['price'] - $a['price']);
-  $types = array_unique(array_column($all, 'type'));
-  sort($types);
+  $all = $properties ?? [];
+  usort($all, fn($a, $b) => ($b['price'] ?? 0) <=> ($a['price'] ?? 0));
+  $types = $propertyTypes ?? [];
+  $tagChips = array_values(array_unique(array_merge(['All'], $propertyTags ?? [])));
 @endphp
 
 <section class="section" style="padding-top:140px">
@@ -61,7 +60,7 @@
     </div>
 
     <div class="chips" style="margin-top:22px" id="tag-chips">
-      @foreach (['All', 'Luxury', 'Beachfront', 'Urban', 'Family', 'Investment', 'Heritage', 'Commercial', 'Waterfront', 'Suburban'] as $tag)
+      @foreach ($tagChips as $tag)
         <button class="chip {{ $tag === 'All' ? 'active' : '' }}" data-tag="{{ $tag }}">{{ $tag }}</button>
       @endforeach
     </div>
