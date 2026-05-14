@@ -4,16 +4,12 @@
 @php
 use App\Data\StaticData;
 
-$team = StaticData::team();
-$founders = array_values(array_filter($team, fn($m) => $m['tier'] === 'founder'));
-$managers = array_values(array_filter($team, fn($m) => $m['tier'] === 'manager'));
-$brokers = array_values(array_filter($team, fn($m) => $m['tier'] === 'broker'));
-$staffs = array_values(array_filter($team, fn($m) => $m['tier'] === 'staff'));
-
-$groups = [
-['key' => 'managers', 'label' => 'Managers', 'eyebrow' => 'Leadership', 'members' => $managers],
-['key' => 'brokers', 'label' => 'Brokers', 'eyebrow' => 'Salesfloor', 'members' => $brokers],
-['key' => 'staffs', 'label' => 'Staff', 'eyebrow' => 'Support', 'members' => $staffs],
+$team     = $team ?? StaticData::team();
+$founders = $founders ?? array_values(array_filter($team, fn($m) => ($m['tier'] ?? '') === 'founder'));
+$groups   = $teamGroups ?? [
+  ['key' => 'managers', 'label' => 'Managers', 'eyebrow' => 'Leadership', 'members' => array_values(array_filter($team, fn($m) => ($m['tier'] ?? '') === 'manager'))],
+  ['key' => 'brokers',  'label' => 'Brokers',  'eyebrow' => 'Salesfloor', 'members' => array_values(array_filter($team, fn($m) => ($m['tier'] ?? '') === 'broker'))],
+  ['key' => 'staffs',   'label' => 'Staff',    'eyebrow' => 'Support',    'members' => array_values(array_filter($team, fn($m) => ($m['tier'] ?? '') === 'staff'))],
 ];
 @endphp
 
@@ -44,7 +40,7 @@ $groups = [
       @foreach ($founders as $member)
       <div class="team-card team-card--featured">
         <div class="media">
-          <img src="https://i.pravatar.cc/500?u={{ urlencode($member['name']) }}"
+          <img src="{{ $member['photo'] ?? ('https://i.pravatar.cc/500?u=' . urlencode($member['name'])) }}"
             alt="{{ esc_attr($member['name']) }}"
             loading="lazy">
         </div>
@@ -88,7 +84,7 @@ $groups = [
         @foreach ($group['members'] as $member)
         <div class="team-card" data-region="{{ $member['region'] }}">
           <div class="media">
-            <img src="https://i.pravatar.cc/400?u={{ urlencode($member['name']) }}"
+            <img src="{{ $member['photo'] ?? ('https://i.pravatar.cc/400?u=' . urlencode($member['name'])) }}"
               alt="{{ esc_attr($member['name']) }}"
               loading="lazy">
           </div>
