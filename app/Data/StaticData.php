@@ -190,14 +190,16 @@ class StaticData
     public static function team(): array
     {
         return [
-            ['name' => 'Maria Lourdes A. Pajuyo',  'role' => 'President & Broker-in-Charge',  'bio' => 'PRC-licensed real estate broker with two decades helping Boholano families and OFW investors find a clear path to ownership.'],
-            ['name' => 'Reynaldo G. Bernabe',       'role' => 'Chief Operating Officer',        'bio' => 'Oversees brokerage operations across Bohol and Cebu. Built our documentation and transaction-assistance practice from the ground up.'],
-            ['name' => 'Anabelle T. Sorongon',      'role' => 'Head of Sales — Bohol',          'bio' => 'Leads our Tagbilaran salesfloor. Anabelle has personally closed over 280 transactions in Panglao, Loboc, and Carmen.'],
-            ['name' => 'Jovenal R. Macachor',       'role' => 'Head of Sales — Cebu',           'bio' => 'Heads our Cebu City team and the commercial portfolio. Former developer-side sales director with deep knowledge of the metro market.'],
-            ['name' => 'Claudine F. Ompad',         'role' => 'Investment Consultant',           'bio' => 'Works closely with returning OFWs and first-time investors to size opportunities, run yield projections, and structure financing.'],
-            ['name' => 'Carlito S. Espera',         'role' => 'Documentation Lead',              'bio' => 'Carlito and his team handle every CAR, BIR, RD, and transfer filing — so our clients never have to chase a single paper themselves.'],
-            ['name' => 'Mildred V. Tagaylo',        'role' => 'Senior Sales Associate',          'bio' => 'Specializes in the Panglao, Dauis, and Baclayon coastal corridor. Known among clients for patient, jargon-free property tripping.'],
-            ['name' => 'Patrick N. Quirante',       'role' => 'Senior Sales Associate',          'bio' => 'Heads our condominium and condotel desk in Cebu — placing Filipino-American buyers and Singaporean families in serviced residences.'],
+            ['name' => 'Maria Lourdes A. Pajuyo',  'role' => 'Founder & President',             'tier' => 'founder', 'region' => 'all',   'bio' => 'PRC-licensed real estate broker with two decades helping Boholano families and OFW investors find a clear path to ownership.'],
+            ['name' => 'Eduardo R. Pajuyo',         'role' => 'Chief Executive Officer',         'tier' => 'founder', 'region' => 'all',   'bio' => 'Sets the long-term direction of the brokerage. Twenty years in regional finance before co-founding Planetario alongside Maria Lourdes.'],
+            ['name' => 'Reynaldo G. Bernabe',       'role' => 'Chief Operating Officer',         'tier' => 'founder', 'region' => 'all',   'bio' => 'Oversees brokerage operations across Bohol and Cebu. Built our documentation and transaction-assistance practice from the ground up.'],
+            ['name' => 'Anabelle T. Sorongon',      'role' => 'Head of Sales — Bohol',           'tier' => 'manager', 'region' => 'bohol', 'bio' => 'Leads our Tagbilaran salesfloor. Anabelle has personally closed over 280 transactions in Panglao, Loboc, and Carmen.'],
+            ['name' => 'Jovenal R. Macachor',       'role' => 'Head of Sales — Cebu',            'tier' => 'manager', 'region' => 'cebu',  'bio' => 'Heads our Cebu City team and the commercial portfolio. Former developer-side sales director with deep knowledge of the metro market.'],
+            ['name' => 'Mildred V. Tagaylo',        'role' => 'Senior Sales Associate',          'tier' => 'broker',  'region' => 'bohol', 'bio' => 'Specializes in the Panglao, Dauis, and Baclayon coastal corridor. Known among clients for patient, jargon-free property tripping.'],
+            ['name' => 'Patrick N. Quirante',       'role' => 'Senior Sales Associate',          'tier' => 'broker',  'region' => 'cebu',  'bio' => 'Heads our condominium and condotel desk in Cebu — placing Filipino-American buyers and Singaporean families in serviced residences.'],
+            ['name' => 'Claudine F. Ompad',         'role' => 'Investment Consultant',           'tier' => 'broker',  'region' => 'bohol', 'bio' => 'Works closely with returning OFWs and first-time investors to size opportunities, run yield projections, and structure financing.'],
+            ['name' => 'Carlito S. Espera',         'role' => 'Documentation Lead',              'tier' => 'staff',   'region' => 'bohol', 'bio' => 'Carlito and his team handle every CAR, BIR, RD, and transfer filing — so our clients never have to chase a single paper themselves.'],
+            ['name' => 'Rhea M. Dolojan',           'role' => 'Client Relations Officer',        'tier' => 'staff',   'region' => 'cebu',  'bio' => 'First point of contact for Cebu walk-ins and inbound enquiries. Coordinates tripping schedules and follow-through for the metro team.'],
         ];
     }
 
