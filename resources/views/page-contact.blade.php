@@ -103,10 +103,12 @@
           </p>
         </div>
         @else
-        @php($contact_action = admin_url('admin-post.php'))
+        @php
+          $contact_action = admin_url('admin-post.php');
+        @endphp
         <form method="POST" action="{{ $contact_action }}" style="display:grid;gap:28px;grid-template-columns:1fr 1fr"
           id="contact-form" class="contact-form" novalidate>
-          @php(wp_nonce_field('planetario_contact', '_wpnonce'))
+          {!! wp_nonce_field('planetario_contact', '_wpnonce', true, false) !!}
           <input type="hidden" name="action" value="planetario_contact">
 
           <div class="field" style="grid-column:span 2" id="field-name">
