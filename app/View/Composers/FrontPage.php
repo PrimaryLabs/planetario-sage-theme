@@ -3,6 +3,8 @@
 namespace App\View\Composers;
 
 use Roots\Acorn\View\Composer;
+use App\Data\StaticData;
+use App\PostTypes\Developer as DeveloperPostType;
 use App\PostTypes\TeamMember as TeamMemberPostType;
 
 use WP_Post;
@@ -18,13 +20,13 @@ class FrontPage extends Composer
     {
         $members  = $this->members();
         $byTier   = $this->groupByTier($members);
-        // dd($members);
         return [
-            'hero'       => $this->hero(),
-            'commitment' => $this->commitment(),
-            'vm'         => $this->visionMission(),
-            'locations'  => $this->locations(),
-            'ctaBanner'  => $this->ctaBanner(),
+            'hero'                 => $this->hero(),
+            'commitment'           => $this->commitment(),
+            'vm'                   => $this->visionMission(),
+            'locations'            => $this->locations(),
+            'ctaBanner'            => $this->ctaBanner(),
+            'accreditedDevelopers' => $this->accreditedDevelopers(),
             'team'         => $members,
             'founders'     => $byTier['founder'] ?? [],
             'managers'     => $byTier['manager'] ?? [],
@@ -90,6 +92,48 @@ class FrontPage extends Composer
             $groups[$tier][] = $m;
         }
         return $groups;
+    }
+
+    public function accreditedDevelopers(int $limit = 6): array
+    {
+        if (! \post_type_exists(DeveloperPostType::POST_TYPE) || ! function_exists('get_field')) {
+            return array_slice(StaticData::developers(), 0, $limit);
+        }
+
+        $query = new WP_Query([
+            'post_type'      => DeveloperPostType::POST_TYPE,
+            'post_status'    => 'publish',
+            'posts_per_page' => $limit,
+            'orderby'        => ['menu_order' => 'ASC', 'date' => 'ASC'],
+            'no_found_rows'  => true,
+        ]);
+
+        if (! $query->have_posts()) {
+            return array_slice(StaticData::developers(), 0, $limit);
+        }
+
+        return array_map([$this, 'normalizeDeveloper'], $query->posts);
+    }
+
+    private function normalizeDeveloper(WP_Post $post): array
+    {
+        $rows      = \get_field('developer_locations', $post->ID);
+        $locations = is_array($rows)
+            ? array_values(array_filter(array_map(static fn ($r) => (string) ($r['location'] ?? ''), $rows)))
+            : [];
+
+        $logo = \get_field('developer_logo', $post->ID);
+
+        return [
+            'name'        => $post->post_title,
+            'sigil'       => (string) (\get_field('developer_sigil', $post->ID) ?: mb_substr($post->post_title, 0, 1)),
+            'portfolio'   => (string) \get_field('developer_portfolio', $post->ID),
+            'desc'        => (string) \get_field('developer_desc', $post->ID),
+            'locations'   => $locations,
+            'website'     => (string) \get_field('developer_website', $post->ID),
+            'established' => (string) \get_field('developer_established', $post->ID),
+            'logo'        => is_array($logo) ? ($logo['url'] ?? '') : '',
+        ];
     }
     public function hero(): array
     {

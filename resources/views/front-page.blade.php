@@ -11,6 +11,8 @@ $teamRoster = $team ?? StaticData::team();
 $boardMembers = $boardMembers ?? array_values(array_filter($teamRoster, fn($m) => ($m['tier'] ?? '') === 'founder'));
 
 $managingBrokers = $managingBrokers ?? array_values(array_filter($teamRoster, fn($m) => ($m['tier'] ?? '') === 'broker' && ! empty($m['managing_broker'])));
+$brokers = $brokers ?? array_values(array_filter($teamRoster, fn($m) => ($m['tier'] ?? '') === 'broker' && empty($m['managing_broker'])));
+$accreditedDevelopers = $accreditedDevelopers ?? [];
 @endphp
 
 {{-- Hero --}}
@@ -182,7 +184,7 @@ $managingBrokers = $managingBrokers ?? array_values(array_filter($teamRoster, fn
   <div class="container" style="text-align:center">
     <div class="section-head-col">
       <div class="reveal flex flex-col items-center">
-        <span class="eyebrow">Leadership</span>
+        <span class="eyebrow">Founders</span>
         <h2 class="h2" style="margin-top:14px">
           Board of <em>Directors.</em>
         </h2>
@@ -199,10 +201,10 @@ $managingBrokers = $managingBrokers ?? array_values(array_filter($teamRoster, fn
             loading="lazy">
         </div>
         <div class="body flex flex-col relative items-center justify-center">
-          <div class="name font-bold">{{ $member['name'] }}</div>
+          <div class="name font-bold text-xl tracking-wide">{{ $member['name'] }}</div>
           <span class="w-1/2 h-[0.5px] bg-ink/20"></span>
           <div class="role tracking-wide !font-medium text-sm">{{ $member['role'] }}</div>
-          <p class="bio border-t-0 absolute top-14">{{ $member['bio'] }}</p>
+          <p class="bio border-t-0 absolute top-11">{{ $member['bio'] }}</p>
         </div>
       </div>
       @endforeach
@@ -217,7 +219,7 @@ $managingBrokers = $managingBrokers ?? array_values(array_filter($teamRoster, fn
   <div class="container" style="text-align:center">
     <div class="section-head-col">
       <div class="reveal flex flex-col items-center">
-        <span class="eyebrow">Salesfloor</span>
+        <span class="eyebrow">Leadership</span>
         <h2 class="h2" style="margin-top:14px">
           Managing <em>Brokers.</em>
         </h2>
@@ -226,6 +228,42 @@ $managingBrokers = $managingBrokers ?? array_values(array_filter($teamRoster, fn
 
     <div class="flex flex-wrap gap-6 items-center justify-center" style="margin-top:36px">
       @foreach ($managingBrokers as $member)
+      <div class="team-card team-card--featured max-w-xs md:w-1/2 lg:w-1/ ">
+        <div class="media">
+          <img src="{{ $member['photo'] ?? ('https://i.pravatar.cc/500?u=' . urlencode($member['name'])) }}"
+            alt="{{ esc_attr($member['name']) }}"
+            loading="lazy">
+        </div>
+        <div class="body flex flex-col relative items-center justify-center">
+          <div class="name font-bold text-xl tracking-wide">{{ $member['name'] }}</div>
+          <span class="w-1/2 h-[0.5px] bg-ink/20"></span>
+          <div class="role tracking-wide !font-medium text-sm">{{ $member['role'] }}</div>
+          @if (! empty($member['bio']))
+          <p class="bio border-t-0 absolute top-14">{{ $member['bio'] }}</p>
+          @endif
+        </div>
+      </div>
+      @endforeach
+    </div>
+  </div>
+</section>
+@endif
+
+{{-- Brokers --}}
+@if (! empty($brokers))
+<section class="section" style="padding-top:0">
+  <div class="container" style="text-align:center">
+    <div class="section-head-col">
+      <div class="reveal flex flex-col items-center">
+        <span class="eyebrow">Salesfloor</span>
+        <h2 class="h2" style="margin-top:14px">
+          <em>Brokers.</em>
+        </h2>
+      </div>
+    </div>
+
+    <div class="flex flex-wrap gap-6 items-center justify-center" style="margin-top:36px">
+      @foreach ($brokers as $member)
       <div class="team-card team-card--featured max-w-xs md:w-1/2 lg:w-1/3">
         <div class="media">
           <img src="{{ $member['photo'] ?? ('https://i.pravatar.cc/500?u=' . urlencode($member['name'])) }}"
@@ -233,9 +271,9 @@ $managingBrokers = $managingBrokers ?? array_values(array_filter($teamRoster, fn
             loading="lazy">
         </div>
         <div class="body flex flex-col relative items-center justify-center">
-          <div class="name font-bold">{{ $member['name'] }}</div>
+          <div class="name font-bold text-xl tracking-wide">{{ $member['name'] }}</div>
           <span class="w-1/2 h-[0.5px] bg-ink/20"></span>
-          <div class="role tracking-wide !font-medium text-sm">{{ $member['role'] }}</div>
+          <div class="role tracking-wide font-medium! text-xs!">{{ $member['role'] }}</div>
           @if (! empty($member['bio']))
           <p class="bio border-t-0 absolute top-14">{{ $member['bio'] }}</p>
           @endif
@@ -390,8 +428,70 @@ $managingBrokers = $managingBrokers ?? array_values(array_filter($teamRoster, fn
   </style>
 </section>
 
+{{-- Accredited Developers --}}
+@if (! empty($accreditedDevelopers))
+<section class="section" style="background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="container">
+    <div class="section-head-col">
+      <div class="reveal flex flex-col items-center">
+        <span class="eyebrow">Our partners</span>
+        <h2 class="h2" style="margin-top:14px">
+          Accredited <em>Developers.</em>
+        </h2>
+      </div>
+      <p class="lead reveal text-center" style="transition-delay:.1s">
+        A short list of builders we have walked with for years — vetted on title, build quality, and pricing before any unit reaches our floor.
+      </p>
+    </div>
+
+    <div class="stagger-children dev-list" style="margin-top:36px">
+      @foreach ($accreditedDevelopers as $d)
+      <div class="dev">
+        <div>
+          <div class="name">{{ $d['name'] }}</div>
+          <div class="meta">
+            @if (! empty($d['locations']))
+            <span>{{ implode(' · ', $d['locations']) }}</span>
+            @endif
+
+            @if (! empty($d['locations']) && ! empty($d['portfolio']))
+            <span style="color:var(--line-2)">·</span>
+            @endif
+
+            @if (! empty($d['portfolio']))
+            <span style="color:var(--ink-3)">{{ $d['portfolio'] }}</span>
+            @endif
+          </div>
+
+          @if (! empty($d['desc']))
+          <p class="desc">{{ $d['desc'] }}</p>
+          @endif
+        </div>
+        <div class="sigil">
+          @if (! empty($d['logo']))
+          <img src="{{ $d['logo'] }}" alt="{{ $d['name'] }}" style="max-width:60px;max-height:60px;object-fit:contain">
+          @else
+          {{ $d['sigil'] ?? mb_substr($d['name'], 0, 1) }}
+          @endif
+        </div>
+      </div>
+      @endforeach
+    </div>
+
+    <div style="margin-top:36px;text-align:center">
+      <a href="{{ home_url('/developers') }}" class="btn">
+        See all developers
+        <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
+@endif
+
 {{-- Testimonials snippet --}}
-<section class="section" style="padding-top:0">
+<section class="section" style="padding-top:88px;">
   <div class="container">
     <div class="stagger-children" style="display:grid;grid-template-columns:1fr 1fr;gap:28px" class="t-grid">
       @foreach ($testimonialItems as $t)

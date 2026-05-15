@@ -18,7 +18,7 @@ $sigilRight = $site['footer']['sigilRight'];
 
       {{-- Brand column --}}
       <div>
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-4">
           <div class="brand-mark">
             @if ($logo)
             {!! $logo !!}
@@ -27,7 +27,7 @@ $sigilRight = $site['footer']['sigilRight'];
             @endif
           </div>
           <a href="{{ home_url('/') }}" class="brand-text">
-            <span class="name">{{ $brandFirstName }}</span>
+            <span class="name uppercase tracking-widest">{{ $brandFirstName }}</span>
             <span class="sub">Realty &amp; Brokerage</span>
           </a>
         </div>
