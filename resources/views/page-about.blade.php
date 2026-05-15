@@ -36,22 +36,39 @@
 {{-- Vision / Mission --}}
 <section class="section" style="padding-top:0">
   <div class="container">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:60px" class="vm-grid">
-      <div class="reveal reveal-left">
-        <span class="eyebrow">Vision</span>
-        <div class="vm-body" style="font-family:var(--font-display);font-size:clamp(20px,2vw,28px);line-height:1.35;margin-top:18px;color:var(--ink)">
-          {!! $aboutVm['vision'] !!}
+    <div class="vm-stage">
+      <article class="vm-card vm-card--vision reveal">
+        <div class="vm-card__bg" aria-hidden="true"></div>
+        <div class="vm-card__inner">
+          <span class="vm-card__eyebrow">Our</span>
+          <h3 class="vm-card__title">Vision</h3>
+          <div class="vm-card__body">
+            {!! $aboutVm['vision'] !!}
+          </div>
         </div>
-      </div>
-      <div class="reveal reveal-right" style="transition-delay:.15s">
-        <span class="eyebrow">Mission</span>
-        <div class="vm-body" style="font-family:var(--font-display);font-size:clamp(20px,2vw,28px);line-height:1.35;margin-top:18px;color:var(--ink)">
-          {!! $aboutVm['mission'] !!}
+        <svg class="vm-card__icon vm-card__icon--vision" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z" />
+          <circle cx="12" cy="12" r="3" />
+        </svg>
+      </article>
+      <article class="vm-card vm-card--mission reveal">
+        <div class="vm-card__bg" aria-hidden="true"></div>
+        <div class="vm-card__inner">
+          <span class="vm-card__eyebrow">Our</span>
+          <h3 class="vm-card__title">Mission</h3>
+          <div class="vm-card__body">
+            {!! $aboutVm['mission'] !!}
+          </div>
         </div>
-      </div>
+        <svg class="vm-card__icon vm-card__icon--mission" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="9" />
+          <circle cx="12" cy="12" r="5" />
+          <circle cx="12" cy="12" r="1.4" fill="currentColor" />
+          <path d="M12 3V1.5M21 12h1.5M18.5 5.5L22 2" />
+        </svg>
+      </article>
     </div>
   </div>
-  <style>@media (max-width:860px){.vm-grid{grid-template-columns:1fr!important;gap:40px!important}}</style>
 </section>
 
 {{-- Core Values --}}
