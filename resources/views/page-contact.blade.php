@@ -180,6 +180,43 @@
   </style>
 </section>
 
+@php
+  $mapAddress = trim(($site['contact']['addressLine1'] ?? '') . ' ' . ($site['contact']['addressLine2'] ?? ''));
+  $mapQuery = urlencode($mapAddress !== '' ? $mapAddress : 'Tagbilaran City, Bohol');
+@endphp
+
+<section class="section" style="padding-top:64px">
+  <div class="container">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:24px">
+      <div>
+        <span class="eyebrow">Find us on the map</span>
+        <h2 class="h2" style="margin-top:14px;max-width:22ch">
+          Visit the <em>Tagbilaran</em> office.
+        </h2>
+      </div>
+      <a class="btn btn-ghost" href="https://www.google.com/maps/dir/?api=1&destination={{ $mapQuery }}" target="_blank" rel="noopener noreferrer">
+        Get directions
+        <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </a>
+    </div>
+
+    <div style="border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--bg-2);aspect-ratio:16/7;min-height:360px">
+      <iframe
+        src="https://www.google.com/maps?q={{ $mapQuery }}&output=embed"
+        title="Map showing {{ esc_attr($mapAddress) }}"
+        width="100%"
+        height="100%"
+        style="border:0;display:block"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        allowfullscreen>
+      </iframe>
+    </div>
+  </div>
+</section>
+
 <script>
   (function() {
     const form = document.getElementById('contact-form');
