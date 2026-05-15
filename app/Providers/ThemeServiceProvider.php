@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Admin\AcfMetaboxUi;
+use App\Admin\SiteIdentityPage;
 use App\Fields\AboutPage;
 use App\Fields\CompanyEvent as CompanyEventFields;
 use App\Fields\Developer as DeveloperFields;
@@ -63,6 +64,7 @@ class ThemeServiceProvider extends SageServiceProvider
         \add_action('acf/init', [PageAdminLinks::class, 'register']);
         \add_action('admin_init', [AcfMetaboxUi::class, 'register']);
 
+        SiteIdentityPage::register();
         SiteIdentitySync::register();
     }
 }

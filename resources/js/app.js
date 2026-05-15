@@ -3,86 +3,99 @@
    ============================================================ */
 
 // Nav scroll state
-const nav = document.querySelector('.nav');
+const nav = document.querySelector(".nav");
 if (nav) {
-  const tick = () => nav.classList.toggle('scrolled', window.scrollY > 30);
-  tick();
-  window.addEventListener('scroll', tick, { passive: true });
+	const tick = () => nav.classList.toggle("scrolled", window.scrollY > 30);
+	tick();
+	window.addEventListener("scroll", tick, { passive: true });
 }
 
 // Mobile menu toggle
-const menuToggle = document.querySelector('.menu-toggle');
-const navLinks   = document.querySelector('.nav-links');
+const menuToggle = document.querySelector(".menu-toggle");
+const navLinks = document.querySelector(".nav-links");
 if (menuToggle && navLinks) {
-  const iconMenu  = menuToggle.querySelector('.icon-menu');
-  const iconClose = menuToggle.querySelector('.icon-close');
+	const iconMenu = menuToggle.querySelector(".icon-menu");
+	const iconClose = menuToggle.querySelector(".icon-close");
 
-  const setOpen = (open) => {
-    navLinks.classList.toggle('open', open);
-    if (iconMenu)  iconMenu.style.display  = open ? 'none' : '';
-    if (iconClose) iconClose.style.display = open ? ''     : 'none';
-    menuToggle.setAttribute('aria-expanded', String(open));
-  };
+	const setOpen = (open) => {
+		navLinks.classList.toggle("open", open);
+		if (iconMenu) iconMenu.style.display = open ? "none" : "";
+		if (iconClose) iconClose.style.display = open ? "" : "none";
+		menuToggle.setAttribute("aria-expanded", String(open));
+	};
 
-  menuToggle.addEventListener('click', () => setOpen(!navLinks.classList.contains('open')));
-  navLinks.querySelectorAll('.nav-link').forEach(link =>
-    link.addEventListener('click', () => setOpen(false))
-  );
+	menuToggle.addEventListener("click", () =>
+		setOpen(!navLinks.classList.contains("open")),
+	);
+	navLinks
+		.querySelectorAll(".nav-link")
+		.forEach((link) =>
+			link.addEventListener("click", () => setOpen(false)),
+		);
 }
 
 // Scroll reveal (IntersectionObserver)
 function initReveal() {
-  const targets = document.querySelectorAll('.reveal, .stagger-children');
-  if (!targets.length) return;
+	const targets = document.querySelectorAll(".reveal, .stagger-children");
+	if (!targets.length) return;
 
-  // Fallback: if IntersectionObserver isn't supported, show everything.
-  if (!('IntersectionObserver' in window)) {
-    targets.forEach(el => el.classList.add('in'));
-    return;
-  }
+	// Fallback: if IntersectionObserver isn't supported, show everything.
+	if (!("IntersectionObserver" in window)) {
+		targets.forEach((el) => el.classList.add("in"));
+		return;
+	}
 
-  const io = new IntersectionObserver(
-    (entries, obs) => entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('in');
-        obs.unobserve(e.target);
-      }
-    }),
-    { rootMargin: '0px 0px -10% 0px', threshold: 0.1 }
-  );
+	const io = new IntersectionObserver(
+		(entries, obs) =>
+			entries.forEach((e) => {
+				if (e.isIntersecting) {
+					e.target.classList.add("in");
+					obs.unobserve(e.target);
+				}
+			}),
+		{ rootMargin: "0px 0px -10% 0px", threshold: 0.1 },
+	);
 
-  targets.forEach(el => io.observe(el));
+	targets.forEach((el) => io.observe(el));
 }
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initReveal);
+if (document.readyState === "loading") {
+	document.addEventListener("DOMContentLoaded", initReveal);
 } else {
-  initReveal();
+	initReveal();
 }
 
 // CountUp — triggered when element enters viewport
-document.querySelectorAll('[data-countup]').forEach(el => {
-  const target   = parseFloat(el.dataset.countup);
-  const decimals = parseInt(el.dataset.decimals ?? '0', 10);
-  const suffix   = el.dataset.suffix ?? '';
-  const prefix   = el.dataset.prefix ?? '';
-  const duration = 1600;
+document.querySelectorAll("[data-countup]").forEach((el) => {
+	const target = parseFloat(el.dataset.countup);
+	const decimals = parseInt(el.dataset.decimals ?? "0", 10);
+	const suffix = el.dataset.suffix ?? "";
+	const prefix = el.dataset.prefix ?? "";
+	const duration = 5000;
 
-  const io = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (!e.isIntersecting) return;
-      io.disconnect();
-      const start = performance.now();
-      const tick = (t) => {
-        const p = Math.min(1, (t - start) / duration);
-        const eased = 1 - Math.pow(1 - p, 3);
-        const n = target * eased;
-        el.textContent = prefix + (decimals > 0 ? n.toFixed(decimals) : Math.round(n).toLocaleString()) + suffix;
-        if (p < 1) requestAnimationFrame(tick);
-      };
-      requestAnimationFrame(tick);
-    });
-  }, { threshold: 0.4 });
+	const io = new IntersectionObserver(
+		(entries) => {
+			entries.forEach((e) => {
+				if (!e.isIntersecting) return;
+				io.disconnect();
+				const start = performance.now();
+				const tick = (t) => {
+					const p = Math.min(1, (t - start) / duration);
+					const eased = 1 - Math.pow(1 - p, 3);
+					const n = target * eased;
+					el.textContent =
+						prefix +
+						(decimals > 0
+							? n.toFixed(decimals)
+							: Math.round(n).toLocaleString()) +
+						suffix;
+					if (p < 1) requestAnimationFrame(tick);
+				};
+				requestAnimationFrame(tick);
+			});
+		},
+		{ threshold: 0.4 },
+	);
 
-  io.observe(el);
+	io.observe(el);
 });

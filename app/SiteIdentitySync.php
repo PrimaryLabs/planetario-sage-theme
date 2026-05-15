@@ -2,57 +2,17 @@
 
 namespace App;
 
-use App\Fields\SiteSettings;
+use App\Admin\SiteIdentityPage;
 
 class SiteIdentitySync
 {
     public static function register(): void
     {
-        \add_action('acf/save_post', [self::class, 'sync'], 20);
         \add_action('wp_head', [self::class, 'outputOgImage'], 5);
-    }
-
-    public static function sync(string|int $postId): void
-    {
-        if ($postId !== 'options') {
-            return;
-        }
-
-        if (! function_exists('get_field')) {
-            return;
-        }
-
-        $title = (string) \get_field('brand_site_title', 'option');
-        if ($title !== '') {
-            \update_option('blogname', $title);
-        }
-
-        $tagline = (string) \get_field('brand_site_tagline', 'option');
-        if ($tagline !== '') {
-            \update_option('blogdescription', $tagline);
-        }
-
-        $logoId = (int) \get_field('brand_logo', 'option');
-        if ($logoId > 0) {
-            \set_theme_mod('custom_logo', $logoId);
-        } else {
-            \remove_theme_mod('custom_logo');
-        }
-
-        $iconId = (int) \get_field('brand_site_icon', 'option');
-        if ($iconId > 0) {
-            \update_option('site_icon', $iconId);
-        } else {
-            \delete_option('site_icon');
-        }
     }
 
     public static function outputOgImage(): void
     {
-        if (! function_exists('get_field')) {
-            return;
-        }
-
         $url = '';
 
         if (\is_singular() && \has_post_thumbnail()) {
@@ -63,7 +23,7 @@ class SiteIdentitySync
         }
 
         if ($url === '') {
-            $id = (int) \get_field('brand_og_image', 'option');
+            $id = (int) \get_option(SiteIdentityPage::OPT_OG_IMAGE_ID, 0);
             if ($id > 0) {
                 $src = \wp_get_attachment_image_src($id, 'full');
                 if (is_array($src)) {

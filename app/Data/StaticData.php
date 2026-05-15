@@ -13,6 +13,7 @@ namespace App\Data;
  *   - team()          → \App\PostTypes\TeamMember + \App\Fields\TeamMember
  *   - developers()    → \App\PostTypes\Developer + \App\Fields\Developer
  *   - stories()       → \App\PostTypes\Story + \App\Fields\Story
+ *   - companyEvents() → \App\PostTypes\CompanyEvent + \App\Fields\CompanyEvent
  *   - brand()         → \App\Fields\SiteSettings (Brand tab)
  *   - services()      → \App\Fields\SiteSettings (Services tab)
  *   - values()        → \App\Fields\AboutPage (Core Values repeater)
@@ -266,6 +267,60 @@ class StaticData
                 'image'    => 'https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?w=800&h=600&fit=crop&q=80',
                 'summary'  => 'An inherited Loboc river property had been undivided for four decades. We facilitated an extrajudicial settlement, brokered a buy-out among the eight heirs, and listed the consolidated parcel — closing in 11 months.',
                 'stats'    => [['v' => '8', 'l' => 'Heirs reconciled'], ['v' => '40 yrs', 'l' => 'Undivided'], ['v' => '11 mo', 'l' => 'To closing']],
+            ],
+        ];
+    }
+
+    public static function companyEvents(): array
+    {
+        return [
+            [
+                'title'    => '5TH Anniversary and Christmas Party',
+                'date'     => '2023-12-15',
+                'location' => 'Tagbilaran City, Bohol',
+                'summary'  => 'Five years of Planetario — closed with the team, partner brokers, and family at a Tagbilaran banquet hall. Awards for top producers and a year-end thank-you to our developer partners.',
+            ],
+            [
+                'title'    => 'Managers TeamBuilding',
+                'date'     => '2024-03-08',
+                'location' => 'Panglao Island, Bohol',
+                'summary'  => 'Two-day managers offsite at Panglao — pipeline planning for the year, leadership workshops, and a brokerage-wide alignment on standards and client care.',
+            ],
+            [
+                'title'    => 'Staff TeamBuilding',
+                'date'     => '2024-04-12',
+                'location' => 'Loboc, Bohol',
+                'summary'  => 'A full-staff day along the Loboc river — paddle, lunch, and a workshop on the client journey from first inquiry to title transfer.',
+            ],
+            [
+                'title'    => 'Seminars',
+                'date'     => '2024-06-21',
+                'location' => 'Tagbilaran City, Bohol',
+                'summary'  => 'Series of internal seminars on documentation, BIR filings, and the Registry of Deeds workflow — keeping every broker sharp on the paperwork that protects our clients.',
+            ],
+            [
+                'title'    => '6TH YEAR ANNIVERSARY AND CHRISTMAS PARTY',
+                'date'     => '2024-12-14',
+                'location' => 'Tagbilaran City, Bohol',
+                'summary'  => 'Six years in. A bigger team, more partner developers, and a Christmas Party that celebrated the brokers who showed up for clients all year.',
+            ],
+            [
+                'title'    => 'Real Estate Career Orientation Seminar',
+                'date'     => '2025-02-22',
+                'location' => 'Tagbilaran City, Bohol',
+                'summary'  => 'Open orientation for aspiring real estate professionals across Bohol — covering PRC licensing, ethics, and what a career under a brokerage like Planetario looks like day-to-day.',
+            ],
+            [
+                'title'    => 'video of turn over',
+                'date'     => '2025-09-05',
+                'location' => 'Cebu City',
+                'summary'  => 'Turn-over walkthrough captured on video for a remote buyer — keys, fixtures, and final condition documented before handover.',
+            ],
+            [
+                'title'    => 'Realty 7th Anniversary and Christmas Party',
+                'date'     => '2025-12-13',
+                'location' => 'Tagbilaran City, Bohol',
+                'summary'  => 'Seven years of Planetario Realty & Brokerage Services Inc. — a night to recognise top brokers, longest-tenured staff, and the partner developers who grew with us.',
             ],
         ];
     }

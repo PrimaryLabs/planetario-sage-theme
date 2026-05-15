@@ -56,17 +56,20 @@ class SiteSettings extends Composer
 
     private function brand(): array
     {
+        $siteTitle = (string) \get_bloginfo('name');
+        $brandName = (string) \get_option('planetario_brand_name', '');
+
         return [
-            'name'        => $this->option('brand_name', 'Planetario Realty'),
+            'name'        => $brandName !== '' ? $brandName : ($siteTitle !== '' ? $siteTitle : 'Planetario Realty'),
             'legal'       => $this->option('brand_legal', 'Planetario Realty & Brokerage Services Inc.'),
             'tagline'     => $this->option('brand_tagline', 'Turning Property Dreams into Reality'),
             'short'       => $this->option('brand_short', 'A Bohol-rooted realty house, brokering homes and investments across the Visayas with care and clarity.'),
             'founded'     => $this->option('brand_founded', '2018'),
             'license'     => $this->option('brand_license', 'PRC Licensed Brokerage'),
-            'logoUrl'     => $this->imageUrl('brand_logo', 'full'),
-            'logoDarkUrl' => $this->imageUrl('brand_logo_dark', 'full'),
-            'iconUrl'     => $this->imageUrl('brand_site_icon', 'full'),
-            'ogImageUrl'  => $this->imageUrl('brand_og_image', 'full'),
+            'logoUrl'     => $this->attachmentUrl((int) \get_theme_mod('custom_logo', 0)),
+            'logoDarkUrl' => $this->attachmentUrl((int) \get_option('planetario_logo_dark_id', 0)),
+            'iconUrl'     => $this->attachmentUrl((int) \get_option('site_icon', 0)),
+            'ogImageUrl'  => $this->attachmentUrl((int) \get_option('planetario_og_image_id', 0)),
         ];
     }
 
@@ -132,18 +135,13 @@ class SiteSettings extends Composer
         return ($value === null || $value === '' || $value === false) ? $fallback : (string) $value;
     }
 
-    private function imageUrl(string $name, string $size = 'full'): string
+    private function attachmentUrl(int $id, string $size = 'full'): string
     {
-        if (! function_exists('get_field')) {
+        if ($id <= 0) {
             return '';
         }
 
-        $id = \get_field($name, 'option');
-        if (! $id) {
-            return '';
-        }
-
-        $src = \wp_get_attachment_image_src((int) $id, $size);
+        $src = \wp_get_attachment_image_src($id, $size);
 
         return is_array($src) ? (string) $src[0] : '';
     }
