@@ -109,6 +109,18 @@ add_action('after_setup_theme', function () {
     add_theme_support('post-thumbnails');
 
     /**
+     * Enable custom logo support (managed via Site Settings → Brand).
+     *
+     * @link https://developer.wordpress.org/reference/functions/add_theme_support/#custom-logo
+     */
+    add_theme_support('custom-logo', [
+        'height'      => 80,
+        'width'       => 240,
+        'flex-height' => true,
+        'flex-width'  => true,
+    ]);
+
+    /**
      * Enable responsive embed support.
      *
      * @link https://developer.wordpress.org/block-editor/how-to-guides/themes/theme-support/#responsive-embedded-content

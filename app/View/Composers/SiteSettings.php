@@ -57,12 +57,16 @@ class SiteSettings extends Composer
     private function brand(): array
     {
         return [
-            'name'    => $this->option('brand_name', 'Planetario Realty'),
-            'legal'   => $this->option('brand_legal', 'Planetario Realty & Brokerage Services Inc.'),
-            'tagline' => $this->option('brand_tagline', 'Turning Property Dreams into Reality'),
-            'short'   => $this->option('brand_short', 'A Bohol-rooted realty house, brokering homes and investments across the Visayas with care and clarity.'),
-            'founded' => $this->option('brand_founded', '2018'),
-            'license' => $this->option('brand_license', 'PRC Licensed Brokerage'),
+            'name'        => $this->option('brand_name', 'Planetario Realty'),
+            'legal'       => $this->option('brand_legal', 'Planetario Realty & Brokerage Services Inc.'),
+            'tagline'     => $this->option('brand_tagline', 'Turning Property Dreams into Reality'),
+            'short'       => $this->option('brand_short', 'A Bohol-rooted realty house, brokering homes and investments across the Visayas with care and clarity.'),
+            'founded'     => $this->option('brand_founded', '2018'),
+            'license'     => $this->option('brand_license', 'PRC Licensed Brokerage'),
+            'logoUrl'     => $this->imageUrl('brand_logo', 'full'),
+            'logoDarkUrl' => $this->imageUrl('brand_logo_dark', 'full'),
+            'iconUrl'     => $this->imageUrl('brand_site_icon', 'full'),
+            'ogImageUrl'  => $this->imageUrl('brand_og_image', 'full'),
         ];
     }
 
@@ -126,6 +130,22 @@ class SiteSettings extends Composer
         $value = \get_field($name, 'option');
 
         return ($value === null || $value === '' || $value === false) ? $fallback : (string) $value;
+    }
+
+    private function imageUrl(string $name, string $size = 'full'): string
+    {
+        if (! function_exists('get_field')) {
+            return '';
+        }
+
+        $id = \get_field($name, 'option');
+        if (! $id) {
+            return '';
+        }
+
+        $src = \wp_get_attachment_image_src((int) $id, $size);
+
+        return is_array($src) ? (string) $src[0] : '';
     }
 
     private function repeater(string $name): array

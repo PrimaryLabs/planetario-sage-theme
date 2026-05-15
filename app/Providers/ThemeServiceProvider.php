@@ -20,6 +20,7 @@ use App\PostTypes\Property as PropertyPostType;
 use App\PostTypes\Story as StoryPostType;
 use App\PostTypes\TeamMember as TeamMemberPostType;
 use App\PostTypes\Testimonial as TestimonialPostType;
+use App\SiteIdentitySync;
 use Roots\Acorn\Sage\SageServiceProvider;
 
 class ThemeServiceProvider extends SageServiceProvider
@@ -61,5 +62,7 @@ class ThemeServiceProvider extends SageServiceProvider
         \add_action('acf/init', [PageIntros::class, 'register']);
         \add_action('acf/init', [PageAdminLinks::class, 'register']);
         \add_action('admin_init', [AcfMetaboxUi::class, 'register']);
+
+        SiteIdentitySync::register();
     }
 }
