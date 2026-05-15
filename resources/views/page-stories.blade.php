@@ -35,9 +35,24 @@ $stories = $stories ?? StaticData::stories();
     @foreach ($stories as $i => $s)
     <article class="story reveal {{ $i % 2 === 0 ? 'reveal-left' : 'reveal-right' }}" style="transition-delay:{{ $i * 0.08 }}s">
       <div class="story-media">
-        @if (! empty($s['image']))
-        <img src="{{ $s['image'] }}"
-          alt="{{ esc_attr($s['client']) }}" loading="lazy">
+        @php($mediaType = $s['mediaType'] ?? 'image')
+        @if ($mediaType === 'youtube' && ! empty($s['youtube']['embed']))
+          <div style="position:relative;width:100%;aspect-ratio:16/9;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:#000">
+            <iframe src="{{ $s['youtube']['embed'] }}"
+              title="{{ esc_attr($s['client']) }}"
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen
+              style="position:absolute;inset:0;width:100%;height:100%;border:0"></iframe>
+          </div>
+        @elseif ($mediaType === 'video' && ! empty($s['video']['url']))
+          <video controls playsinline preload="metadata"
+            @if (! empty($s['image'])) poster="{{ $s['image'] }}" @endif
+            style="width:100%;border-radius:14px;border:1px solid var(--line);background:#000">
+            <source src="{{ $s['video']['url'] }}" type="{{ $s['video']['mime'] }}">
+          </video>
+        @elseif (! empty($s['image']))
+          <img src="{{ $s['image'] }}" alt="{{ esc_attr($s['client']) }}" loading="lazy">
         @endif
       </div>
       <div class="story-body">
