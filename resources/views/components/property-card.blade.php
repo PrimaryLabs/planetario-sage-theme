@@ -1,7 +1,7 @@
 @props(['property'])
 @php($p = $property)
 @php($href = $p['url'] ?? home_url('/properties/' . ($p['id'] ?? '')))
-<a href="{{ $href }}" class="prop-card reveal">
+<a href="{{ $href }}" {{ $attributes->merge(['class' => 'prop-card reveal']) }}>
   <div class="media">
     @if (!empty($p['image']))
       <img src="{{ $p['image'] }}" alt="{{ $p['name'] }}" loading="lazy">

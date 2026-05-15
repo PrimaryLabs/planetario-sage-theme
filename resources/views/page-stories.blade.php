@@ -90,6 +90,80 @@ $stories = $stories ?? StaticData::stories();
   </div>
 </section>
 
+@if (! empty($companyEvents))
+<section class="section" id="company-events" style="padding-top:48px;border-top:1px solid var(--line)">
+  <div class="container">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:36px">
+      <div>
+        <span class="eyebrow">Company Events</span>
+        <h2 class="h2" style="margin-top:14px;max-width:22ch">
+          Moments from the <em>Planetario</em> calendar.
+        </h2>
+      </div>
+      <p class="muted" style="max-width:42ch;font-size:14px">
+        Launches, brokerages awards, community walks — a running gallery of the team out in the field.
+      </p>
+    </div>
+
+    <div class="events-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:32px">
+      @foreach ($companyEvents as $event)
+      <article class="event-card" style="background:var(--bg-2);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column">
+        @if ($event['cover'])
+        <div style="aspect-ratio:16/9;background:#000;overflow:hidden">
+          <img src="{{ $event['cover'] }}" alt="{{ esc_attr($event['title']) }}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block">
+        </div>
+        @endif
+
+        <div style="padding:28px;display:flex;flex-direction:column;gap:14px;flex:1">
+          <div class="tag-row" style="display:flex;gap:10px;align-items:center;font-family:var(--font-mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3)">
+            @if ($event['dateLabel'])
+            <span>{{ $event['dateLabel'] }}</span>
+            @endif
+            @if ($event['dateLabel'] && $event['location'])
+            <span class="sep">·</span>
+            @endif
+            @if ($event['location'])
+            <span style="color:var(--accent)">{{ $event['location'] }}</span>
+            @endif
+          </div>
+
+          <h3 class="h2" style="font-size:clamp(22px,2vw,28px);margin:0">{{ $event['title'] }}</h3>
+
+          @if ($event['summary'])
+          <p style="color:var(--ink-2);line-height:1.65;font-size:14.5px;margin:0">{{ $event['summary'] }}</p>
+          @endif
+
+          @if (! empty($event['gallery']))
+          <div class="event-gallery" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:6px">
+            @foreach ($event['gallery'] as $item)
+            @if ($item['kind'] === 'video')
+            <video controls playsinline preload="metadata" style="width:100%;aspect-ratio:1;border-radius:8px;border:1px solid var(--line);background:#000;object-fit:cover">
+              <source src="{{ $item['url'] }}" type="{{ $item['mime'] }}">
+            </video>
+            @else
+            <a href="{{ $item['url'] }}" target="_blank" rel="noopener noreferrer" style="display:block;aspect-ratio:1;border-radius:8px;overflow:hidden;border:1px solid var(--line)">
+              <img src="{{ $item['url'] }}" alt="{{ esc_attr($item['caption'] ?: $item['alt'] ?: $event['title']) }}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block">
+            </a>
+            @endif
+            @endforeach
+          </div>
+          @endif
+        </div>
+      </article>
+      @endforeach
+    </div>
+  </div>
+  <style>
+    @media (max-width:880px) {
+      .events-grid { grid-template-columns: 1fr !important }
+    }
+    @media (max-width:520px) {
+      .event-gallery { grid-template-columns: repeat(2,1fr) !important }
+    }
+  </style>
+</section>
+@endif
+
 <section class="section" style="background:var(--bg-2);border-top:1px solid var(--line)">
   <div class="container" style="text-align:center">
     <p class="banner-quote">

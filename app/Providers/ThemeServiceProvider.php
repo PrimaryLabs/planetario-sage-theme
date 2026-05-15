@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Admin\AcfMetaboxUi;
 use App\Fields\AboutPage;
+use App\Fields\CompanyEvent as CompanyEventFields;
 use App\Fields\Developer as DeveloperFields;
 use App\Fields\FrontPage;
 use App\Fields\PageAdminLinks;
@@ -13,6 +14,7 @@ use App\Fields\SiteSettings;
 use App\Fields\Story as StoryFields;
 use App\Fields\TeamMember as TeamMemberFields;
 use App\Fields\Testimonial as TestimonialFields;
+use App\PostTypes\CompanyEvent as CompanyEventPostType;
 use App\PostTypes\Developer as DeveloperPostType;
 use App\PostTypes\Property as PropertyPostType;
 use App\PostTypes\Story as StoryPostType;
@@ -46,6 +48,7 @@ class ThemeServiceProvider extends SageServiceProvider
         \add_action('init', [TeamMemberPostType::class, 'register']);
         \add_action('init', [DeveloperPostType::class, 'register']);
         \add_action('init', [StoryPostType::class, 'register']);
+        \add_action('init', [CompanyEventPostType::class, 'register']);
         \add_action('acf/init', [SiteSettings::class, 'register']);
         \add_action('acf/init', [FrontPage::class, 'register']);
         \add_action('acf/init', [PropertyFields::class, 'register']);
@@ -53,6 +56,7 @@ class ThemeServiceProvider extends SageServiceProvider
         \add_action('acf/init', [TeamMemberFields::class, 'register']);
         \add_action('acf/init', [DeveloperFields::class, 'register']);
         \add_action('acf/init', [StoryFields::class, 'register']);
+        \add_action('acf/init', [CompanyEventFields::class, 'register']);
         \add_action('acf/init', [AboutPage::class, 'register']);
         \add_action('acf/init', [PageIntros::class, 'register']);
         \add_action('acf/init', [PageAdminLinks::class, 'register']);
