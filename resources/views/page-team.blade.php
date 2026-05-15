@@ -16,47 +16,47 @@ $groups = $teamGroups ?? [
 {{-- Intro — Tier 2 compact hero --}}
 <section class="page-hero page-hero--compact">
   <x-orbit-deco style="right:-220px;top:-20px;opacity:.25" />
-  <div class="container">
+  <div class="container flex flex-col items-center justify-center text-center">
     @if ($pageIntro['eyebrow'])
-      <span class="eyebrow">{{ $pageIntro['eyebrow'] }}</span>
+    <span class="eyebrow-center">{{ $pageIntro['eyebrow'] }}</span>
     @endif
 
-    <h1 class="display" style="margin-top:18px;max-width:18ch">
+    <h1 class="display" style="margin-top:18px;">
       {{ $pageIntro['headlineLead'] }}
       @if ($pageIntro['headlineEm'])
-        <em>{{ $pageIntro['headlineEm'] }}</em>
+      <em>{{ $pageIntro['headlineEm'] }}</em>
       @endif
       @if ($pageIntro['headlineTrail'])
-        {{ $pageIntro['headlineTrail'] }}
+      {{ $pageIntro['headlineTrail'] }}
       @endif
     </h1>
 
     @if ($pageIntro['lead'])
-      <p class="lead" style="margin-top:24px;max-width:62ch">{{ $pageIntro['lead'] }}</p>
+    <p class="lead" style="margin-top:24px;max-width:62ch">{{ $pageIntro['lead'] }}</p>
     @endif
   </div>
 </section>
 
 {{-- Founders --}}
 <section class="section" style="padding-top:24px">
-  <div class="container">
-    <div class="team-section-head">
-      <span class="eyebrow">Board of Directors</span>
+  <div class="container w-full">
+    <div class="team-section-head mx-auto flex flex-col items-center justify-center">
+      <span class="eyebrow-center">Board of Directors</span>
       <h2 class="h2" style="margin-top:10px">The people who started <em>the firm.</em></h2>
     </div>
 
-    <div class="stagger-children team-grid team-grid--founders" style="margin-top:36px">
+    <div class="flex flex-wrap gap-6 items-center justify-center" style="margin-top:36px">
       @foreach ($founders as $member)
-      <div class="team-card team-card--featured">
+      <div class="team-card team-card--featured max-w-xs md:w-1/2 lg:w-1/3">
         <div class="media">
           <img src="{{ $member['photo'] ?? ('https://i.pravatar.cc/500?u=' . urlencode($member['name'])) }}"
             alt="{{ esc_attr($member['name']) }}"
             loading="lazy">
         </div>
-        <div class="body">
+        <div class="body flex flex-col relative items-center justify-center">
           <div class="name">{{ $member['name'] }}</div>
-          <div class="role">{{ $member['role'] }}</div>
-          <p class="bio">{{ $member['bio'] }}</p>
+          <div class="role tracking-wide text-sm">{{ $member['role'] }}</div>
+          <p class="bio border-t-0 absolute top-14">{{ $member['bio'] }}</p>
         </div>
       </div>
       @endforeach

@@ -23,7 +23,7 @@ $navLinks = [
         @endif
       </div>
       <a href="{{ home_url('/') }}" class="brand-text">
-        <span class="name uppercase">Planetario</span>
+        <span class="name uppercase text-base tracking-widest">Planetario</span>
         <span class="sub tracking-wide">Realty &amp; Brokerage</span>
       </a>
     </div>
@@ -46,7 +46,7 @@ $navLinks = [
       </a>
       <button class="btn menu-toggle" aria-label="Toggle menu" aria-expanded="false">
         <svg class="icon-menu" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-          <path d="M2 5h12M2 11h12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+          <path d="M2 4h12M2 8h12M2 12h12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
         </svg>
         <svg class="icon-close" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="display:none">
           <path d="M3 3l10 10M13 3 3 13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />

@@ -7,7 +7,7 @@
   <div class="container" style="position:relative">
     <x-orbit-deco style="right:-220px;top:-20px;opacity:.25" />
     <span class="eyebrow">The Planetario bench</span>
-    <h1 class="display" style="margin-top:18px;max-width:18ch">
+    <h1 class="display" w-full style="margin-top:18px;">
       The people you'll actually <em>shake hands with.</em>
     </h1>
     <p class="lead" style="margin-top:24px;max-width:62ch">
@@ -22,18 +22,18 @@
   <div class="container">
     <div class="stagger-children team-grid">
       @foreach ($team as $i => $member)
-        <div class="team-card">
-          <div class="media">
-            <img src="https://i.pravatar.cc/400?u={{ urlencode($member['name']) }}"
-                 alt="{{ esc_attr($member['name']) }}"
-                 loading="lazy">
-          </div>
-          <div class="body">
-            <div class="name">{{ $member['name'] }}</div>
-            <div class="role">{{ $member['role'] }}</div>
-            <p class="bio">{{ $member['bio'] }}</p>
-          </div>
+      <div class="team-card">
+        <div class="media">
+          <img src="https://i.pravatar.cc/400?u={{ urlencode($member['name']) }}"
+            alt="{{ esc_attr($member['name']) }}"
+            loading="lazy">
         </div>
+        <div class="body">
+          <div class="name">{{ $member['name'] }}</div>
+          <div class="role">{{ $member['role'] }}</div>
+          <p class="bio">{{ $member['bio'] }}</p>
+        </div>
+      </div>
       @endforeach
     </div>
   </div>
@@ -57,12 +57,21 @@
         <div style="margin-top:24px">
           <a href="{{ home_url('/contact') }}" class="btn btn-primary">
             Apply to partner
-            <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
           </a>
         </div>
       </div>
     </div>
   </div>
-  <style>@media (max-width:860px){.join-grid{grid-template-columns:1fr!important;gap:24px!important}}</style>
+  <style>
+    @media (max-width:860px) {
+      .join-grid {
+        grid-template-columns: 1fr !important;
+        gap: 24px !important
+      }
+    }
+  </style>
 </section>
 @endsection

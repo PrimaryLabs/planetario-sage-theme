@@ -170,7 +170,30 @@
 		background: var(--accent);
 		opacity: 0.6;
 	}
-
+	.eyebrow-center {
+		font-family: var(--font-mono);
+		font-size: 11px;
+		letter-spacing: 0.22em;
+		text-transform: uppercase;
+		color: var(--accent);
+		display: inline-flex;
+		align-items: center;
+		gap: 10px;
+	}
+	.eyebrow-center::before {
+		content: "";
+		width: 24px;
+		height: 1px;
+		background: var(--accent);
+		opacity: 0.6;
+	}
+	.eyebrow-center::after {
+		content: "";
+		width: 24px;
+		height: 1px;
+		background: var(--accent);
+		opacity: 0.6;
+	}
 	.display {
 		font-family: var(--font-display);
 		font-weight: 500;
@@ -379,8 +402,8 @@
 		gap: 12px;
 	}
 	.brand-mark {
-		width: 38px;
-		height: 38px;
+		width: 60px;
+		height: 60px;
 		border-radius: 50%;
 		background: var(--bg-2);
 		border: 1px solid var(--line-2);
@@ -534,9 +557,16 @@
 			color: var(--ink);
 			width: 42px;
 			height: 42px;
+			padding: 0;
+			gap: 0;
 			border-radius: 50%;
 			align-items: center;
 			justify-content: center;
+			flex: 0 0 auto;
+		}
+		.menu-toggle:hover {
+			border-color: var(--accent);
+			color: var(--accent);
 		}
 		.nav-links.open {
 			display: flex;
@@ -1317,7 +1347,7 @@
 		border-color: var(--line-2);
 	}
 	.team-card--featured .media {
-		aspect-ratio: 3/4;
+		aspect-ratio: 4/4;
 	}
 	.team-card--featured .role {
 		color: var(--accent);
@@ -2043,14 +2073,14 @@
 		padding: 36px 28px;
 	}
 	.vm-card__icon--vision {
-		bottom: 24px;
-		left: 28px;
+		top: 44px;
+		right: 44px;
 		width: 44px;
 		height: 44px;
 	}
 	.vm-card__icon--mission {
-		top: 24px;
-		right: 28px;
+		top: 24px !important;
+		right: 28px !important;
 		width: 44px;
 		height: 44px;
 	}

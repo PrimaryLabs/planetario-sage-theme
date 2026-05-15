@@ -9,50 +9,50 @@ $stories = $stories ?? StaticData::stories();
 {{-- Intro — Tier 2 compact hero --}}
 <section class="page-hero page-hero--compact">
   <x-orbit-deco style="right:-220px;top:-40px;opacity:.22" />
-  <div class="container">
+  <div class="container flex flex-col items-center justify-center text-center">
     @if ($pageIntro['eyebrow'])
-      <span class="eyebrow">{{ $pageIntro['eyebrow'] }}</span>
+    <span class="eyebrow-center">{{ $pageIntro['eyebrow'] }}</span>
     @endif
 
     <h1 class="display" style="margin-top:18px;max-width:20ch">
       {{ $pageIntro['headlineLead'] }}
       @if ($pageIntro['headlineEm'])
-        <em>{{ $pageIntro['headlineEm'] }}</em>
+      <em>{{ $pageIntro['headlineEm'] }}</em>
       @endif
       @if ($pageIntro['headlineTrail'])
-        {{ $pageIntro['headlineTrail'] }}
+      {{ $pageIntro['headlineTrail'] }}
       @endif
     </h1>
 
     @if ($pageIntro['lead'])
-      <p class="lead" style="margin-top:22px;max-width:62ch">{{ $pageIntro['lead'] }}</p>
+    <p class="lead" style="margin-top:22px;max-width:62ch">{{ $pageIntro['lead'] }}</p>
     @endif
   </div>
 </section>
 
-<section class="section" style="padding-top:24px">
+<section class="section" style="padding-top:88px">
   <div class="container">
     @foreach ($stories as $i => $s)
     <article class="story reveal {{ $i % 2 === 0 ? 'reveal-left' : 'reveal-right' }}" style="transition-delay:{{ $i * 0.08 }}s">
       <div class="story-media">
         @php($mediaType = $s['mediaType'] ?? 'image')
         @if ($mediaType === 'youtube' && ! empty($s['youtube']['embed']))
-          <div style="position:relative;width:100%;aspect-ratio:16/9;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:#000">
-            <iframe src="{{ $s['youtube']['embed'] }}"
-              title="{{ esc_attr($s['client']) }}"
-              loading="lazy"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowfullscreen
-              style="position:absolute;inset:0;width:100%;height:100%;border:0"></iframe>
-          </div>
+        <div style="position:relative;width:100%;aspect-ratio:16/9;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:#000">
+          <iframe src="{{ $s['youtube']['embed'] }}"
+            title="{{ esc_attr($s['client']) }}"
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+            style="position:absolute;inset:0;width:100%;height:100%;border:0"></iframe>
+        </div>
         @elseif ($mediaType === 'video' && ! empty($s['video']['url']))
-          <video controls playsinline preload="metadata"
-            @if (! empty($s['image'])) poster="{{ $s['image'] }}" @endif
-            style="width:100%;border-radius:14px;border:1px solid var(--line);background:#000">
-            <source src="{{ $s['video']['url'] }}" type="{{ $s['video']['mime'] }}">
-          </video>
+        <video controls playsinline preload="metadata"
+          @if (! empty($s['image'])) poster="{{ $s['image'] }}" @endif
+          style="width:100%;border-radius:14px;border:1px solid var(--line);background:#000">
+          <source src="{{ $s['video']['url'] }}" type="{{ $s['video']['mime'] }}">
+        </video>
         @elseif (! empty($s['image']))
-          <img src="{{ $s['image'] }}" alt="{{ esc_attr($s['client']) }}" loading="lazy">
+        <img src="{{ $s['image'] }}" alt="{{ esc_attr($s['client']) }}" loading="lazy">
         @endif
       </div>
       <div class="story-body">
@@ -155,10 +155,15 @@ $stories = $stories ?? StaticData::stories();
   </div>
   <style>
     @media (max-width:880px) {
-      .events-grid { grid-template-columns: 1fr !important }
+      .events-grid {
+        grid-template-columns: 1fr !important
+      }
     }
+
     @media (max-width:520px) {
-      .event-gallery { grid-template-columns: repeat(2,1fr) !important }
+      .event-gallery {
+        grid-template-columns: repeat(2, 1fr) !important
+      }
     }
   </style>
 </section>

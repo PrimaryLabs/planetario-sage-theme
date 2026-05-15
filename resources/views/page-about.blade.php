@@ -5,34 +5,34 @@
 {{-- Intro — Tier 1 full-bleed hero --}}
 <section class="page-hero">
   @if ($aboutIntro['imageUrl'])
-    <div class="page-hero__bg">
-      <img src="{{ $aboutIntro['imageUrl'] }}" alt="{{ $aboutIntro['imageAlt'] }}" aria-hidden="true">
-    </div>
+  <div class="page-hero__bg">
+    <img src="{{ $aboutIntro['imageUrl'] }}" alt="{{ $aboutIntro['imageAlt'] }}" aria-hidden="true">
+  </div>
   @endif
   <div class="page-hero__overlay"></div>
   <x-orbit-deco style="right:-260px;top:-40px;opacity:.3" />
 
   <div class="container page-hero__inner">
     @if ($aboutIntro['eyebrow'])
-      <span class="eyebrow">{{ $aboutIntro['eyebrow'] }}</span>
+    <span class="eyebrow-center">{{ $aboutIntro['eyebrow'] }}</span>
     @endif
     <h1 class="display" style="margin-top:18px;max-width:18ch">
       {{ $aboutIntro['headlineLead'] }}
       @if ($aboutIntro['headlineEm'])
-        <em>{{ $aboutIntro['headlineEm'] }}</em>
+      <em>{{ $aboutIntro['headlineEm'] }}</em>
       @endif
       @if ($aboutIntro['headlineTrail'])
-        {{ $aboutIntro['headlineTrail'] }}
+      {{ $aboutIntro['headlineTrail'] }}
       @endif
     </h1>
     @if ($aboutIntro['lead'])
-      <p class="lead" style="margin-top:28px;max-width:60ch">{{ $aboutIntro['lead'] }}</p>
+    <p class="lead" style="margin-top:28px;max-width:60ch">{{ $aboutIntro['lead'] }}</p>
     @endif
   </div>
 </section>
 
 {{-- Vision / Mission --}}
-<section class="section" style="padding-top:0">
+<section class="section" style="padding-top:36px;">
   <div class="container">
     <div class="vm-stage">
       <article class="vm-card vm-card--vision reveal">
@@ -81,16 +81,16 @@
         </h2>
       </div>
       @if ($aboutValues['intro'])
-        <p class="lead reveal" style="transition-delay:.1s">{{ $aboutValues['intro'] }}</p>
+      <p class="lead reveal" style="transition-delay:.1s">{{ $aboutValues['intro'] }}</p>
       @endif
     </div>
     <div class="stagger-children value-list">
       @foreach ($aboutValues['items'] as $v)
-        <div class="value-row">
-          <div class="num">{{ $v['number'] }}</div>
-          <div class="ttl">{{ $v['title'] }}</div>
-          <div class="desc">{{ $v['description'] }}</div>
-        </div>
+      <div class="value-row">
+        <div class="num">{{ $v['number'] }}</div>
+        <div class="ttl">{{ $v['title'] }}</div>
+        <div class="desc">{{ $v['description'] }}</div>
+      </div>
       @endforeach
     </div>
   </div>
@@ -110,11 +110,11 @@
     </div>
     <div class="stagger-children feature-grid">
       @foreach ($aboutWhy['items'] as $s)
-        <div class="feature">
-          <div class="num">{{ $s['number'] }}</div>
-          <div class="ttl">{{ $s['title'] }}</div>
-          <p class="desc">{{ $s['description'] }}</p>
-        </div>
+      <div class="feature">
+        <div class="num">{{ $s['number'] }}</div>
+        <div class="ttl">{{ $s['title'] }}</div>
+        <p class="desc">{{ $s['description'] }}</p>
+      </div>
       @endforeach
     </div>
   </div>
@@ -125,26 +125,26 @@
   <div class="container" style="text-align:center">
     <div class="banner-quote">{!! $aboutClosing['quote'] !!}</div>
     @if ($aboutClosing['attribution'])
-      <div style="margin-top:16px;font-family:var(--font-mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3)">
-        {{ $aboutClosing['attribution'] }}
-      </div>
+    <div style="margin-top:16px;font-family:var(--font-mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3)">
+      {{ $aboutClosing['attribution'] }}
+    </div>
     @endif
     <div style="display:flex;justify-content:center;margin-top:36px;gap:12px;flex-wrap:wrap">
       @if ($aboutClosing['primaryLabel'])
-        <a href="{{ $aboutClosing['primaryUrl'] }}" class="btn btn-primary">
-          {{ $aboutClosing['primaryLabel'] }}
-          <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-            <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-        </a>
+      <a href="{{ $aboutClosing['primaryUrl'] }}" class="btn btn-primary">
+        {{ $aboutClosing['primaryLabel'] }}
+        <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </a>
       @endif
       @if ($aboutClosing['secondaryLabel'])
-        <a href="{{ $aboutClosing['secondaryUrl'] }}" class="btn">
-          {{ $aboutClosing['secondaryLabel'] }}
-          <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-            <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-        </a>
+      <a href="{{ $aboutClosing['secondaryUrl'] }}" class="btn">
+        {{ $aboutClosing['secondaryLabel'] }}
+        <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </a>
       @endif
     </div>
   </div>

@@ -9,6 +9,7 @@ $services = $servicesData['items'] ?? array_map(fn($s) => ['number' => $s['num']
 $testimonialItems = $testimonialsHighlights ?? array_slice(StaticData::testimonials(), 0, 2);
 $teamRoster = $team ?? StaticData::team();
 $boardMembers = $boardMembers ?? array_values(array_filter($teamRoster, fn($m) => ($m['tier'] ?? '') === 'founder'));
+
 $managingBrokers = $managingBrokers ?? array_values(array_filter($teamRoster, fn($m) => ($m['tier'] ?? '') === 'broker' && ! empty($m['managing_broker'])));
 @endphp
 
@@ -22,136 +23,56 @@ $managingBrokers = $managingBrokers ?? array_values(array_filter($teamRoster, fn
 
   <div class="container hero-inner">
     @if ($hero['eyebrow'])
-      <span class="eyebrow">{{ $hero['eyebrow'] }}</span>
+    <span class="eyebrow">{{ $hero['eyebrow'] }}</span>
     @endif
     <h1 class="display hero-headline">
       {{ $hero['headlineLead'] }} @if ($hero['headlineEm'])<em>{{ $hero['headlineEm'] }}</em>@endif
     </h1>
     @if ($hero['sub'])
-      <p class="hero-sub">{!! nl2br(e($hero['sub'])) !!}</p>
+    <p class="hero-sub">{!! nl2br(e($hero['sub'])) !!}</p>
     @endif
     <div class="hero-actions">
       @if ($hero['primaryCta']['label'])
-        <a href="{{ $hero['primaryCta']['url'] }}" class="btn btn-primary">
-          {{ $hero['primaryCta']['label'] }}
-          <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-            <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-        </a>
+      <a href="{{ $hero['primaryCta']['url'] }}" class="btn btn-primary">
+        {{ $hero['primaryCta']['label'] }}
+        <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </a>
       @endif
       @if ($hero['secondaryCta']['label'])
-        <a href="{{ $hero['secondaryCta']['url'] }}" class="btn">
-          {{ $hero['secondaryCta']['label'] }}
-          <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-            <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-        </a>
+      <a href="{{ $hero['secondaryCta']['url'] }}" class="btn">
+        {{ $hero['secondaryCta']['label'] }}
+        <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </a>
       @endif
     </div>
 
     @if (! empty($hero['stats']))
-      <div class="hero-meta">
-        @foreach ($hero['stats'] as $stat)
-          <div class="item">
-            <div class="num">{{ $stat['prefix'] }}<span
-                data-countup="{{ $stat['value'] }}"
-                data-decimals="{{ $stat['decimals'] }}"
-                @if ($stat['suffix']) data-suffix="{{ $stat['suffix'] }}" @endif
-              >{{ $stat['value'] }}{{ $stat['suffix'] }}</span></div>
-            <div class="lbl">{{ $stat['label'] }}</div>
-          </div>
-        @endforeach
+    <div class="hero-meta">
+      @foreach ($hero['stats'] as $stat)
+      <div class="item">
+        <div class="num">{{ $stat['prefix'] }}<span
+            data-countup="{{ $stat['value'] }}"
+            data-decimals="{{ $stat['decimals'] }}"
+            @if ($stat['suffix']) data-suffix="{{ $stat['suffix'] }}" @endif>{{ $stat['value'] }}{{ $stat['suffix'] }}</span></div>
+        <div class="lbl">{{ $stat['label'] }}</div>
       </div>
+      @endforeach
+    </div>
     @endif
   </div>
 </section>
 
-{{-- Commitment --}}
-<section class="section">
-  <div class="container">
-    <div style="display:grid;grid-template-columns:1fr 1.4fr;gap:60px;align-items:center" class="home-intro-grid">
-      <div class="reveal reveal-left">
-        @if ($commitment['eyebrow'])
-          <span class="eyebrow">{{ $commitment['eyebrow'] }}</span>
-        @endif
-        <h2 class="h2" style="margin-top:14px">
-          {{ $commitment['headlineLead'] }}
-          @if ($commitment['headlineEm'])<em>{{ $commitment['headlineEm'] }}</em>@endif
-          @if ($commitment['headlineTrail']) {{ $commitment['headlineTrail'] }}@endif
-        </h2>
-      </div>
-      <div class="reveal reveal-right" style="transition-delay:.12s">
-        @if ($commitment['paragraph1'])
-          <p class="lead">{{ $commitment['paragraph1'] }}</p>
-        @endif
-        @if ($commitment['paragraph2'])
-          <p class="lead" style="margin-top:18px">{{ $commitment['paragraph2'] }}</p>
-        @endif
-        @if ($commitment['cta']['label'])
-          <div style="margin-top:28px">
-            <a href="{{ $commitment['cta']['url'] }}" class="btn">
-              {{ $commitment['cta']['label'] }}
-              <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
-            </a>
-          </div>
-        @endif
-      </div>
-    </div>
-  </div>
-  <style>
-    @media (max-width:860px) {
-      .home-intro-grid {
-        grid-template-columns: 1fr !important;
-        gap: 24px !important
-      }
-    }
-  </style>
-</section>
-
-{{-- Board of Directors --}}
-@if (! empty($boardMembers))
-<section class="section" style="padding-top:0">
-  <div class="container" style="text-align:center">
-    <div class="section-head-col">
-      <div class="reveal flex flex-col items-center">
-        <span class="eyebrow">Leadership</span>
-        <h2 class="h2" style="margin-top:14px">
-          Board of <em>Directors.</em>
-        </h2>
-      </div>
-    </div>
-
-    <div class="stagger-children team-grid team-grid--founders" style="margin-top:36px">
-      @foreach ($boardMembers as $member)
-        <div class="team-card team-card--featured">
-          <div class="media">
-            <img src="{{ $member['photo'] ?? ('https://i.pravatar.cc/500?u=' . urlencode($member['name'])) }}"
-              alt="{{ esc_attr($member['name']) }}"
-              loading="lazy">
-          </div>
-          <div class="body">
-            <div class="name">{{ $member['name'] }}</div>
-            <div class="role">{{ $member['role'] }}</div>
-            @if (! empty($member['bio']))
-              <p class="bio">{{ $member['bio'] }}</p>
-            @endif
-          </div>
-        </div>
-      @endforeach
-    </div>
-  </div>
-</section>
-@endif
-
 {{-- Vision / Mission --}}
-<section class="section" style="background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+<section class="section" style="background:var(--bg-1);border-top:0px solid var(--line);border-bottom:1px solid var(--line)">
   <div class="container">
     <div class="section-head-col">
       <div class="reveal flex flex-col items-center">
         @if ($vm['eyebrow'])
-          <span class="eyebrow">{{ $vm['eyebrow'] }}</span>
+        <span class="eyebrow">{{ $vm['eyebrow'] }}</span>
         @endif
         <h2 class="h2" style="margin-top:14px">
           {{ $vm['headlineLead'] }}
@@ -160,7 +81,7 @@ $managingBrokers = $managingBrokers ?? array_values(array_filter($teamRoster, fn
         </h2>
       </div>
       @if ($vm['intro'])
-        <p class="lead reveal text-center" style="transition-delay:.1s">{{ $vm['intro'] }}</p>
+      <p class="lead reveal text-center" style="transition-delay:.1s">{{ $vm['intro'] }}</p>
       @endif
     </div>
 
@@ -198,17 +119,134 @@ $managingBrokers = $managingBrokers ?? array_values(array_filter($teamRoster, fn
     </div>
 
     @if ($vm['cta']['label'])
-      <div style="margin-top:48px">
-        <a href="{{ $vm['cta']['url'] }}" class="btn">
-          {{ $vm['cta']['label'] }}
-          <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-            <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-        </a>
-      </div>
+    <div style="margin-top:48px" class="w-full items-center justify-center flex">
+      <a href="{{ $vm['cta']['url'] }}" class="btn">
+        {{ $vm['cta']['label'] }}
+        <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </a>
+    </div>
     @endif
   </div>
 </section>
+
+
+{{-- Commitment --}}
+<section class="section" style="background:var(--bg-2);">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:1fr 1.4fr;gap:60px;align-items:center" class="home-intro-grid">
+      <div class="reveal reveal-left">
+        @if ($commitment['eyebrow'])
+        <span class="eyebrow">{{ $commitment['eyebrow'] }}</span>
+        @endif
+        <h2 class="h2 mb-20" style="margin-top:14px">
+          {{ $commitment['headlineLead'] }}
+          @if ($commitment['headlineEm'])<em>{{ $commitment['headlineEm'] }}</em>@endif
+          @if ($commitment['headlineTrail']) {{ $commitment['headlineTrail'] }}@endif
+        </h2>
+      </div>
+      <div class="reveal reveal-right pt-20" style="transition-delay:.12s">
+        @if ($commitment['paragraph1'])
+        <p class="lead">{{ $commitment['paragraph1'] }}</p>
+        @endif
+        @if ($commitment['paragraph2'])
+        <p class="lead" style="margin-top:18px">{{ $commitment['paragraph2'] }}</p>
+        @endif
+        @if ($commitment['cta']['label'])
+        <div style="margin-top:28px">
+          <a href="{{ $commitment['cta']['url'] }}" class="btn">
+            {{ $commitment['cta']['label'] }}
+            <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </a>
+        </div>
+        @endif
+      </div>
+    </div>
+  </div>
+  <style>
+    @media (max-width:860px) {
+      .home-intro-grid {
+        grid-template-columns: 1fr !important;
+        gap: 24px !important
+      }
+    }
+  </style>
+</section>
+
+{{-- Board of Directors --}}
+@if (! empty($boardMembers))
+<section class="section" style="padding-top:88px;">
+  <div class="container" style="text-align:center">
+    <div class="section-head-col">
+      <div class="reveal flex flex-col items-center">
+        <span class="eyebrow">Leadership</span>
+        <h2 class="h2" style="margin-top:14px">
+          Board of <em>Directors.</em>
+        </h2>
+      </div>
+    </div>
+
+
+    <div class="flex flex-wrap gap-6 items-center justify-center" style="margin-top:36px">
+      @foreach ($boardMembers as $member)
+      <div class="team-card team-card--featured max-w-xs md:w-1/2 lg:w-1/3">
+        <div class="media">
+          <img src="{{ $member['photo'] ?? ('https://i.pravatar.cc/500?u=' . urlencode($member['name'])) }}"
+            alt="{{ esc_attr($member['name']) }}"
+            loading="lazy">
+        </div>
+        <div class="body flex flex-col relative items-center justify-center">
+          <div class="name font-bold">{{ $member['name'] }}</div>
+          <span class="w-1/2 h-[0.5px] bg-ink/20"></span>
+          <div class="role tracking-wide !font-medium text-sm">{{ $member['role'] }}</div>
+          <p class="bio border-t-0 absolute top-14">{{ $member['bio'] }}</p>
+        </div>
+      </div>
+      @endforeach
+    </div>
+  </div>
+</section>
+@endif
+
+{{-- Managing Brokers --}}
+@if (! empty($managingBrokers))
+<section class="section" style="padding-top:0">
+  <div class="container" style="text-align:center">
+    <div class="section-head-col">
+      <div class="reveal flex flex-col items-center">
+        <span class="eyebrow">Salesfloor</span>
+        <h2 class="h2" style="margin-top:14px">
+          Managing <em>Brokers.</em>
+        </h2>
+      </div>
+    </div>
+
+    <div class="flex flex-wrap gap-6 items-center justify-center" style="margin-top:36px">
+      @foreach ($managingBrokers as $member)
+      <div class="team-card team-card--featured max-w-xs md:w-1/2 lg:w-1/3">
+        <div class="media">
+          <img src="{{ $member['photo'] ?? ('https://i.pravatar.cc/500?u=' . urlencode($member['name'])) }}"
+            alt="{{ esc_attr($member['name']) }}"
+            loading="lazy">
+        </div>
+        <div class="body flex flex-col relative items-center justify-center">
+          <div class="name font-bold">{{ $member['name'] }}</div>
+          <span class="w-1/2 h-[0.5px] bg-ink/20"></span>
+          <div class="role tracking-wide !font-medium text-sm">{{ $member['role'] }}</div>
+          @if (! empty($member['bio']))
+          <p class="bio border-t-0 absolute top-14">{{ $member['bio'] }}</p>
+          @endif
+        </div>
+      </div>
+      @endforeach
+    </div>
+  </div>
+</section>
+@endif
+
 
 {{-- Featured properties --}}
 <section class="section pt-20">
@@ -227,7 +265,7 @@ $managingBrokers = $managingBrokers ?? array_values(array_filter($teamRoster, fn
         </p>
         <div class="mx-auto mt-4 text-center">
           <a href="{{ home_url('/properties') }}" class="btn">
-            View all {{ $propertyCount ?? count(StaticData::properties()) }} listings
+            View all listings
             <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
               <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
@@ -256,7 +294,7 @@ $managingBrokers = $managingBrokers ?? array_values(array_filter($teamRoster, fn
         </h2>
       </div>
       @if (! empty($servicesData['intro']))
-        <p class="lead reveal text-center" style="transition-delay:.1s">{{ $servicesData['intro'] }}</p>
+      <p class="lead reveal text-center" style="transition-delay:.1s">{{ $servicesData['intro'] }}</p>
       @endif
     </div>
     @php
@@ -310,7 +348,7 @@ $managingBrokers = $managingBrokers ?? array_values(array_filter($teamRoster, fn
     <div class="section-head-col">
       <div class="reveal flex flex-col items-center">
         @if ($locations['eyebrow'])
-          <span class="eyebrow">{{ $locations['eyebrow'] }}</span>
+        <span class="eyebrow">{{ $locations['eyebrow'] }}</span>
         @endif
         <h2 class="h2" style="margin-top:14px">
           {{ $locations['headlineLead'] }}
@@ -318,29 +356,29 @@ $managingBrokers = $managingBrokers ?? array_values(array_filter($teamRoster, fn
         </h2>
       </div>
       @if ($locations['intro'])
-        <p class="lead reveal text-center" style="transition-delay:.1s">{{ $locations['intro'] }}</p>
+      <p class="lead reveal text-center" style="transition-delay:.1s">{{ $locations['intro'] }}</p>
       @endif
     </div>
     @if (! empty($locations['items']))
-      <div style="display:grid;grid-template-columns:repeat({{ min(count($locations['items']), 2) }}, 1fr);gap:28px" class="loc-grid">
-        @foreach ($locations['items'] as $i => $loc)
-          <div class="reveal {{ $i % 2 === 0 ? 'reveal-left' : 'reveal-right' }}" style="position:relative;border-radius:14px;overflow:hidden;aspect-ratio:4/3;border:1px solid var(--line){{ $i > 0 ? ';transition-delay:.1s' : '' }}">
-            @if ($loc['image'] && $loc['image']['url'])
-              <img src="{{ $loc['image']['url'] }}" alt="{{ $loc['image']['alt'] }}"
-                style="width:100%;height:100%;object-fit:cover;filter:brightness(.7)">
-            @endif
-            <div style="position:absolute;inset:0;padding:32px;display:flex;flex-direction:column;justify-content:flex-end;background:linear-gradient(180deg,transparent 40%,rgba(6,13,31,.9))">
-              @if ($loc['eyebrow'])
-                <span class="eyebrow">{{ $loc['eyebrow'] }}</span>
-              @endif
-              <h3 class="h2" style="font-size:clamp(22px,2.4vw,36px);margin-top:10px">{{ $loc['title'] }}</h3>
-              @if ($loc['description'])
-                <p class="muted" style="margin-top:8px;max-width:36ch">{{ $loc['description'] }}</p>
-              @endif
-            </div>
-          </div>
-        @endforeach
+    <div style="display:grid;grid-template-columns:repeat({{ min(count($locations['items']), 2) }}, 1fr);gap:28px" class="loc-grid">
+      @foreach ($locations['items'] as $i => $loc)
+      <div class="reveal {{ $i % 2 === 0 ? 'reveal-left' : 'reveal-right' }}" style="position:relative;border-radius:14px;overflow:hidden;aspect-ratio:4/3;border:1px solid var(--line){{ $i > 0 ? ';transition-delay:.1s' : '' }}">
+        @if ($loc['image'] && $loc['image']['url'])
+        <img src="{{ $loc['image']['url'] }}" alt="{{ $loc['image']['alt'] }}"
+          style="width:100%;height:100%;object-fit:cover;filter:brightness(.7)">
+        @endif
+        <div style="position:absolute;inset:0;padding:32px;display:flex;flex-direction:column;justify-content:flex-end;background:linear-gradient(180deg,transparent 40%,rgba(6,13,31,.9))">
+          @if ($loc['eyebrow'])
+          <span class="eyebrow">{{ $loc['eyebrow'] }}</span>
+          @endif
+          <h3 class="h2" style="font-size:clamp(22px,2.4vw,36px);margin-top:10px">{{ $loc['title'] }}</h3>
+          @if ($loc['description'])
+          <p class="muted" style="margin-top:8px;max-width:36ch">{{ $loc['description'] }}</p>
+          @endif
+        </div>
       </div>
+      @endforeach
+    </div>
     @endif
   </div>
   <style>
@@ -351,41 +389,6 @@ $managingBrokers = $managingBrokers ?? array_values(array_filter($teamRoster, fn
     }
   </style>
 </section>
-
-{{-- Managing Brokers --}}
-@if (! empty($managingBrokers))
-<section class="section" style="padding-top:0">
-  <div class="container" style="text-align:center">
-    <div class="section-head-col">
-      <div class="reveal flex flex-col items-center">
-        <span class="eyebrow">Salesfloor</span>
-        <h2 class="h2" style="margin-top:14px">
-          Managing <em>Brokers.</em>
-        </h2>
-      </div>
-    </div>
-
-    <div class="stagger-children team-grid team-grid--founders" style="margin-top:36px">
-      @foreach ($managingBrokers as $member)
-        <div class="team-card team-card--featured">
-          <div class="media">
-            <img src="{{ $member['photo'] ?? ('https://i.pravatar.cc/500?u=' . urlencode($member['name'])) }}"
-              alt="{{ esc_attr($member['name']) }}"
-              loading="lazy">
-          </div>
-          <div class="body">
-            <div class="name">{{ $member['name'] }}</div>
-            <div class="role">{{ $member['role'] }}</div>
-            @if (! empty($member['bio']))
-              <p class="bio">{{ $member['bio'] }}</p>
-            @endif
-          </div>
-        </div>
-      @endforeach
-    </div>
-  </div>
-</section>
-@endif
 
 {{-- Testimonials snippet --}}
 <section class="section" style="padding-top:0">
@@ -434,20 +437,20 @@ $managingBrokers = $managingBrokers ?? array_values(array_filter($teamRoster, fn
     </p>
     <div style="display:flex;gap:12px;justify-content:center;margin-top:36px;flex-wrap:wrap">
       @if ($ctaBanner['primary']['label'])
-        <a href="{{ $ctaBanner['primary']['url'] }}" class="btn btn-primary">
-          {{ $ctaBanner['primary']['label'] }}
-          <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-            <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-        </a>
+      <a href="{{ $ctaBanner['primary']['url'] }}" class="btn btn-primary">
+        {{ $ctaBanner['primary']['label'] }}
+        <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </a>
       @endif
       @if ($ctaBanner['secondary']['label'])
-        <a href="{{ $ctaBanner['secondary']['url'] }}" class="btn">
-          {{ $ctaBanner['secondary']['label'] }}
-          <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-            <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-        </a>
+      <a href="{{ $ctaBanner['secondary']['url'] }}" class="btn">
+        {{ $ctaBanner['secondary']['label'] }}
+        <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </a>
       @endif
     </div>
   </div>
