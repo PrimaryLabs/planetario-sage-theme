@@ -4,13 +4,12 @@
 @php
 use App\Data\StaticData;
 
-$team = $team ?? StaticData::team();
-$founders = $founders ?? array_values(array_filter($team, fn($m) => ($m['tier'] ?? '') === 'founder'));
-$groups = $teamGroups ?? [
-['key' => 'managers', 'label' => 'Managers', 'eyebrow' => 'Leadership', 'members' => array_values(array_filter($team, fn($m) => ($m['tier'] ?? '') === 'manager'))],
-['key' => 'brokers', 'label' => 'Brokers', 'eyebrow' => 'Salesfloor', 'members' => array_values(array_filter($team, fn($m) => ($m['tier'] ?? '') === 'broker'))],
-['key' => 'staffs', 'label' => 'Staff', 'eyebrow' => 'Support', 'members' => array_values(array_filter($team, fn($m) => ($m['tier'] ?? '') === 'staff'))],
-];
+$team             = $team ?? StaticData::team();
+$founders         = $founders ?? array_values(array_filter($team, fn($m) => ($m['tier'] ?? '') === 'founder'));
+$managingBrokers  = $managingBrokers ?? array_values(array_filter($team, fn($m) => ($m['tier'] ?? '') === 'broker' && ! empty($m['managing_broker'])));
+$brokers          = array_values(array_filter($team, fn($m) => ($m['tier'] ?? '') === 'broker' && empty($m['managing_broker'])));
+$managers         = $managers ?? array_values(array_filter($team, fn($m) => ($m['tier'] ?? '') === 'manager'));
+$staffs           = $staffs   ?? array_values(array_filter($team, fn($m) => ($m['tier'] ?? '') === 'staff'));
 @endphp
 
 {{-- Intro — Tier 2 compact hero --}}
@@ -38,11 +37,15 @@ $groups = $teamGroups ?? [
 </section>
 
 {{-- Founders --}}
-<section class="section" style="padding-top:24px">
-  <div class="container w-full">
-    <div class="team-section-head mx-auto flex flex-col items-center justify-center">
-      <span class="eyebrow-center">Board of Directors</span>
-      <h2 class="h2" style="margin-top:10px">The people who started <em>the firm.</em></h2>
+<section class="section" style="padding-top:88px">
+  <div class="container" style="text-align:center">
+    <div class="section-head-col">
+      <div class="reveal flex flex-col items-center">
+        <span class="eyebrow">Leadership</span>
+        <h2 class="h2" style="margin-top:14px">
+          The people who started <em>the firm.</em>
+        </h2>
+      </div>
     </div>
 
     <div class="flex flex-wrap gap-6 items-center justify-center" style="margin-top:36px">
@@ -54,9 +57,12 @@ $groups = $teamGroups ?? [
             loading="lazy">
         </div>
         <div class="body flex flex-col relative items-center justify-center">
-          <div class="name">{{ $member['name'] }}</div>
-          <div class="role tracking-wide text-sm">{{ $member['role'] }}</div>
+          <div class="name font-bold text-xl tracking-wide">{{ $member['name'] }}</div>
+          <span class="w-1/2 h-[0.5px] bg-ink/20"></span>
+          <div class="role tracking-wide font-medium! text-xs!">{{ $member['role'] }}</div>
+          @if (! empty($member['bio']))
           <p class="bio border-t-0 absolute top-14">{{ $member['bio'] }}</p>
+          @endif
         </div>
       </div>
       @endforeach
@@ -64,55 +70,149 @@ $groups = $teamGroups ?? [
   </div>
 </section>
 
-{{-- The bench: each sub-group has its own region tabs --}}
+{{-- Managing Brokers --}}
+@if (! empty($managingBrokers))
 <section class="section" style="padding-top:24px">
-  <div class="container">
-    <div class="team-section-head ">
-      <span class="eyebrow">The bench</span>
-      <h2 class="h2" style="margin-top:10px">Managers, brokers, <em>and the people who file your papers.</em></h2>
+  <div class="container" style="text-align:center">
+    <div class="section-head-col">
+      <div class="reveal flex flex-col items-center">
+        <span class="eyebrow">Salesfloor</span>
+        <h2 class="h2" style="margin-top:14px">
+          Managing <em>Brokers.</em>
+        </h2>
+      </div>
     </div>
 
-    @foreach ($groups as $group)
-    <div class="team-group" data-team-group>
-      <div class="team-group-head">
-        <div class="team-group-head-meta">
-          <span class="team-group-eyebrow">{{ $group['eyebrow'] }}</span>
-          <div class="flex gap-4">
-            <h3 class="team-group-title uppercase font-bold">{{ $group['label'] }}</h3>
-            <span class="team-group-count" data-team-count>{{ count($group['members']) }}</span>
-          </div>
+    <div class="flex flex-wrap gap-6 items-center justify-center" style="margin-top:36px">
+      @foreach ($managingBrokers as $member)
+      <div class="team-card team-card--featured max-w-xs md:w-1/2 lg:w-1/3">
+        <div class="media">
+          <img src="{{ $member['photo'] ?? ('https://i.pravatar.cc/500?u=' . urlencode($member['name'])) }}"
+            alt="{{ esc_attr($member['name']) }}"
+            loading="lazy">
         </div>
-        <div class="chips" role="tablist" aria-label="Filter {{ strtolower($group['label']) }} by region">
-          <button type="button" class="chip active" data-region="all" role="tab" aria-selected="true">All</button>
-          <button type="button" class="chip" data-region="bohol" role="tab" aria-selected="false">Bohol</button>
-          <button type="button" class="chip" data-region="cebu" role="tab" aria-selected="false">Cebu</button>
+        <div class="body flex flex-col relative items-center justify-center">
+          <div class="name font-bold text-xl tracking-wide">{{ $member['name'] }}</div>
+          <span class="w-1/2 h-[0.5px] bg-ink/20"></span>
+          <div class="role tracking-wide font-medium! text-xs!">{{ $member['role'] }}</div>
+          @if (! empty($member['bio']))
+          <p class="bio border-t-0 absolute top-14">{{ $member['bio'] }}</p>
+          @endif
         </div>
       </div>
-
-      <div class="stagger-children team-grid">
-        @foreach ($group['members'] as $member)
-        <div class="team-card" data-region="{{ $member['region'] }}">
-          <div class="media">
-            <img src="{{ $member['photo'] ?? ('https://i.pravatar.cc/400?u=' . urlencode($member['name'])) }}"
-              alt="{{ esc_attr($member['name']) }}"
-              loading="lazy">
-          </div>
-          <div class="body">
-            <div class="name">{{ $member['name'] }}</div>
-            <div class="role">{{ $member['role'] }}</div>
-            <p class="bio">{{ $member['bio'] }}</p>
-          </div>
-        </div>
-        @endforeach
-      </div>
-
-      <p class="team-group-empty" data-team-empty hidden>
-        No {{ strtolower($group['label']) }} based in this region yet.
-      </p>
+      @endforeach
     </div>
-    @endforeach
   </div>
 </section>
+@endif
+
+{{-- Brokers --}}
+@if (! empty($brokers))
+<section class="section" style="padding-top:24px">
+  <div class="container" style="text-align:center">
+    <div class="section-head-col">
+      <div class="reveal flex flex-col items-center">
+        <span class="eyebrow">Salesfloor</span>
+        <h2 class="h2" style="margin-top:14px">
+          <em>Brokers.</em>
+        </h2>
+      </div>
+    </div>
+
+    <div class="flex flex-wrap gap-6 items-center justify-center" style="margin-top:36px">
+      @foreach ($brokers as $member)
+      <div class="team-card team-card--featured max-w-xs md:w-1/2 lg:w-1/3">
+        <div class="media">
+          <img src="{{ $member['photo'] ?? ('https://i.pravatar.cc/500?u=' . urlencode($member['name'])) }}"
+            alt="{{ esc_attr($member['name']) }}"
+            loading="lazy">
+        </div>
+        <div class="body flex flex-col relative items-center justify-center">
+          <div class="name font-bold text-xl tracking-wide">{{ $member['name'] }}</div>
+          <span class="w-1/2 h-[0.5px] bg-ink/20"></span>
+          <div class="role tracking-wide font-medium! text-xs!">{{ $member['role'] }}</div>
+          @if (! empty($member['bio']))
+          <p class="bio border-t-0 absolute top-14">{{ $member['bio'] }}</p>
+          @endif
+        </div>
+      </div>
+      @endforeach
+    </div>
+  </div>
+</section>
+@endif
+
+{{-- Planetario Managers --}}
+@if (! empty($managers))
+<section class="section" style="padding-top:24px">
+  <div class="container" style="text-align:center">
+    <div class="section-head-col">
+      <div class="reveal flex flex-col items-center">
+        <span class="eyebrow">Leadership</span>
+        <h2 class="h2" style="margin-top:14px">
+          Planetario <em>Managers.</em>
+        </h2>
+      </div>
+    </div>
+
+    <div class="flex flex-wrap gap-6 items-center justify-center" style="margin-top:36px">
+      @foreach ($managers as $member)
+      <div class="team-card team-card--featured max-w-xs md:w-1/2 lg:w-1/3">
+        <div class="media">
+          <img src="{{ $member['photo'] ?? ('https://i.pravatar.cc/500?u=' . urlencode($member['name'])) }}"
+            alt="{{ esc_attr($member['name']) }}"
+            loading="lazy">
+        </div>
+        <div class="body flex flex-col relative items-center justify-center">
+          <div class="name font-bold text-xl tracking-wide">{{ $member['name'] }}</div>
+          <span class="w-1/2 h-[0.5px] bg-ink/20"></span>
+          <div class="role tracking-wide font-medium! text-xs!">{{ $member['role'] }}</div>
+          @if (! empty($member['bio']))
+          <p class="bio border-t-0 absolute top-14">{{ $member['bio'] }}</p>
+          @endif
+        </div>
+      </div>
+      @endforeach
+    </div>
+  </div>
+</section>
+@endif
+
+{{-- Planetario Staff --}}
+@if (! empty($staffs))
+<section class="section" style="padding-top:24px">
+  <div class="container" style="text-align:center">
+    <div class="section-head-col">
+      <div class="reveal flex flex-col items-center">
+        <span class="eyebrow">Support</span>
+        <h2 class="h2" style="margin-top:14px">
+          Planetario <em>Staff.</em>
+        </h2>
+      </div>
+    </div>
+
+    <div class="flex flex-wrap gap-6 items-center justify-center" style="margin-top:36px">
+      @foreach ($staffs as $member)
+      <div class="team-card team-card--featured max-w-xs md:w-1/2 lg:w-1/3">
+        <div class="media">
+          <img src="{{ $member['photo'] ?? ('https://i.pravatar.cc/500?u=' . urlencode($member['name'])) }}"
+            alt="{{ esc_attr($member['name']) }}"
+            loading="lazy">
+        </div>
+        <div class="body flex flex-col relative items-center justify-center">
+          <div class="name font-bold text-xl tracking-wide">{{ $member['name'] }}</div>
+          <span class="w-1/2 h-[0.5px] bg-ink/20"></span>
+          <div class="role tracking-wide font-medium! text-xs!">{{ $member['role'] }}</div>
+          @if (! empty($member['bio']))
+          <p class="bio border-t-0 absolute top-14">{{ $member['bio'] }}</p>
+          @endif
+        </div>
+      </div>
+      @endforeach
+    </div>
+  </div>
+</section>
+@endif
 
 <section class="section" style="background:var(--bg-2);border-top:1px solid var(--line)">
   <div class="container">
@@ -155,35 +255,4 @@ $groups = $teamGroups ?? [
   </style>
 </section>
 
-<script>
-  (() => {
-    document.querySelectorAll('[data-team-group]').forEach((group) => {
-      const chips = group.querySelectorAll('.chip[data-region]');
-      const cards = group.querySelectorAll('.team-card[data-region]');
-      const countEl = group.querySelector('[data-team-count]');
-      const emptyEl = group.querySelector('[data-team-empty]');
-
-      const applyFilter = (region) => {
-        let visible = 0;
-        cards.forEach((card) => {
-          const match = region === 'all' || card.dataset.region === region;
-          card.hidden = !match;
-          if (match) visible++;
-        });
-        if (countEl) countEl.textContent = visible;
-        if (emptyEl) emptyEl.hidden = visible !== 0;
-      };
-
-      chips.forEach((chip) => {
-        chip.addEventListener('click', () => {
-          chips.forEach((c) => {
-            c.classList.toggle('active', c === chip);
-            c.setAttribute('aria-selected', c === chip ? 'true' : 'false');
-          });
-          applyFilter(chip.dataset.region);
-        });
-      });
-    });
-  })();
-</script>
 @endsection
