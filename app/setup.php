@@ -151,6 +151,49 @@ add_action('after_setup_theme', function () {
 }, 20);
 
 /**
+ * Inject Site Settings → Theme Colors as :root CSS variable overrides.
+ * Matches the alias variables defined in resources/css/app.css @layer base.
+ */
+add_action('wp_head', function () {
+    $colors = \App\View\Composers\SiteSettings::colors();
+
+    $hexToRgb = static function (string $hex): string {
+        $hex = ltrim($hex, '#');
+        if (strlen($hex) !== 6) {
+            return '0, 0, 0';
+        }
+        return (int) hexdec(substr($hex, 0, 2))
+            . ', ' . (int) hexdec(substr($hex, 2, 2))
+            . ', ' . (int) hexdec(substr($hex, 4, 2));
+    };
+
+    $map = [
+        '--bg'       => $colors['bg'],
+        '--bg-2'     => $colors['bg_2'],
+        '--bg-3'     => $colors['bg_3'],
+        '--line'     => $colors['line'],
+        '--line-2'   => $colors['line_2'],
+        '--ink'      => $colors['ink'],
+        '--ink-2'    => $colors['ink_2'],
+        '--ink-3'    => $colors['ink_3'],
+        '--accent'   => $colors['accent'],
+        '--accent-2' => $colors['accent_2'],
+        '--danger'   => $colors['danger'],
+    ];
+
+    $lines = [];
+    foreach ($map as $var => $val) {
+        $lines[] = "{$var}: {$val};";
+    }
+    $lines[] = '--bg-rgb: ' . $hexToRgb($colors['bg']) . ';';
+    $lines[] = '--accent-soft: ' . $colors['accent'] . '22;';
+
+    $css = ':root{' . implode('', $lines) . '}';
+
+    echo "<style id=\"planetario-theme-colors\">{$css}</style>\n";
+}, 20);
+
+/**
  * Handle contact form submission.
  */
 add_action('admin_post_nopriv_planetario_contact', function () {

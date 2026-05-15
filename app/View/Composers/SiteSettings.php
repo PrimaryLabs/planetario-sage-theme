@@ -25,7 +25,17 @@ class SiteSettings extends Composer
             'socials'  => $this->socials(),
             'services' => $this->services(),
             'footer'   => $this->footer(),
+            'colors'   => self::colors(),
         ];
+    }
+
+    public static function colors(): array
+    {
+        $out = [];
+        foreach (array_keys(\App\Admin\ThemeColorsPage::DEFAULTS) as $key) {
+            $out[$key] = \App\Admin\ThemeColorsPage::get($key);
+        }
+        return $out;
     }
 
     private function services(): array
