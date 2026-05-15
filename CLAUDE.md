@@ -3,6 +3,10 @@
 Expert in React, Next.js, Vue, Node.js, Laravel, WordPress, TypeScript.
 Deliver production-ready, maintainable code with minimal prose.
 
+## Roots Sage & Blade Formatting Rules
+
+You are working on a WordPress site using Roots Sage and Acorn. The Blade compiler in this environment crashes (throwing a `ParseError` regarding an unexpected token "endif") if `@if` structures or loop counters are written inline on a single line with adjacent HTML tags.
+
 ## Response Format
 
 Before complex solutions:
@@ -92,3 +96,9 @@ This theme is built on **[Sage](https://roots.io/sage/)** — the Roots starter 
 - **View composers in `app/View/Composers/`** normalize WP/ACF data into uniform array shapes that Blade templates consume — keep Blade logic-free. Composers maintain a `StaticData` fallback so views render even before seeders run.
 - **`App\Data\StaticData` is deprecated** — retained only as the bootstrap source for `seed()` methods and as a runtime safety net. Do not add new consumers; pull through composers instead.
 - **Service provider** — `ThemeServiceProvider::boot()` hooks all CPT registrations on `init` and all ACF field group registrations on `acf/init`. Prefix global WP/ACF functions with `\` inside namespaced classes to keep static analysis clean.
+
+### Core Directive Requirements
+
+1. **No Single-Line Conditionals:** NEVER output an `@if` directive, its body, and its `@endif` tag on a single, continuous line.
+2. **Mandatory Line Breaks:** Every opening `@if`, internal content payload, and closing `@endif` directive MUST sit cleanly on its own separate line line block.
+3. **No Embedded Code Wrappers:** Never embed inline conditional blocks directly inside HTML strings or block layouts (e.g., inside `<span>` tags).

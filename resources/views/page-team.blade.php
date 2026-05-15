@@ -4,24 +4,35 @@
 @php
 use App\Data\StaticData;
 
-$team     = $team ?? StaticData::team();
+$team = $team ?? StaticData::team();
 $founders = $founders ?? array_values(array_filter($team, fn($m) => ($m['tier'] ?? '') === 'founder'));
-$groups   = $teamGroups ?? [
-  ['key' => 'managers', 'label' => 'Managers', 'eyebrow' => 'Leadership', 'members' => array_values(array_filter($team, fn($m) => ($m['tier'] ?? '') === 'manager'))],
-  ['key' => 'brokers',  'label' => 'Brokers',  'eyebrow' => 'Salesfloor', 'members' => array_values(array_filter($team, fn($m) => ($m['tier'] ?? '') === 'broker'))],
-  ['key' => 'staffs',   'label' => 'Staff',    'eyebrow' => 'Support',    'members' => array_values(array_filter($team, fn($m) => ($m['tier'] ?? '') === 'staff'))],
+$groups = $teamGroups ?? [
+['key' => 'managers', 'label' => 'Managers', 'eyebrow' => 'Leadership', 'members' => array_values(array_filter($team, fn($m) => ($m['tier'] ?? '') === 'manager'))],
+['key' => 'brokers', 'label' => 'Brokers', 'eyebrow' => 'Salesfloor', 'members' => array_values(array_filter($team, fn($m) => ($m['tier'] ?? '') === 'broker'))],
+['key' => 'staffs', 'label' => 'Staff', 'eyebrow' => 'Support', 'members' => array_values(array_filter($team, fn($m) => ($m['tier'] ?? '') === 'staff'))],
 ];
 @endphp
 
 <section class="section" style="padding-top:140px">
   <div class="container" style="position:relative">
     <x-orbit-deco style="right:-220px;top:-20px;opacity:.25" />
-    @if ($pageIntro['eyebrow'])<span class="eyebrow">{{ $pageIntro['eyebrow'] }}</span>@endif
+
+    @if ($pageIntro['eyebrow'])
+    <span class="eyebrow">{{ $pageIntro['eyebrow'] }}</span>
+    @endif
+
     <h1 class="display" style="margin-top:18px;max-width:18ch">
-      {{ $pageIntro['headlineLead'] }}@if ($pageIntro['headlineEm']) <em>{{ $pageIntro['headlineEm'] }}</em>@endif@if ($pageIntro['headlineTrail']) {{ $pageIntro['headlineTrail'] }}@endif
+      {{ $pageIntro['headlineLead'] }}
+      @if ($pageIntro['headlineEm'])
+      <em>{{ $pageIntro['headlineEm'] }}</em>
+      @endif
+      @if ($pageIntro['headlineTrail'])
+      {{ $pageIntro['headlineTrail'] }}
+      @endif
     </h1>
+
     @if ($pageIntro['lead'])
-      <p class="lead" style="margin-top:24px;max-width:62ch">{{ $pageIntro['lead'] }}</p>
+    <p class="lead" style="margin-top:24px;max-width:62ch">{{ $pageIntro['lead'] }}</p>
     @endif
   </div>
 </section>
@@ -107,22 +118,29 @@ $groups   = $teamGroups ?? [
   <div class="container">
     <div style="display:grid;grid-template-columns:1fr 1.2fr;gap:60px;align-items:center" class="join-grid">
       <div class="reveal">
-        @if ($pageClosing['eyebrow'])<span class="eyebrow">{{ $pageClosing['eyebrow'] }}</span>@endif
+        @if ($pageClosing['eyebrow'])
+        <span class="eyebrow">{{ $pageClosing['eyebrow'] }}</span>
+        @endif
         <h2 class="h2" style="margin-top:14px">
-          {{ $pageClosing['headlineLead'] }}@if ($pageClosing['headlineEm']) <em>{{ $pageClosing['headlineEm'] }}</em>@endif
+          {{ $pageClosing['headlineLead'] }}
+          @if ($pageClosing['headlineEm'])
+          <em>{{ $pageClosing['headlineEm'] }}</em>
+          @endif
         </h2>
       </div>
       <div class="reveal" style="transition-delay:.1s">
-        @if ($pageClosing['body'])<p class="lead">{{ $pageClosing['body'] }}</p>@endif
+        @if ($pageClosing['body'])
+        <p class="lead">{{ $pageClosing['body'] }}</p>
+        @endif
         @if ($pageClosing['primaryLabel'])
-          <div style="margin-top:24px">
-            <a href="{{ $pageClosing['primaryUrl'] }}" class="btn btn-primary">
-              {{ $pageClosing['primaryLabel'] }}
-              <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
-            </a>
-          </div>
+        <div style="margin-top:24px">
+          <a href="{{ $pageClosing['primaryUrl'] }}" class="btn btn-primary">
+            {{ $pageClosing['primaryLabel'] }}
+            <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </a>
+        </div>
         @endif
       </div>
     </div>

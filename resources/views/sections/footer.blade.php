@@ -1,3 +1,13 @@
+@php
+  $brandName = $site['brand']['name'];
+  $brandInitial = mb_substr($brandName, 0, 1);
+  $brandFirstName = explode(' ', $brandName)[0];
+  $addressLine1 = $site['contact']['addressLine1'];
+  $addressLine2 = $site['contact']['addressLine2'];
+  $sigilLeft = $site['footer']['sigilLeft'];
+  $sigilRight = $site['footer']['sigilRight'];
+@endphp
+
 <footer class="footer">
   <div class="container">
 
@@ -7,10 +17,10 @@
       <div>
         <a href="{{ home_url('/') }}" class="brand">
           <div class="brand-mark">
-            <span style="font-family:var(--font-display);font-size:17px;font-weight:700;color:var(--accent);line-height:1">{{ mb_substr($site['brand']['name'], 0, 1) }}</span>
+            <span style="font-family:var(--font-display);font-size:17px;font-weight:700;color:var(--accent);line-height:1">{{ $brandInitial }}</span>
           </div>
           <div class="brand-text">
-            <span class="name">{{ explode(' ', $site['brand']['name'])[0] }}</span>
+            <span class="name">{{ $brandFirstName }}</span>
             <span class="sub">Realty &amp; Brokerage</span>
           </div>
         </a>
@@ -61,9 +71,19 @@
           @if ($site['contact']['email'])
             <li><a href="mailto:{{ $site['contact']['email'] }}">{{ $site['contact']['email'] }}</a></li>
           @endif
-          @if ($site['contact']['addressLine1'] || $site['contact']['addressLine2'])
+          @if ($addressLine1 || $addressLine2)
             <li style="color:var(--ink-2);font-size:14px;line-height:1.55">
-              {{ $site['contact']['addressLine1'] }}@if ($site['contact']['addressLine2'])<br>{{ $site['contact']['addressLine2'] }}@endif
+              @if ($addressLine1)
+                {{ $addressLine1 }}
+              @endif
+
+              @if ($addressLine1 && $addressLine2)
+                <br>
+              @endif
+
+              @if ($addressLine2)
+                {{ $addressLine2 }}
+              @endif
             </li>
           @endif
         </ul>
@@ -74,9 +94,17 @@
     <div class="footer-bottom">
       <div>&copy; {{ date('Y') }} {{ $site['footer']['copyrightOwner'] }}</div>
       <div class="sigil-line">
-        @if ($site['footer']['sigilLeft'])<span>{{ $site['footer']['sigilLeft'] }}</span>@endif
-        @if ($site['footer']['sigilLeft'] && $site['footer']['sigilRight'])<span style="color:var(--line-2)">·</span>@endif
-        @if ($site['footer']['sigilRight'])<span>{{ $site['footer']['sigilRight'] }}</span>@endif
+        @if ($sigilLeft)
+          <span>{{ $sigilLeft }}</span>
+        @endif
+
+        @if ($sigilLeft && $sigilRight)
+          <span style="color:var(--line-2)">·</span>
+        @endif
+
+        @if ($sigilRight)
+          <span>{{ $sigilRight }}</span>
+        @endif
       </div>
     </div>
 

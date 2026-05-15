@@ -1,30 +1,39 @@
+@php
+  $logo = get_custom_logo();
+  $navLinks = [
+    ['label' => 'Home', 'url' => home_url('/'), 'class' => 'nav-link' . (is_front_page() ? ' active' : '')],
+    ['label' => 'Properties', 'url' => home_url('/properties'), 'class' => 'nav-link' . (is_page('properties') ? ' active' : '')],
+    ['label' => 'About', 'url' => home_url('/about'), 'class' => 'nav-link' . (is_page('about') ? ' active' : '')],
+    ['label' => 'Team', 'url' => home_url('/team'), 'class' => 'nav-link' . (is_page('team') ? ' active' : '')],
+    ['label' => 'Developers', 'url' => home_url('/developers'), 'class' => 'nav-link' . (is_page('developers') ? ' active' : '')],
+    ['label' => 'Stories', 'url' => home_url('/stories'), 'class' => 'nav-link' . (is_page('stories') ? ' active' : '')],
+    ['label' => 'Testimonials', 'url' => home_url('/testimonials'), 'class' => 'nav-link' . (is_page('testimonials') ? ' active' : '')],
+  ];
+@endphp
+
 <header class="nav" id="site-header">
   <div class="container nav-inner">
 
-    <span class="brand" aria-label="{{ get_bloginfo('name') }} home">
+    <div class="brand" aria-label="{{ get_bloginfo('name') }} home">
       <div class="brand-mark">
-        @php($logo = get_custom_logo())
         @if ($logo)
-        {!! $logo !!}
+          {!! $logo !!}
         @else
-        <span style="font-family:var(--font-display);font-size:17px;font-weight:700;color:var(--accent);line-height:1">P</span>
+          <span style="font-family:var(--font-display);font-size:17px;font-weight:700;color:var(--accent);line-height:1">P</span>
         @endif
       </div>
       <a href="{{ home_url('/') }}" class="brand-text">
         <span class="name">Planetario</span>
         <span class="sub">Realty &amp; Brokerage</span>
       </a>
-    </span>
+    </div>
 
     <nav class="nav-links" aria-label="Primary navigation">
-      <a href="{{ home_url('/') }}" class="nav-link {{ is_front_page() ? 'active' : '' }}">Home</a>
-      <a href="{{ home_url('/properties') }}" class="nav-link {{ is_page('properties')   ? 'active' : '' }}">Properties</a>
-      <a href="{{ home_url('/about') }}" class="nav-link {{ is_page('about') ? 'active' : '' }}">About</a>
-      <a href="{{ home_url('/team') }}" class="nav-link {{ is_page('team') ? 'active' : '' }}">Team</a>
-      <a href="{{ home_url('/developers') }}" class="nav-link {{ is_page('developers') ? 'active' : '' }}">Developers</a>
-      <a href="{{ home_url('/stories') }}" class="nav-link {{ is_page('stories') ? 'active' : '' }}">Stories</a>
-      <a href="{{ home_url('/testimonials') }}" class="nav-link {{ is_page('testimonials')  ? 'active' : '' }}">Testimonials</a>
-      <!-- <a href="{{ home_url('/contact') }}" class="nav-link {{ is_page('contact')       ? 'active' : '' }}">Contact</a> -->
+      @foreach ($navLinks as $link)
+        <a href="{{ $link['url'] }}" class="{{ $link['class'] }}">
+          {{ $link['label'] }}
+        </a>
+      @endforeach
     </nav>
 
     <div class="nav-cta">

@@ -6,12 +6,23 @@
 <section class="section" style="padding-top:140px">
   <div class="container" style="position:relative">
     <x-orbit-deco style="right:-220px;top:-40px;opacity:.22" />
-    @if ($pageIntro['eyebrow'])<span class="eyebrow">{{ $pageIntro['eyebrow'] }}</span>@endif
+
+    @if ($pageIntro['eyebrow'])
+    <span class="eyebrow">{{ $pageIntro['eyebrow'] }}</span>
+    @endif
+
     <h1 class="display" style="margin-top:18px;max-width:22ch">
-      {{ $pageIntro['headlineLead'] }}@if ($pageIntro['headlineEm']) <em>{{ $pageIntro['headlineEm'] }}</em>@endif@if ($pageIntro['headlineTrail']) {{ $pageIntro['headlineTrail'] }}@endif
+      {{ $pageIntro['headlineLead'] }}
+      @if ($pageIntro['headlineEm'])
+      <em>{{ $pageIntro['headlineEm'] }}</em>
+      @endif
+      @if ($pageIntro['headlineTrail'])
+      {{ $pageIntro['headlineTrail'] }}
+      @endif
     </h1>
+
     @if ($pageIntro['lead'])
-      <p class="lead" style="margin-top:22px;max-width:62ch">{{ $pageIntro['lead'] }}</p>
+    <p class="lead" style="margin-top:22px;max-width:62ch">{{ $pageIntro['lead'] }}</p>
     @endif
   </div>
 </section>
@@ -19,25 +30,34 @@
 <section class="section" style="padding-top:24px">
   <div class="container">
     <div class="stagger-children testi-grid"
-         style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px">
+      style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px">
       @foreach ($testimonials as $t)
-        <div class="testimonial">
-          <div class="quote-mk">"</div>
-          <blockquote>{{ $t['quote'] }}</blockquote>
-          <div class="who">
-            <img src="{{ $t['avatar'] ?? ('https://i.pravatar.cc/96?u=' . urlencode($t['name'])) }}"
-                 alt="" width="48" height="48">
-            <div>
-              <div class="name">{{ $t['name'] }}</div>
-              <div class="role">{{ $t['role'] }}</div>
-            </div>
+      <div class="testimonial">
+        <div class="quote-mk">"</div>
+        <blockquote>{{ $t['quote'] }}</blockquote>
+        <div class="who">
+          <img src="{{ $t['avatar'] ?? ('https://i.pravatar.cc/96?u=' . urlencode($t['name'])) }}"
+            alt="" width="48" height="48">
+          <div>
+            <div class="name">{{ $t['name'] }}</div>
+            <div class="role">{{ $t['role'] }}</div>
           </div>
         </div>
+      </div>
       @endforeach
     </div>
     <style>
-      @media (max-width:1000px){.testi-grid{grid-template-columns:1fr 1fr!important}}
-      @media (max-width:640px){.testi-grid{grid-template-columns:1fr!important}}
+      @media (max-width:1000px) {
+        .testi-grid {
+          grid-template-columns: 1fr 1fr !important
+        }
+      }
+
+      @media (max-width:640px) {
+        .testi-grid {
+          grid-template-columns: 1fr !important
+        }
+      }
     </style>
   </div>
 </section>
@@ -54,34 +74,40 @@
       </div>
     </div>
     <div class="stagger-children metrics-grid"
-         style="display:grid;grid-template-columns:repeat(4,1fr);gap:24px">
+      style="display:grid;grid-template-columns:repeat(4,1fr);gap:24px">
       @foreach ([
-        ['v' => 98,  'suf' => '%',   'l' => 'of buyers refer at least one friend'],
-        ['v' => 4,   'suf' => ' hrs','l' => 'average first-reply time'],
-        ['v' => 0,   'suf' => '',    'l' => 'closings reopened due to documentation'],
-        ['v' => 11,  'suf' => ' mo', 'l' => 'longest case we saw through'],
+      ['v' => 98, 'suf' => '%', 'l' => 'of buyers refer at least one friend'],
+      ['v' => 4, 'suf' => ' hrs','l' => 'average first-reply time'],
+      ['v' => 0, 'suf' => '', 'l' => 'closings reopened due to documentation'],
+      ['v' => 11, 'suf' => ' mo', 'l' => 'longest case we saw through'],
       ] as $m)
-        <div style="border-top:1px solid var(--line-2);padding-top:22px">
-          <div style="font-family:var(--font-display);font-size:clamp(36px,4.6vw,64px);color:var(--accent);line-height:1">
-            <span data-countup="{{ $m['v'] }}" data-suffix="{{ $m['suf'] }}">{{ $m['v'] }}{{ $m['suf'] }}</span>
-          </div>
-          <div style="margin-top:12px;color:var(--ink-2);font-size:14px;max-width:22ch;line-height:1.45">{{ $m['l'] }}</div>
+      <div style="border-top:1px solid var(--line-2);padding-top:22px">
+        <div style="font-family:var(--font-display);font-size:clamp(36px,4.6vw,64px);color:var(--accent);line-height:1">
+          <span data-countup="{{ $m['v'] }}" data-suffix="{{ $m['suf'] }}">{{ $m['v'] }}{{ $m['suf'] }}</span>
         </div>
+        <div style="margin-top:12px;color:var(--ink-2);font-size:14px;max-width:22ch;line-height:1.45">{{ $m['l'] }}</div>
+      </div>
       @endforeach
     </div>
-    <style>@media (max-width:900px){.metrics-grid{grid-template-columns:1fr 1fr!important}}</style>
+    <style>
+      @media (max-width:900px) {
+        .metrics-grid {
+          grid-template-columns: 1fr 1fr !important
+        }
+      }
+    </style>
   </div>
 </section>
 
 <section class="section" style="text-align:center">
   <div class="container">
     @if ($pageClosing['primaryLabel'])
-      <a href="{{ $pageClosing['primaryUrl'] }}" class="btn">
-        {{ $pageClosing['primaryLabel'] }}
-        <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-          <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </a>
+    <a href="{{ $pageClosing['primaryUrl'] }}" class="btn">
+      {{ $pageClosing['primaryLabel'] }}
+      <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+        <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </a>
     @endif
   </div>
 </section>
