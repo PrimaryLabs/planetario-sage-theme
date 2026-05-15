@@ -499,20 +499,23 @@
 	.theme-toggle__moon {
 		display: none;
 	}
-	:root[data-theme="light"] .theme-toggle__moon {
-		display: block;
-	}
+	/* Effective mode = dark → show sun (click switches to light) */
 	:root[data-theme="dark"] .theme-toggle__sun {
 		display: block;
 	}
-	:root:not([data-theme]) .theme-toggle__moon {
+	/* Effective mode = light → show moon (click switches to dark) */
+	:root[data-theme="light"] .theme-toggle__moon {
+		display: block;
+	}
+	/* Auto mode (no data-theme): icon follows OS preference */
+	:root:not([data-theme]) .theme-toggle__sun {
 		display: block;
 	}
 	@media (prefers-color-scheme: light) {
-		:root:not([data-theme]) .theme-toggle__moon {
+		:root:not([data-theme]) .theme-toggle__sun {
 			display: none;
 		}
-		:root:not([data-theme]) .theme-toggle__sun {
+		:root:not([data-theme]) .theme-toggle__moon {
 			display: block;
 		}
 	}

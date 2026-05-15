@@ -221,7 +221,12 @@ add_action('wp_head', function () {
  */
 add_action('wp_head', function () {
     $defaultMode = \App\Admin\ThemeColorsPage::defaultMode();
-    $js = "(function(){try{var s=localStorage.getItem('planetarioTheme');if(s==='dark'||s==='light'){document.documentElement.setAttribute('data-theme',s);}}catch(e){}})();";
+    $js = "(function(){try{"
+        . "var s=localStorage.getItem('planetarioTheme');"
+        . "var d=document.currentScript&&document.currentScript.dataset.default;"
+        . "var m=(s==='dark'||s==='light')?s:((d==='dark'||d==='light')?d:null);"
+        . "if(m)document.documentElement.setAttribute('data-theme',m);"
+        . "}catch(e){}})();";
     echo "<script id=\"planetario-theme-preload\" data-default=\"" . \esc_attr($defaultMode) . "\">{$js}</script>\n";
 }, 1);
 

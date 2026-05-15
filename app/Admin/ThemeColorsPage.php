@@ -4,9 +4,10 @@ namespace App\Admin;
 
 class ThemeColorsPage
 {
-    public const MENU_SLUG       = 'planetario-theme-colors';
-    public const OPT_PREFIX      = 'planetario_color_';
+    public const MENU_SLUG        = 'planetario-theme-colors';
+    public const OPT_PREFIX       = 'planetario_color_';
     public const OPT_DEFAULT_MODE = 'planetario_color_default_mode';
+    public const OPT_PRESET       = 'planetario_color_preset';
     public const MODES = ['dark', 'light', 'auto'];
 
     public const KEYS = [
@@ -63,6 +64,20 @@ class ThemeColorsPage
     {
         \add_action('admin_menu', [self::class, 'addMenu']);
         \add_action('admin_init', [self::class, 'handleSave']);
+        \add_action('admin_enqueue_scripts', [self::class, 'enqueueAssets']);
+    }
+
+    public static function enqueueAssets(string $hook): void
+    {
+        if ($hook !== 'toplevel_page_' . self::MENU_SLUG) {
+            return;
+        }
+        \wp_enqueue_style(
+            'planetario-tc-fonts',
+            'https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,500;0,600;1,500&family=Karla:wght@400;500;600&display=swap',
+            [],
+            null
+        );
     }
 
     public static function addMenu(): void
@@ -93,6 +108,12 @@ class ThemeColorsPage
         return in_array($stored, self::MODES, true) ? $stored : 'auto';
     }
 
+    public static function selectedPreset(): string
+    {
+        $stored = (string) \get_option(self::OPT_PRESET, '');
+        return array_key_exists($stored, self::presets()) ? $stored : '';
+    }
+
     public static function handleSave(): void
     {
         if (! isset($_POST['planetario_theme_colors_nonce'])) {
@@ -120,6 +141,10 @@ class ThemeColorsPage
         $rawMode = (string) \wp_unslash($_POST[self::OPT_DEFAULT_MODE] ?? 'auto');
         $mode    = in_array($rawMode, self::MODES, true) ? $rawMode : 'auto';
         \update_option(self::OPT_DEFAULT_MODE, $mode);
+
+        $rawPreset = (string) \wp_unslash($_POST[self::OPT_PRESET] ?? '');
+        $preset    = array_key_exists($rawPreset, self::presets()) ? $rawPreset : '';
+        \update_option(self::OPT_PRESET, $preset);
 
         \add_settings_error(
             'planetario_theme_colors',
@@ -280,9 +305,10 @@ class ThemeColorsPage
             }
         }
 
-        $presets     = self::presets();
-        $presetsJs   = \wp_json_encode($presets);
-        $defaultMode = self::defaultMode();
+        $presets        = self::presets();
+        $presetsJs      = \wp_json_encode($presets);
+        $defaultMode    = self::defaultMode();
+        $selectedPreset = self::selectedPreset();
         ?>
         <div class="wrap planetario-theme-colors">
             <h1><?php echo \esc_html__('Theme Colors', 'sage'); ?></h1>
@@ -311,24 +337,84 @@ class ThemeColorsPage
                 .planetario-theme-colors input[type=color] { width:54px; height:36px; padding:2px; border:1px solid #dcdcde; background:#fff; cursor:pointer; }
                 .planetario-theme-colors input[type=text].ptc-hex { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; width:120px; }
                 .planetario-theme-colors .swatch-default { display:inline-block; width:14px; height:14px; border:1px solid #dcdcde; vertical-align:middle; margin-right:6px; border-radius:3px; }
+
+                /* — Two-column layout (form left, sticky preview right) — */
+                .planetario-theme-colors .ptc-layout { display:grid; grid-template-columns: minmax(0,1fr) minmax(0,460px); gap:28px; align-items:start; margin-top: 8px; }
+                .planetario-theme-colors .ptc-col-preview { position: sticky; top: 56px; }
+                @media (max-width: 1280px) {
+                    .planetario-theme-colors .ptc-layout { grid-template-columns: 1fr; }
+                    .planetario-theme-colors .ptc-col-preview { position: static; }
+                }
+                .planetario-theme-colors .ptc-preview-label { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:#646970; margin-bottom:8px; }
+
+                /* — Preview surface (scoped variables — does NOT affect WP admin) — */
+                .ptc-preview {
+                    border-radius:14px;
+                    overflow:hidden;
+                    border:1px solid var(--line);
+                    background: var(--bg);
+                    color: var(--ink);
+                    font-family: "Karla", system-ui, sans-serif;
+                    font-size: 14px;
+                    line-height: 1.55;
+                    transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+                }
+                .ptc-preview * { font-family: inherit; }
+
+                .ptc-preview .pv-nav { display:flex; align-items:center; justify-content:space-between; padding:14px 18px; border-bottom:1px solid var(--line); background: color-mix(in srgb, var(--bg) 70%, transparent); }
+                .ptc-preview .pv-brand { display:flex; align-items:center; gap:10px; }
+                .ptc-preview .pv-brand-mark { width:28px; height:28px; border-radius:50%; background: var(--bg-2); border:1px solid var(--line-2); display:grid; place-items:center; color: var(--accent); font-family: "Hanken Grotesk", system-ui, sans-serif; font-weight:700; font-size:13px; }
+                .ptc-preview .pv-brand-text { font-family: "Hanken Grotesk", system-ui, sans-serif; font-weight:600; font-size:13px; color: var(--ink); }
+                .ptc-preview .pv-nav-links { display:flex; gap:14px; font-size:11px; color: var(--ink-2); }
+                .ptc-preview .pv-nav-links .active { color: var(--accent); }
+
+                .ptc-preview .pv-section { padding: 24px 22px; background: var(--bg); }
+                .ptc-preview .pv-eyebrow { display:inline-flex; align-items:center; gap:8px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:9.5px; letter-spacing:0.22em; text-transform:uppercase; color: var(--accent); margin-bottom:14px; }
+                .ptc-preview .pv-eyebrow::before { content:""; width:18px; height:1px; background: var(--accent); opacity:0.7; }
+                .ptc-preview .pv-display { font-family:"Hanken Grotesk", system-ui, sans-serif; font-weight:500; font-size:28px; line-height:1.05; letter-spacing:-0.025em; margin:0 0 12px; color: var(--ink); }
+                .ptc-preview .pv-display em { font-style: italic; color: var(--accent); }
+                .ptc-preview .pv-lead { color: var(--ink-2); font-size:13px; max-width:46ch; margin:0 0 16px; }
+                .ptc-preview .pv-actions { display:flex; gap:8px; flex-wrap:wrap; }
+                .ptc-preview .pv-btn { display:inline-flex; align-items:center; gap:6px; padding:8px 14px; border-radius:999px; border:1px solid var(--line-2); background: transparent; color: var(--ink); font-size:11px; font-weight:500; }
+                .ptc-preview .pv-btn--primary { background: var(--accent); color: var(--bg); border-color: var(--accent); font-weight:600; }
+                .ptc-preview .pv-btn--ghost { border-color: transparent; padding-left:4px; padding-right:4px; color: var(--ink-2); }
+
+                .ptc-preview .pv-card { margin:18px 22px 22px; background: var(--bg-2); border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+                .ptc-preview .pv-card-media { aspect-ratio: 16/9; background:
+                    linear-gradient(135deg, var(--bg-3), var(--bg-2)),
+                    radial-gradient(circle at 30% 40%, var(--accent-soft), transparent 60%);
+                    background-blend-mode: normal; position:relative; }
+                .ptc-preview .pv-card-tag { position:absolute; top:10px; left:10px; padding:4px 8px; border-radius:999px; background: color-mix(in srgb, var(--bg) 70%, transparent); border:1px solid var(--line-2); color: var(--accent); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:9px; letter-spacing:0.18em; text-transform:uppercase; }
+                .ptc-preview .pv-card-body { padding:14px 16px 16px; }
+                .ptc-preview .pv-card-loc { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:9.5px; letter-spacing:0.15em; text-transform:uppercase; color: var(--ink-3); margin-bottom:4px; }
+                .ptc-preview .pv-card-ttl { font-family:"Hanken Grotesk", system-ui, sans-serif; font-weight:500; font-size:18px; color: var(--ink); margin:0; }
+                .ptc-preview .pv-card-specs { border-top:1px solid var(--line); margin-top:10px; padding-top:8px; font-size:11px; color: var(--ink-2); display:flex; gap:12px; }
+                .ptc-preview .pv-card-price { margin-top:8px; font-family:"Hanken Grotesk", system-ui, sans-serif; font-weight:500; font-size:15px; color: var(--accent); }
+
+                .ptc-preview .pv-rule { height:1px; background: var(--line); margin:0 22px; }
+
+                .ptc-preview .pv-footnote { padding:14px 22px 18px; display:flex; justify-content:space-between; gap:10px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:9.5px; letter-spacing:0.15em; text-transform:uppercase; color: var(--ink-3); }
+                .ptc-preview .pv-footnote .pv-danger { color: var(--danger); }
             </style>
+
+            <div class="ptc-layout">
+            <div class="ptc-col-form">
 
             <div class="ptc-presets">
                 <label for="ptc-preset-select"><?php echo \esc_html__('Preset palette', 'sage'); ?></label>
-                <select id="ptc-preset-select">
-                    <option value=""><?php echo \esc_html__('— select a preset —', 'sage'); ?></option>
+                <select id="ptc-preset-select" name="<?php echo \esc_attr(self::OPT_PRESET); ?>" form="ptc-form">
+                    <option value=""<?php echo $selectedPreset === '' ? ' selected' : ''; ?>><?php echo \esc_html__('— custom (no preset) —', 'sage'); ?></option>
                     <?php foreach ($presets as $id => $p): ?>
-                        <option value="<?php echo \esc_attr($id); ?>">
+                        <option value="<?php echo \esc_attr($id); ?>"<?php echo $selectedPreset === $id ? ' selected' : ''; ?>>
                             <?php echo \esc_html($p['label']); ?>
                         </option>
                     <?php endforeach; ?>
                 </select>
                 <span class="ptc-swatches" id="ptc-preset-swatches" aria-hidden="true"></span>
-                <button type="button" class="button" id="ptc-preset-apply"><?php echo \esc_html__('Apply preset', 'sage'); ?></button>
-                <p class="description"><?php echo \esc_html__('Loads both Dark and Light values into the form. Click "Save changes" below to commit.', 'sage'); ?></p>
+                <p class="description"><?php echo \esc_html__('Selecting a preset updates both Dark and Light values + the live preview. Click "Save changes" below to commit.', 'sage'); ?></p>
             </div>
 
-            <form method="post" action="">
+            <form method="post" action="" id="ptc-form">
                 <?php \wp_nonce_field('planetario_theme_colors', 'planetario_theme_colors_nonce'); ?>
 
                 <fieldset class="ptc-default-mode">
@@ -406,21 +492,109 @@ class ThemeColorsPage
 
                 <?php \submit_button(\__('Save changes', 'sage')); ?>
             </form>
+
+            </div><!-- /.ptc-col-form -->
+
+            <div class="ptc-col-preview">
+                <div class="ptc-preview-label"><?php echo \esc_html__('Live preview — about us', 'sage'); ?></div>
+                <div class="ptc-preview" id="ptc-preview" aria-hidden="true">
+                    <div class="pv-nav">
+                        <div class="pv-brand">
+                            <div class="pv-brand-mark">P</div>
+                            <div class="pv-brand-text">Planetario Realty</div>
+                        </div>
+                        <div class="pv-nav-links">
+                            <span>Home</span>
+                            <span class="active">About</span>
+                            <span>Properties</span>
+                        </div>
+                    </div>
+                    <div class="pv-section">
+                        <div class="pv-eyebrow">About us</div>
+                        <h2 class="pv-display">Building trust, one home <em>at a time.</em></h2>
+                        <p class="pv-lead">A Bohol-rooted realty house, brokering homes and investments across the Visayas with care and clarity.</p>
+                        <div class="pv-actions">
+                            <span class="pv-btn pv-btn--primary">Meet the team →</span>
+                            <span class="pv-btn pv-btn--ghost">Our story →</span>
+                        </div>
+                    </div>
+                    <div class="pv-rule"></div>
+                    <div class="pv-card">
+                        <div class="pv-card-media">
+                            <span class="pv-card-tag">Featured</span>
+                        </div>
+                        <div class="pv-card-body">
+                            <div class="pv-card-loc">Tagbilaran · Bohol</div>
+                            <h3 class="pv-card-ttl">Bayside Modern Residence</h3>
+                            <div class="pv-card-specs">
+                                <span>3 bed</span>
+                                <span>2 bath</span>
+                                <span>220 sqm</span>
+                            </div>
+                            <div class="pv-card-price">₱ 12,500,000</div>
+                        </div>
+                    </div>
+                    <div class="pv-footnote">
+                        <span>PRC Lic. No. ████-██</span>
+                        <span class="pv-danger">● Live preview</span>
+                    </div>
+                </div>
+            </div><!-- /.ptc-col-preview -->
+
+            </div><!-- /.ptc-layout -->
         </div>
 
         <script>
         (function () {
             var PRESETS = <?php echo $presetsJs; ?>;
+            var KEYS    = <?php echo \wp_json_encode(self::KEYS); ?>;
+            var PREFIX  = '<?php echo self::OPT_PREFIX; ?>';
+            var preview = document.getElementById('ptc-preview');
 
-            // Color picker <-> hex input sync
+            function activeMode() {
+                var tab = document.querySelector('.ptc-mode-tab.is-active');
+                return tab ? tab.dataset.mode : 'dark';
+            }
+
+            // Push the active mode's current form values into the preview as scoped CSS vars
+            function updatePreview() {
+                if (!preview) return;
+                var mode = activeMode();
+                var accent = null;
+                var bg     = null;
+                KEYS.forEach(function (key) {
+                    var input = document.getElementById(PREFIX + mode + '_' + key);
+                    if (!input) return;
+                    var cssVar = '--' + key.replace('_', '-');
+                    preview.style.setProperty(cssVar, input.value);
+                    if (key === 'accent') accent = input.value;
+                    if (key === 'bg')     bg     = input.value;
+                });
+                if (accent) preview.style.setProperty('--accent-soft', accent + '22');
+                if (bg) {
+                    var hex = bg.replace('#','');
+                    if (hex.length === 6) {
+                        preview.style.setProperty('--bg-rgb',
+                            parseInt(hex.substr(0,2),16) + ',' +
+                            parseInt(hex.substr(2,2),16) + ',' +
+                            parseInt(hex.substr(4,2),16));
+                    }
+                }
+            }
+
+            // Color picker <-> hex input sync, with preview update
             document.querySelectorAll('input[type=color][data-target]').forEach(function (picker) {
                 var hex = document.getElementById(picker.dataset.target);
                 if (!hex) return;
-                picker.addEventListener('input', function () { hex.value = picker.value; });
+                picker.addEventListener('input', function () {
+                    hex.value = picker.value;
+                    updatePreview();
+                });
                 hex.addEventListener('input', function () {
                     var v = hex.value.trim();
                     if (/^#?[0-9a-fA-F]{6}$/.test(v)) {
                         picker.value = v.charAt(0) === '#' ? v : '#' + v;
+                        updatePreview();
                     }
                 });
             });
@@ -439,19 +613,18 @@ class ThemeColorsPage
                     panels.forEach(function (p) {
                         p.classList.toggle('is-active', p.dataset.mode === mode);
                     });
+                    updatePreview();
                 });
             });
 
-            // Preset preview swatches + apply
+            // Preset preview swatches + live apply on change
             var presetSelect   = document.getElementById('ptc-preset-select');
             var presetSwatches = document.getElementById('ptc-preset-swatches');
-            var presetApply    = document.getElementById('ptc-preset-apply');
 
             function renderSwatches(id) {
                 presetSwatches.innerHTML = '';
                 var p = PRESETS[id];
                 if (!p) return;
-                // Show accent + bg + ink for both dark and light = 6 dots
                 ['dark', 'light'].forEach(function (mode) {
                     ['accent', 'bg', 'ink'].forEach(function (key) {
                         var dot = document.createElement('span');
@@ -463,20 +636,12 @@ class ThemeColorsPage
                 });
             }
 
-            presetSelect.addEventListener('change', function () {
-                renderSwatches(presetSelect.value);
-            });
-
-            presetApply.addEventListener('click', function () {
-                var id = presetSelect.value;
-                var p  = PRESETS[id];
-                if (!p) {
-                    window.alert('<?php echo \esc_js(\__('Select a preset first.', 'sage')); ?>');
-                    return;
-                }
+            function applyPreset(id) {
+                var p = PRESETS[id];
+                if (!p) return;
                 ['dark', 'light'].forEach(function (mode) {
                     Object.keys(p[mode]).forEach(function (key) {
-                        var name   = '<?php echo self::OPT_PREFIX; ?>' + mode + '_' + key;
+                        var name   = PREFIX + mode + '_' + key;
                         var picker = document.getElementById(name);
                         var hex    = document.getElementById(name + '_hex');
                         var val    = p[mode][key];
@@ -484,7 +649,17 @@ class ThemeColorsPage
                         if (hex) hex.value = val;
                     });
                 });
+                updatePreview();
+            }
+
+            presetSelect.addEventListener('change', function () {
+                renderSwatches(presetSelect.value);
+                applyPreset(presetSelect.value);
             });
+
+            // Initial paint: render swatches for the persisted preset (if any), then sync preview
+            renderSwatches(presetSelect.value);
+            updatePreview();
         })();
         </script>
         <?php
