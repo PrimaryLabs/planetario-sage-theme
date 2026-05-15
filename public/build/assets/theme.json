@@ -1457,6 +1457,11 @@
           "name": "White",
           "slug": "white",
           "color": "#fff"
+        },
+        {
+          "name": "Ink",
+          "slug": "ink",
+          "color": "#ebeef8"
         }
       ]
     },

@@ -283,19 +283,19 @@ $accreditedDevelopers = $accreditedDevelopers ?? [];
     </div>
 
     @php
-    $managersList     = $managers ?? array_values(array_filter($teamRoster, fn($m) => ($m['tier'] ?? '') === 'manager'));
-    $staffList        = $staffs   ?? array_values(array_filter($teamRoster, fn($m) => ($m['tier'] ?? '') === 'staff'));
-    $companions       = array_merge($managersList, $staffList);
+    $managersList = $managers ?? array_values(array_filter($teamRoster, fn($m) => ($m['tier'] ?? '') === 'manager'));
+    $staffList = $staffs ?? array_values(array_filter($teamRoster, fn($m) => ($m['tier'] ?? '') === 'staff'));
+    $companions = array_merge($managersList, $staffList);
     $companionPreview = array_slice($companions, 0, 14);
-    $managersCount    = count($managersList);
-    $staffsCount      = count($staffList);
-    $totalCompanions  = $managersCount + $staffsCount;
+    $managersCount = count($managersList);
+    $staffsCount = count($staffList);
+    $totalCompanions = $managersCount + $staffsCount;
     @endphp
 
     @if ($totalCompanions > 0)
     <div class="reveal team-along-with"
       style="margin-top:72px;padding:40px 28px;border-top:1px solid var(--line-2);border-bottom:1px solid var(--line-2);text-align:center">
-      <span class="eyebrow">…along with</span>
+      <span class="eyebrow-center">Along with Planetario Managers & Staffs</span>
       <h3 class="h2" style="margin-top:12px;font-size:clamp(22px,2.6vw,36px)">
         <em data-countup="{{ $managersCount }}">{{ $managersCount }}</em> Planetario Managers
         <span style="color:var(--line-2);margin:0 .35em">·</span>
