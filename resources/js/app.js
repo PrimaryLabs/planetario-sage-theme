@@ -2,6 +2,37 @@
    Planetario — front-end interactions
    ============================================================ */
 
+// Dark / light theme toggle.
+// Effective mode resolution: localStorage > admin default > OS preference.
+// The preload script in <head> already applies stored localStorage to <html data-theme>
+// before paint, so this just handles the click and keeps storage in sync.
+const themeToggle = document.getElementById("theme-toggle");
+if (themeToggle) {
+	const html = document.documentElement;
+	const preload = document.getElementById("planetario-theme-preload");
+	const adminDefault = (preload && preload.dataset.default) || "auto";
+
+	const osLight = () =>
+		window.matchMedia &&
+		window.matchMedia("(prefers-color-scheme: light)").matches;
+
+	const currentMode = () => {
+		const explicit = html.getAttribute("data-theme");
+		if (explicit === "dark" || explicit === "light") return explicit;
+		if (adminDefault === "dark" || adminDefault === "light")
+			return adminDefault;
+		return osLight() ? "light" : "dark";
+	};
+
+	themeToggle.addEventListener("click", () => {
+		const next = currentMode() === "dark" ? "light" : "dark";
+		html.setAttribute("data-theme", next);
+		try {
+			localStorage.setItem("planetarioTheme", next);
+		} catch (e) {}
+	});
+}
+
 // Nav scroll state
 const nav = document.querySelector(".nav");
 if (nav) {

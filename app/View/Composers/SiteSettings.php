@@ -31,9 +31,10 @@ class SiteSettings extends Composer
 
     public static function colors(): array
     {
-        $out = [];
-        foreach (array_keys(\App\Admin\ThemeColorsPage::DEFAULTS) as $key) {
-            $out[$key] = \App\Admin\ThemeColorsPage::get($key);
+        $out = ['dark' => [], 'light' => [], 'defaultMode' => \App\Admin\ThemeColorsPage::defaultMode()];
+        foreach (\App\Admin\ThemeColorsPage::KEYS as $key) {
+            $out['dark'][$key]  = \App\Admin\ThemeColorsPage::get($key, 'dark');
+            $out['light'][$key] = \App\Admin\ThemeColorsPage::get($key, 'light');
         }
         return $out;
     }

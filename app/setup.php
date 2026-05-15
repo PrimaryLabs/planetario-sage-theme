@@ -152,6 +152,8 @@ add_action('after_setup_theme', function () {
 
 /**
  * Inject Site Settings → Theme Colors as :root CSS variable overrides.
+ * Emits both dark and light palettes; OS preference wins by default, and
+ * `<html data-theme="dark|light">` forces a specific mode.
  * Matches the alias variables defined in resources/css/app.css @layer base.
  */
 add_action('wp_head', function () {
@@ -167,31 +169,61 @@ add_action('wp_head', function () {
             . ', ' . (int) hexdec(substr($hex, 4, 2));
     };
 
-    $map = [
-        '--bg'       => $colors['bg'],
-        '--bg-2'     => $colors['bg_2'],
-        '--bg-3'     => $colors['bg_3'],
-        '--line'     => $colors['line'],
-        '--line-2'   => $colors['line_2'],
-        '--ink'      => $colors['ink'],
-        '--ink-2'    => $colors['ink_2'],
-        '--ink-3'    => $colors['ink_3'],
-        '--accent'   => $colors['accent'],
-        '--accent-2' => $colors['accent_2'],
-        '--danger'   => $colors['danger'],
-    ];
+    $buildVars = static function (array $c) use ($hexToRgb): string {
+        $map = [
+            '--bg'       => $c['bg'],
+            '--bg-2'     => $c['bg_2'],
+            '--bg-3'     => $c['bg_3'],
+            '--line'     => $c['line'],
+            '--line-2'   => $c['line_2'],
+            '--ink'      => $c['ink'],
+            '--ink-2'    => $c['ink_2'],
+            '--ink-3'    => $c['ink_3'],
+            '--accent'   => $c['accent'],
+            '--accent-2' => $c['accent_2'],
+            '--danger'   => $c['danger'],
+        ];
+        $lines = [];
+        foreach ($map as $var => $val) {
+            $lines[] = "{$var}: {$val};";
+        }
+        $lines[] = '--bg-rgb: ' . $hexToRgb($c['bg']) . ';';
+        $lines[] = '--accent-soft: ' . $c['accent'] . '22;';
+        return implode('', $lines);
+    };
 
-    $lines = [];
-    foreach ($map as $var => $val) {
-        $lines[] = "{$var}: {$val};";
+    $dark        = $buildVars($colors['dark']);
+    $light       = $buildVars($colors['light']);
+    $defaultMode = $colors['defaultMode'] ?? 'auto';
+
+    if ($defaultMode === 'light') {
+        $css  = ":root{{$light}}";
+        $css .= ":root[data-theme=\"dark\"]{{$dark}}";
+        $css .= ":root[data-theme=\"light\"]{{$light}}";
+    } elseif ($defaultMode === 'dark') {
+        $css  = ":root{{$dark}}";
+        $css .= ":root[data-theme=\"dark\"]{{$dark}}";
+        $css .= ":root[data-theme=\"light\"]{{$light}}";
+    } else {
+        $css  = ":root{{$dark}}";
+        $css .= "@media (prefers-color-scheme: light){:root{{$light}}}";
+        $css .= ":root[data-theme=\"dark\"]{{$dark}}";
+        $css .= ":root[data-theme=\"light\"]{{$light}}";
     }
-    $lines[] = '--bg-rgb: ' . $hexToRgb($colors['bg']) . ';';
-    $lines[] = '--accent-soft: ' . $colors['accent'] . '22;';
-
-    $css = ':root{' . implode('', $lines) . '}';
 
     echo "<style id=\"planetario-theme-colors\">{$css}</style>\n";
 }, 20);
+
+/**
+ * Preload visitor's theme preference before paint, so [data-theme] is on <html>
+ * before the CSS variables resolve. Avoids FOUC when localStorage overrides
+ * the admin default.
+ */
+add_action('wp_head', function () {
+    $defaultMode = \App\Admin\ThemeColorsPage::defaultMode();
+    $js = "(function(){try{var s=localStorage.getItem('planetarioTheme');if(s==='dark'||s==='light'){document.documentElement.setAttribute('data-theme',s);}}catch(e){}})();";
+    echo "<script id=\"planetario-theme-preload\" data-default=\"" . \esc_attr($defaultMode) . "\">{$js}</script>\n";
+}, 1);
 
 /**
  * Handle contact form submission.
