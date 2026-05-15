@@ -2,36 +2,34 @@
 
 @section('content')
 
-{{-- Intro --}}
-<section class="section" style="padding-top:140px">
-  <div class="container" style="position:relative">
-    <x-orbit-deco style="right:-260px;top:-40px;opacity:.3" />
+{{-- Intro — Tier 1 full-bleed hero --}}
+<section class="page-hero">
+  @if ($aboutIntro['imageUrl'])
+    <div class="page-hero__bg">
+      <img src="{{ $aboutIntro['imageUrl'] }}" alt="{{ $aboutIntro['imageAlt'] }}" aria-hidden="true">
+    </div>
+  @endif
+  <div class="page-hero__overlay"></div>
+  <x-orbit-deco style="right:-260px;top:-40px;opacity:.3" />
+
+  <div class="container page-hero__inner">
     @if ($aboutIntro['eyebrow'])
       <span class="eyebrow">{{ $aboutIntro['eyebrow'] }}</span>
     @endif
     <h1 class="display" style="margin-top:18px;max-width:18ch">
       {{ $aboutIntro['headlineLead'] }}
-      @if ($aboutIntro['headlineEm']) <em>{{ $aboutIntro['headlineEm'] }}</em>@endif
-      @if ($aboutIntro['headlineTrail']) {{ $aboutIntro['headlineTrail'] }}@endif
+      @if ($aboutIntro['headlineEm'])
+        <em>{{ $aboutIntro['headlineEm'] }}</em>
+      @endif
+      @if ($aboutIntro['headlineTrail'])
+        {{ $aboutIntro['headlineTrail'] }}
+      @endif
     </h1>
     @if ($aboutIntro['lead'])
       <p class="lead" style="margin-top:28px;max-width:60ch">{{ $aboutIntro['lead'] }}</p>
     @endif
   </div>
 </section>
-
-{{-- Landscape image --}}
-@if ($aboutIntro['imageUrl'])
-  <section style="padding:0 0 60px">
-    <div class="container">
-      <div class="reveal" style="aspect-ratio:21/9;border-radius:14px;overflow:hidden;border:1px solid var(--line)">
-        <img src="{{ $aboutIntro['imageUrl'] }}"
-          alt="{{ $aboutIntro['imageAlt'] }}"
-          style="width:100%;height:100%;object-fit:cover;filter:brightness(.85)">
-      </div>
-    </div>
-  </section>
-@endif
 
 {{-- Vision / Mission --}}
 <section class="section" style="padding-top:0">

@@ -2,26 +2,34 @@
 
 @section('content')
 
-<section class="section" style="padding-top:140px">
-  <div class="container" style="position:relative">
-    <x-orbit-deco style="right:-260px;top:-40px;opacity:.25" />
+{{-- Intro — Tier 1 full-bleed hero --}}
+@php
+  $contactHeroImage = 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1600&h=900&fit=crop&q=80';
+@endphp
+<section class="page-hero">
+  <div class="page-hero__bg">
+    <img src="{{ $contactHeroImage }}" alt="" aria-hidden="true">
+  </div>
+  <div class="page-hero__overlay"></div>
+  <x-orbit-deco style="right:-260px;top:-40px;opacity:.25" />
 
+  <div class="container page-hero__inner">
     @if ($pageIntro['eyebrow'])
-    <span class="eyebrow">{{ $pageIntro['eyebrow'] }}</span>
+      <span class="eyebrow">{{ $pageIntro['eyebrow'] }}</span>
     @endif
 
     <h1 class="display" style="margin-top:18px;max-width:18ch">
       {{ $pageIntro['headlineLead'] }}
       @if ($pageIntro['headlineEm'])
-      <em>{{ $pageIntro['headlineEm'] }}</em>
+        <em>{{ $pageIntro['headlineEm'] }}</em>
       @endif
       @if ($pageIntro['headlineTrail'])
-      {{ $pageIntro['headlineTrail'] }}
+        {{ $pageIntro['headlineTrail'] }}
       @endif
     </h1>
 
     @if ($pageIntro['lead'])
-    <p class="lead" style="margin-top:22px;max-width:60ch">{{ $pageIntro['lead'] }}</p>
+      <p class="lead" style="margin-top:22px;max-width:60ch">{{ $pageIntro['lead'] }}</p>
     @endif
   </div>
 </section>

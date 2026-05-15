@@ -64,14 +64,15 @@ class Team extends Composer
         $tier  = is_array($terms) && ! empty($terms) ? (string) $terms[0]->name : '';
 
         return [
-            'name'   => $post->post_title,
-            'role'   => (string) \get_field('team_title', $post->ID),
-            'tier'   => $tier ?: 'staff',
-            'region' => (string) (\get_field('team_region', $post->ID) ?: 'all'),
-            'bio'    => (string) \get_field('team_bio', $post->ID),
-            'photo'  => $photoUrl,
-            'email'  => (string) \get_field('team_email', $post->ID),
-            'linkedin' => (string) \get_field('team_linkedin', $post->ID),
+            'name'             => $post->post_title,
+            'role'             => (string) \get_field('team_title', $post->ID),
+            'tier'             => $tier ?: 'staff',
+            'region'           => (string) (\get_field('team_region', $post->ID) ?: 'all'),
+            'bio'              => (string) \get_field('team_bio', $post->ID),
+            'photo'            => $photoUrl,
+            'email'            => (string) \get_field('team_email', $post->ID),
+            'linkedin'         => (string) \get_field('team_linkedin', $post->ID),
+            'managing_broker'  => (bool) \get_field('team_managing_broker', $post->ID),
         ];
     }
 

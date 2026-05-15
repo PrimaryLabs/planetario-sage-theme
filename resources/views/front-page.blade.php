@@ -7,7 +7,9 @@ $properties = $featuredProperties ?? array_slice(StaticData::properties(), 0, 6)
 $servicesData = $site['services'] ?? null;
 $services = $servicesData['items'] ?? array_map(fn($s) => ['number' => $s['num'], 'title' => $s['title'], 'description' => $s['desc']], StaticData::services());
 $testimonialItems = $testimonialsHighlights ?? array_slice(StaticData::testimonials(), 0, 2);
-$boardMembers = $boardMembers ?? array_values(array_filter($team ?? StaticData::team(), fn($m) => ($m['tier'] ?? '') === 'founder'));
+$teamRoster = $team ?? StaticData::team();
+$boardMembers = $boardMembers ?? array_values(array_filter($teamRoster, fn($m) => ($m['tier'] ?? '') === 'founder'));
+$managingBrokers = $managingBrokers ?? array_values(array_filter($teamRoster, fn($m) => ($m['tier'] ?? '') === 'broker' && ! empty($m['managing_broker'])));
 @endphp
 
 {{-- Hero --}}
@@ -349,6 +351,41 @@ $boardMembers = $boardMembers ?? array_values(array_filter($team ?? StaticData::
     }
   </style>
 </section>
+
+{{-- Managing Brokers --}}
+@if (! empty($managingBrokers))
+<section class="section" style="padding-top:0">
+  <div class="container" style="text-align:center">
+    <div class="section-head-col">
+      <div class="reveal flex flex-col items-center">
+        <span class="eyebrow">Salesfloor</span>
+        <h2 class="h2" style="margin-top:14px">
+          Managing <em>Brokers.</em>
+        </h2>
+      </div>
+    </div>
+
+    <div class="stagger-children team-grid team-grid--founders" style="margin-top:36px">
+      @foreach ($managingBrokers as $member)
+        <div class="team-card team-card--featured">
+          <div class="media">
+            <img src="{{ $member['photo'] ?? ('https://i.pravatar.cc/500?u=' . urlencode($member['name'])) }}"
+              alt="{{ esc_attr($member['name']) }}"
+              loading="lazy">
+          </div>
+          <div class="body">
+            <div class="name">{{ $member['name'] }}</div>
+            <div class="role">{{ $member['role'] }}</div>
+            @if (! empty($member['bio']))
+              <p class="bio">{{ $member['bio'] }}</p>
+            @endif
+          </div>
+        </div>
+      @endforeach
+    </div>
+  </div>
+</section>
+@endif
 
 {{-- Testimonials snippet --}}
 <section class="section" style="padding-top:0">

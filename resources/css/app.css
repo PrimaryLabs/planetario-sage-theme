@@ -593,14 +593,14 @@
 		background:
 			radial-gradient(
 				ellipse at 20% 100%,
-				rgba(6, 13, 31, 0.95),
+				rgba(var(--bg-rgb), 0.95),
 				transparent 60%
 			),
 			linear-gradient(
 				180deg,
-				rgba(6, 13, 31, 0.5) 0%,
-				rgba(6, 13, 31, 0.2) 35%,
-				rgba(6, 13, 31, 0.95) 100%
+				rgba(var(--bg-rgb), 0.5) 0%,
+				rgba(var(--bg-rgb), 0.2) 35%,
+				rgba(var(--bg-rgb), 0.95) 100%
 			);
 	}
 	.hero-inner {
@@ -822,7 +822,7 @@
 		position: absolute;
 		top: 14px;
 		left: 14px;
-		background: rgba(6, 13, 31, 0.7);
+		background: rgba(var(--bg-rgb), 0.7);
 		backdrop-filter: blur(8px);
 		border: 1px solid var(--line-2);
 		font-family: var(--font-mono);
@@ -925,21 +925,24 @@
 	}
 	.feature .bg-icon {
 		position: absolute;
-		right: -28px;
-		bottom: -32px;
-		width: 120px;
-		height: 120px;
+		right: -48px;
+		bottom: -48px;
+		width: 188px;
+		height: 188px;
+		padding: 50px;
 		color: var(--accent);
-		opacity: 0.07;
+		opacity: 0.1;
 		pointer-events: none;
 		z-index: 0;
+		background: var(--bg-3);
+		border-radius: 100%;
 		transition:
 			opacity 0.5s cubic-bezier(0.2, 0.7, 0.2, 1),
 			transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
 	}
 	.feature:hover .bg-icon {
-		opacity: 0.12;
-		transform: translate(-4px, -4px);
+		opacity: 0.25;
+		transform: translate(-20px, -20px);
 	}
 	.feature-body {
 		position: relative;
@@ -1921,13 +1924,12 @@
 }
 
 .vm-card--vision .vm-card__bg {
-	background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+	background: linear-gradient(160deg, var(--accent) 0%, var(--accent-2) 100%);
 	transform: translateY(-105%);
 }
 
 .vm-card--mission .vm-card__bg {
 	background: linear-gradient(160deg, var(--bg-3) 0%, var(--bg-2) 100%);
-	border: 1px solid var(--line-2);
 	transform: translateY(105%);
 }
 
@@ -2009,19 +2011,19 @@
 }
 
 .vm-card.in .vm-card__icon {
-	opacity: 0.92;
-	transform: scale(1);
+	opacity: 0.5;
+	transform: scale(1.5);
 }
 
 .vm-card__icon--vision {
-	bottom: 40px;
-	left: 48px;
+	top: 30px;
+	right: 78px;
 	color: #fff;
 }
 
 .vm-card__icon--mission {
-	top: 40px;
-	right: 56px;
+	bottom: 40px;
+	left: 86px;
 	color: var(--accent);
 }
 
@@ -2061,5 +2063,121 @@
 		transition: none !important;
 		transform: none !important;
 		opacity: 1 !important;
+	}
+}
+
+/* — Tiered page heroes — */
+/* Tier 1: full-bleed image hero (about, contact) */
+.page-hero {
+	position: relative;
+	min-height: 62vh;
+	display: flex;
+	align-items: flex-end;
+	padding: 160px 0 72px;
+	overflow: hidden;
+	isolation: isolate;
+}
+.page-hero__bg {
+	position: absolute;
+	inset: 0;
+	z-index: -2;
+}
+.page-hero__bg img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	filter: brightness(0.55) saturate(1.05);
+	animation: kenburns 18s ease-out forwards;
+	transform-origin: 55% 60%;
+}
+.page-hero__overlay {
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	background:
+		radial-gradient(
+			ellipse at 20% 100%,
+			rgba(var(--bg-rgb), 0.95),
+			transparent 60%
+		),
+		linear-gradient(
+			180deg,
+			rgba(var(--bg-rgb), 0.5) 0%,
+			rgba(var(--bg-rgb), 0.2) 35%,
+			rgba(var(--bg-rgb), 0.95) 100%
+		);
+}
+.page-hero__inner {
+	width: 100%;
+	position: relative;
+}
+.page-hero .eyebrow,
+.page-hero .display,
+.page-hero .lead {
+	opacity: 0;
+	transform: translateY(28px);
+	animation: heroIn 1s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+}
+.page-hero .eyebrow {
+	animation-delay: 0.18s;
+}
+.page-hero .display {
+	animation-delay: 0.34s;
+}
+.page-hero .lead {
+	animation-delay: 0.52s;
+}
+
+/* Tier 2: compact hero — solid brand color + subtle gradient + large heading */
+.page-hero--compact {
+	min-height: 0;
+	position: relative;
+	padding: 140px 0 56px;
+	background: var(--bg-2);
+	border-bottom: 1px solid var(--line);
+	overflow: hidden;
+	isolation: isolate;
+}
+.page-hero--compact::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	background:
+		radial-gradient(
+			ellipse at 85% -20%,
+			var(--accent-soft),
+			transparent 55%
+		),
+		radial-gradient(
+			ellipse at 0% 120%,
+			rgba(var(--bg-rgb), 0.6),
+			transparent 60%
+		);
+}
+.page-hero--compact .container {
+	position: relative;
+}
+
+@media (max-width: 720px) {
+	.page-hero {
+		min-height: 52vh;
+		padding: 130px 0 56px;
+	}
+	.page-hero--compact {
+		padding: 120px 0 44px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.page-hero__bg img {
+		animation: none;
+	}
+	.page-hero .eyebrow,
+	.page-hero .display,
+	.page-hero .lead {
+		opacity: 1;
+		transform: none;
+		animation: none;
 	}
 }

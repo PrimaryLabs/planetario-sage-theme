@@ -6,26 +6,26 @@ use App\Data\StaticData;
 $stories = $stories ?? StaticData::stories();
 @endphp
 
-<section class="section" style="padding-top:140px">
-  <div class="container" style="position:relative">
-    <x-orbit-deco style="right:-220px;top:-40px;opacity:.22" />
-
+{{-- Intro — Tier 2 compact hero --}}
+<section class="page-hero page-hero--compact">
+  <x-orbit-deco style="right:-220px;top:-40px;opacity:.22" />
+  <div class="container">
     @if ($pageIntro['eyebrow'])
-    <span class="eyebrow">{{ $pageIntro['eyebrow'] }}</span>
+      <span class="eyebrow">{{ $pageIntro['eyebrow'] }}</span>
     @endif
 
     <h1 class="display" style="margin-top:18px;max-width:20ch">
       {{ $pageIntro['headlineLead'] }}
       @if ($pageIntro['headlineEm'])
-      <em>{{ $pageIntro['headlineEm'] }}</em>
+        <em>{{ $pageIntro['headlineEm'] }}</em>
       @endif
       @if ($pageIntro['headlineTrail'])
-      {{ $pageIntro['headlineTrail'] }}
+        {{ $pageIntro['headlineTrail'] }}
       @endif
     </h1>
 
     @if ($pageIntro['lead'])
-    <p class="lead" style="margin-top:22px;max-width:62ch">{{ $pageIntro['lead'] }}</p>
+      <p class="lead" style="margin-top:22px;max-width:62ch">{{ $pageIntro['lead'] }}</p>
     @endif
   </div>
 </section>

@@ -65,6 +65,15 @@ class TeamMember
                     'return_format' => 'value',
                 ],
                 [
+                    'key'          => 'field_team_managing_broker',
+                    'label'        => 'Managing Broker',
+                    'name'         => 'team_managing_broker',
+                    'type'         => 'true_false',
+                    'instructions' => 'Mark this broker as a Managing Broker. Featured in the Managing Brokers section on the home page.',
+                    'ui'           => 1,
+                    'default_value' => 0,
+                ],
+                [
                     'key'       => 'field_team_email',
                     'label'     => 'Email',
                     'name'      => 'team_email',
