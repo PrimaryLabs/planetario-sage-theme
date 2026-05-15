@@ -159,24 +159,55 @@ class FrontPage extends Composer
 
     private function stats(int $pageId): array
     {
-        $rows = function_exists('get_field') ? \get_field('hero_stats', $pageId) : null;
+        $defaults = [
+            1 => ['label' => 'Established',         'suffix' => '',   'value' => '2018'],
+            2 => ['label' => 'Transactions Closed', 'suffix' => 'B+', 'value' => '₱2.4'],
+            3 => ['label' => 'Families Placed',     'suffix' => '+',  'value' => '420'],
+            4 => ['label' => 'Developer Partners',  'suffix' => '',   'value' => '6'],
+        ];
 
-        if (! is_array($rows) || empty($rows)) {
-            return [
-                ['prefix' => '',  'value' => '2018', 'decimals' => 0, 'suffix' => '',   'label' => 'Established'],
-                ['prefix' => '₱', 'value' => '2.4',  'decimals' => 1, 'suffix' => 'B+', 'label' => 'Transactions Closed'],
-                ['prefix' => '',  'value' => '420',  'decimals' => 0, 'suffix' => '+',  'label' => 'Families Placed'],
-                ['prefix' => '',  'value' => '6',    'decimals' => 0, 'suffix' => '',   'label' => 'Developer Partners'],
+        $stats = [];
+        foreach ($defaults as $i => $fallback) {
+            $group = function_exists('get_field') ? \get_field("hero_stat_{$i}", $pageId) : null;
+            $row   = is_array($group) ? $group : [];
+
+            $label  = (string) ($row['label']  ?? $fallback['label']);
+            $value  = (string) ($row['value']  ?? $fallback['value']);
+            $suffix = (string) ($row['suffix'] ?? $fallback['suffix']);
+
+            if ($label === '' && $value === '') continue;
+
+            [$prefix, $numeric] = $this->splitValue($value);
+
+            $stats[] = [
+                'label'    => $label,
+                'prefix'   => $prefix,
+                'value'    => $numeric !== '' ? $numeric : $value,
+                'suffix'   => $suffix,
+                'decimals' => $this->countDecimals($numeric),
             ];
         }
 
-        return array_map(static fn ($row) => [
-            'prefix'   => (string) ($row['prefix'] ?? ''),
-            'value'    => (string) ($row['value'] ?? ''),
-            'decimals' => (int) ($row['decimals'] ?? 0),
-            'suffix'   => (string) ($row['suffix'] ?? ''),
-            'label'    => (string) ($row['label'] ?? ''),
-        ], $rows);
+        return $stats;
+    }
+
+    /**
+     * Split "₱2.4" → ["₱", "2.4"], "2018" → ["", "2018"].
+     */
+    private function splitValue(string $value): array
+    {
+        if (preg_match('/^(\D*)([-+]?\d+(?:\.\d+)?)/', $value, $m)) {
+            return [$m[1], $m[2]];
+        }
+        return ['', ''];
+    }
+
+    private function countDecimals(string $value): int
+    {
+        if (preg_match('/[-+]?\d+\.(\d+)/', $value, $m)) {
+            return strlen($m[1]);
+        }
+        return 0;
     }
 
     private function field(string $name, int $pageId, mixed $fallback = ''): mixed

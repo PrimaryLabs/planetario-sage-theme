@@ -338,6 +338,11 @@ class FrontPage
 
     private static function heroFields(): array
     {
+        return array_merge(self::heroBaseFields(), self::heroStatsFields());
+    }
+
+    private static function heroBaseFields(): array
+    {
         return [
             [
                 'key'           => 'field_fp_hero_eyebrow',
@@ -413,58 +418,55 @@ class FrontPage
                 'default_value' => '/contact',
                 'wrapper'       => ['width' => '50'],
             ],
-            [
-                'key'          => 'field_fp_hero_stats',
-                'label'        => 'Stats',
-                'name'         => 'hero_stats',
-                'type'         => 'repeater_field',
-                'min'          => 0,
-                'max'          => 6,
-                'layout'       => 'table',
-                'button_label' => 'Add stat',
-                'sub_fields'   => [
-                    [
-                        'key'     => 'field_fp_hero_stat_prefix',
-                        'label'   => 'Prefix',
-                        'name'    => 'prefix',
-                        'type'    => 'text',
-                        'wrapper' => ['width' => '10'],
-                    ],
-                    [
-                        'key'      => 'field_fp_hero_stat_value',
-                        'label'    => 'Value',
-                        'name'     => 'value',
-                        'type'     => 'text',
-                        'required' => 1,
-                        'wrapper'  => ['width' => '20'],
-                    ],
-                    [
-                        'key'           => 'field_fp_hero_stat_decimals',
-                        'label'         => 'Decimals',
-                        'name'          => 'decimals',
-                        'type'          => 'number',
-                        'default_value' => 0,
-                        'min'           => 0,
-                        'max'           => 4,
-                        'wrapper'       => ['width' => '15'],
-                    ],
-                    [
-                        'key'     => 'field_fp_hero_stat_suffix',
-                        'label'   => 'Suffix',
-                        'name'    => 'suffix',
-                        'type'    => 'text',
-                        'wrapper' => ['width' => '15'],
-                    ],
-                    [
-                        'key'      => 'field_fp_hero_stat_label',
-                        'label'    => 'Label',
-                        'name'     => 'label',
-                        'type'     => 'text',
-                        'required' => 1,
-                        'wrapper'  => ['width' => '40'],
-                    ],
+        ];
+    }
+
+    private static function statGroup(int $i, array $defaults): array
+    {
+        return [
+            'key'        => "field_fp_hero_stat_{$i}",
+            'label'      => "Stats {$i}",
+            'name'       => "hero_stat_{$i}",
+            'type'       => 'group',
+            'layout'     => 'block',
+            'sub_fields' => [
+                [
+                    'key'           => "field_fp_hero_stat_{$i}_label",
+                    'label'         => 'Label',
+                    'name'          => 'label',
+                    'type'          => 'text',
+                    'default_value' => $defaults['label'],
+                    'wrapper'       => ['width' => '50'],
+                ],
+                [
+                    'key'           => "field_fp_hero_stat_{$i}_suffix",
+                    'label'         => 'Suffix',
+                    'name'          => 'suffix',
+                    'type'          => 'text',
+                    'default_value' => $defaults['suffix'],
+                    'instructions'  => 'Optional. e.g. "+", "B+", " hrs".',
+                    'wrapper'       => ['width' => '25'],
+                ],
+                [
+                    'key'           => "field_fp_hero_stat_{$i}_value",
+                    'label'         => 'Value',
+                    'name'          => 'value',
+                    'type'          => 'text',
+                    'default_value' => $defaults['value'],
+                    'instructions'  => 'Numeric, e.g. "2018", "2.4", "420". Decimals are auto-detected.',
+                    'wrapper'       => ['width' => '25'],
                 ],
             ],
+        ];
+    }
+
+    private static function heroStatsFields(): array
+    {
+        return [
+            self::statGroup(1, ['label' => 'Established',         'suffix' => '',   'value' => '2018']),
+            self::statGroup(2, ['label' => 'Transactions Closed', 'suffix' => 'B+', 'value' => '₱2.4']),
+            self::statGroup(3, ['label' => 'Families Placed',     'suffix' => '+',  'value' => '420']),
+            self::statGroup(4, ['label' => 'Developer Partners',  'suffix' => '',   'value' => '6']),
         ];
     }
 }
