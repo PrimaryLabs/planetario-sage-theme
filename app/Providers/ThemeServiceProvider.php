@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Admin\AcfMetaboxUi;
 use App\Fields\AboutPage;
 use App\Fields\Developer as DeveloperFields;
 use App\Fields\FrontPage;
@@ -55,5 +56,6 @@ class ThemeServiceProvider extends SageServiceProvider
         \add_action('acf/init', [AboutPage::class, 'register']);
         \add_action('acf/init', [PageIntros::class, 'register']);
         \add_action('acf/init', [PageAdminLinks::class, 'register']);
+        \add_action('admin_init', [AcfMetaboxUi::class, 'register']);
     }
 }
