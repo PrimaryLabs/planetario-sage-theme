@@ -119,7 +119,7 @@ class Story
                     'key'          => 'field_story_stats',
                     'label'        => 'Stats',
                     'name'         => 'story_stats',
-                    'type'         => 'repeater',
+                    'type'         => 'repeater_field',
                     'min'          => 0,
                     'max'          => 6,
                     'layout'       => 'table',

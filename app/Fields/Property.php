@@ -139,7 +139,7 @@ class Property
                 'key'          => 'field_prop_features',
                 'label'        => 'Features',
                 'name'         => 'property_features',
-                'type'         => 'repeater',
+                'type'         => 'repeater_field',
                 'min'          => 0,
                 'layout'       => 'table',
                 'button_label' => 'Add feature',

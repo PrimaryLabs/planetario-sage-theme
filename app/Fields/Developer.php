@@ -64,7 +64,7 @@ class Developer
                     'key'          => 'field_developer_locations',
                     'label'        => 'Locations',
                     'name'         => 'developer_locations',
-                    'type'         => 'repeater',
+                    'type'         => 'repeater_field',
                     'min'          => 0,
                     'layout'       => 'table',
                     'button_label' => 'Add location',

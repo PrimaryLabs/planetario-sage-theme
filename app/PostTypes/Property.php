@@ -126,10 +126,11 @@ class Property
             }
 
             if (! empty($row['features'])) {
-                \update_post_meta($postId, 'property_features', count($row['features']));
-                foreach (array_values($row['features']) as $i => $feature) {
-                    \update_post_meta($postId, "property_features_{$i}_feature", $feature);
-                }
+                \update_post_meta(
+                    $postId,
+                    'property_features',
+                    array_map(static fn ($f) => ['feature' => (string) $f], $row['features']),
+                );
             }
 
             $created++;
