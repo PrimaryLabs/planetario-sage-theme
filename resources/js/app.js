@@ -87,7 +87,7 @@ document.querySelectorAll("[data-countup]").forEach((el) => {
 						prefix +
 						(decimals > 0
 							? n.toFixed(decimals)
-							: Math.round(n).toLocaleString()) +
+							: String(Math.round(n))) +
 						suffix;
 					if (p < 1) requestAnimationFrame(tick);
 				};
