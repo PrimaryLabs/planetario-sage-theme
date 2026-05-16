@@ -56,18 +56,36 @@ class CompanyEvents extends Composer
         $items   = [];
         if (is_array($gallery)) {
             foreach ($gallery as $row) {
-                $file = $row['file'] ?? null;
-                if (! is_array($file) || empty($file['url'])) continue;
+                $mediaType = (string) ($row['media_type'] ?? 'image') ?: 'image';
+                $mediaUrl  = (string) ($row['media_url'] ?? '');
+                $caption   = (string) ($row['caption'] ?? '');
 
-                $mime = (string) ($file['mime_type'] ?? $file['type'] ?? '');
-                $kind = str_starts_with($mime, 'video/') ? 'video' : 'image';
+                if ($mediaType === 'youtube') {
+                    $embed = $this->youtubeEmbedUrl((string) ($row['youtube_url'] ?? ''));
+                    if ($embed === '') continue;
+
+                    $items[] = [
+                        'kind'    => 'youtube',
+                        'url'     => $mediaUrl,
+                        'embed'   => $embed,
+                        'mime'    => '',
+                        'alt'     => $caption,
+                        'caption' => $caption,
+                    ];
+                    continue;
+                }
+
+                if ($mediaUrl === '') continue;
+
+                $kind = $mediaType === 'video' ? 'video' : 'image';
 
                 $items[] = [
                     'kind'    => $kind,
-                    'url'     => (string) $file['url'],
-                    'mime'    => $mime ?: ($kind === 'video' ? 'video/mp4' : 'image/jpeg'),
-                    'alt'     => (string) ($file['alt'] ?? $file['title'] ?? ''),
-                    'caption' => (string) ($row['caption'] ?? ''),
+                    'url'     => $mediaUrl,
+                    'embed'   => '',
+                    'mime'    => $kind === 'video' ? $this->videoMime($mediaUrl) : 'image/jpeg',
+                    'alt'     => $caption,
+                    'caption' => $caption,
                 ];
             }
         }
@@ -82,5 +100,33 @@ class CompanyEvents extends Composer
             'cover'     => $coverUrl,
             'gallery'   => $items,
         ];
+    }
+
+    private function youtubeEmbedUrl(string $url): string
+    {
+        $url = trim($url);
+        if ($url === '') return '';
+
+        if (preg_match('#youtu\.be/([A-Za-z0-9_-]{6,})#', $url, $m)) {
+            return 'https://www.youtube.com/embed/' . $m[1];
+        }
+        if (preg_match('#youtube\.com/(?:watch\?(?:.*&)?v=|embed/|shorts/|v/)([A-Za-z0-9_-]{6,})#', $url, $m)) {
+            return 'https://www.youtube.com/embed/' . $m[1];
+        }
+        if (preg_match('#^[A-Za-z0-9_-]{6,}$#', $url)) {
+            return 'https://www.youtube.com/embed/' . $url;
+        }
+        return '';
+    }
+
+    private function videoMime(string $url): string
+    {
+        $ext = strtolower(pathinfo(parse_url($url, PHP_URL_PATH) ?: '', PATHINFO_EXTENSION));
+
+        return match ($ext) {
+            'webm'        => 'video/webm',
+            'mov', 'm4v'  => 'video/quicktime',
+            default       => 'video/mp4',
+        };
     }
 }

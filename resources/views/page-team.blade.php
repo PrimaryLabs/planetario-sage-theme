@@ -4,12 +4,12 @@
 @php
 use App\Data\StaticData;
 
-$team             = $team ?? StaticData::team();
-$founders         = $founders ?? array_values(array_filter($team, fn($m) => ($m['tier'] ?? '') === 'founder'));
-$managingBrokers  = $managingBrokers ?? array_values(array_filter($team, fn($m) => ($m['tier'] ?? '') === 'broker' && ! empty($m['managing_broker'])));
-$brokers          = array_values(array_filter($team, fn($m) => ($m['tier'] ?? '') === 'broker' && empty($m['managing_broker'])));
-$managers         = $managers ?? array_values(array_filter($team, fn($m) => ($m['tier'] ?? '') === 'manager'));
-$staffs           = $staffs   ?? array_values(array_filter($team, fn($m) => ($m['tier'] ?? '') === 'staff'));
+$team = $team ?? StaticData::team();
+$founders = $founders ?? array_values(array_filter($team, fn($m) => ($m['tier'] ?? '') === 'founder'));
+$managingBrokers = $managingBrokers ?? array_values(array_filter($team, fn($m) => ($m['tier'] ?? '') === 'broker' && ! empty($m['managing_broker'])));
+$brokers = array_values(array_filter($team, fn($m) => ($m['tier'] ?? '') === 'broker' && empty($m['managing_broker'])));
+$managers = $managers ?? array_values(array_filter($team, fn($m) => ($m['tier'] ?? '') === 'manager'));
+$staffs = $staffs ?? array_values(array_filter($team, fn($m) => ($m['tier'] ?? '') === 'staff'));
 @endphp
 
 {{-- Intro — Tier 2 compact hero --}}
@@ -61,7 +61,7 @@ $staffs           = $staffs   ?? array_values(array_filter($team, fn($m) => ($m[
           <span class="w-1/2 h-[0.5px] bg-ink/20"></span>
           <div class="role tracking-wide font-medium! text-xs!">{{ $member['role'] }}</div>
           @if (! empty($member['bio']))
-          <p class="bio border-t-0 absolute top-14">{{ $member['bio'] }}</p>
+          <p class="bio border-t-0 absolute top-10 text-xs">{{ $member['bio'] }}</p>
           @endif
         </div>
       </div>

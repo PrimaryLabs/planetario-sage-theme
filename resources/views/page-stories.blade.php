@@ -136,7 +136,16 @@ $stories = $stories ?? StaticData::stories();
           @if (! empty($event['gallery']))
           <div class="event-gallery" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:6px">
             @foreach ($event['gallery'] as $item)
-            @if ($item['kind'] === 'video')
+            @if ($item['kind'] === 'youtube')
+            <div style="position:relative;aspect-ratio:1;border-radius:8px;overflow:hidden;border:1px solid var(--line);background:#000">
+              <iframe src="{{ $item['embed'] }}"
+                title="{{ esc_attr($item['caption'] ?: $event['title']) }}"
+                loading="lazy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen
+                style="position:absolute;inset:0;width:100%;height:100%;border:0"></iframe>
+            </div>
+            @elseif ($item['kind'] === 'video')
             <video controls playsinline preload="metadata" style="width:100%;aspect-ratio:1;border-radius:8px;border:1px solid var(--line);background:#000;object-fit:cover">
               <source src="{{ $item['url'] }}" type="{{ $item['mime'] }}">
             </video>
