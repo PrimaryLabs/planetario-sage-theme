@@ -146,7 +146,8 @@ $stories = $stories ?? StaticData::stories();
                 style="position:absolute;inset:0;width:100%;height:100%;border:0"></iframe>
             </div>
             @elseif ($item['kind'] === 'video')
-            <video controls playsinline preload="metadata" style="width:100%;aspect-ratio:1;border-radius:8px;border:1px solid var(--line);background:#000;object-fit:cover">
+            @php($poster = $item['poster'] ?? '')
+            <video controls playsinline preload="metadata" poster="{{ $poster }}" style="width:100%;aspect-ratio:1;border-radius:8px;border:1px solid var(--line);background:#000;object-fit:cover">
               <source src="{{ $item['url'] }}" type="{{ $item['mime'] }}">
             </video>
             @else

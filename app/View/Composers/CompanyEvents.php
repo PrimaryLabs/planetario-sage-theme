@@ -57,34 +57,58 @@ class CompanyEvents extends Composer
         if (is_array($gallery)) {
             foreach ($gallery as $row) {
                 $mediaType = (string) ($row['media_type'] ?? 'image') ?: 'image';
-                $mediaUrl  = (string) ($row['media_url'] ?? '');
                 $caption   = (string) ($row['caption'] ?? '');
 
-                if ($mediaType === 'youtube') {
-                    $embed = $this->youtubeEmbedUrl((string) ($row['youtube_url'] ?? ''));
-                    if ($embed === '') continue;
+                $image    = $row['image'] ?? null;
+                $imageUrl = is_array($image) ? (string) ($image['url'] ?? '') : '';
+                if ($imageUrl === '') {
+                    $imageUrl = (string) ($row['image_url'] ?? '');
+                }
 
+                $video     = $row['video'] ?? null;
+                $videoUrl  = is_array($video) ? (string) ($video['url'] ?? '') : '';
+                $videoMime = is_array($video) ? (string) ($video['mime_type'] ?? '') : '';
+
+                $youtubeEmbed = $this->youtubeEmbedUrl((string) ($row['youtube'] ?? ''));
+
+                if ($mediaType === 'video' && $videoUrl === '') $mediaType = 'image';
+                if ($mediaType === 'youtube' && $youtubeEmbed === '') $mediaType = 'image';
+
+                if ($mediaType === 'youtube') {
                     $items[] = [
                         'kind'    => 'youtube',
-                        'url'     => $mediaUrl,
-                        'embed'   => $embed,
+                        'url'     => '',
+                        'embed'   => $youtubeEmbed,
                         'mime'    => '',
+                        'poster'  => $imageUrl,
                         'alt'     => $caption,
                         'caption' => $caption,
                     ];
                     continue;
                 }
 
-                if ($mediaUrl === '') continue;
+                if ($mediaType === 'video') {
+                    $items[] = [
+                        'kind'    => 'video',
+                        'url'     => $videoUrl,
+                        'embed'   => '',
+                        'mime'    => $videoMime ?: $this->videoMime($videoUrl),
+                        'poster'  => $imageUrl,
+                        'alt'     => $caption,
+                        'caption' => $caption,
+                    ];
+                    continue;
+                }
 
-                $kind = $mediaType === 'video' ? 'video' : 'image';
+                if ($imageUrl === '') continue;
 
                 $items[] = [
-                    'kind'    => $kind,
-                    'url'     => $mediaUrl,
+                    'kind'    => 'image',
+                    'url'     => $imageUrl,
                     'embed'   => '',
-                    'mime'    => $kind === 'video' ? $this->videoMime($mediaUrl) : 'image/jpeg',
-                    'alt'     => $caption,
+                    'mime'    => is_array($image) ? (string) ($image['mime_type'] ?? 'image/jpeg') : 'image/jpeg',
+                    'poster'  => '',
+                    'alt'     => is_array($image) ? (string) ($image['alt'] ?? $caption) : $caption,
                     'caption' => $caption,
                 ];
             }
