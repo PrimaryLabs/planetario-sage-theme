@@ -252,6 +252,11 @@ class TeamImportHandler
             \update_post_meta($postId, 'team_title',  $position);
             \update_post_meta($postId, 'team_region', $region);
 
+            $email = \sanitize_email($data['email'] ?? '');
+            $phone = \sanitize_text_field($data['phone'] ?? '');
+            if ($email !== '') \update_post_meta($postId, 'team_email', $email);
+            if ($phone !== '') \update_post_meta($postId, 'team_phone', $phone);
+
             if ($imagePath !== '') {
                 $attachId = self::sideloadImage($tempDir . '/' . $imagePath, $name);
                 if ($attachId && ! \is_wp_error($attachId)) {

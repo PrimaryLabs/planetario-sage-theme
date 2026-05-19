@@ -12,9 +12,9 @@ export default defineConfig({
 	base: "/app/themes/sage/public/build/",
 	server: {
 		host: "localhost",
-		port: 5180,
+		port: 5200,
 		strictPort: true,
-		origin: "http://localhost:5180",
+		origin: "http://localhost:5200",
 		cors: { origin: process.env.APP_URL },
 	},
 	plugins: [
