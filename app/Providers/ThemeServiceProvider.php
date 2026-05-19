@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Admin\AcfMetaboxUi;
 use App\Admin\SiteIdentityPage;
+use App\Admin\TeamImportPage;
 use App\Admin\ThemeColorsPage;
 use App\Fields\AboutPage;
 use App\Fields\CompanyEvent as CompanyEventFields;
@@ -68,5 +69,6 @@ class ThemeServiceProvider extends SageServiceProvider
         SiteIdentityPage::register();
         SiteIdentitySync::register();
         ThemeColorsPage::register();
+        TeamImportPage::register();
     }
 }
