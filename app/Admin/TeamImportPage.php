@@ -591,6 +591,82 @@ class TeamImportPage
                 background: #d4f0e4;
                 color: #1a6b47
             }
+
+            /* ── Submission overlay ── */
+            .ti-ol {
+                display: none;
+                position: fixed;
+                inset: 0;
+                background: rgba(10, 18, 40, .82);
+                z-index: 99999;
+                align-items: center;
+                justify-content: center;
+                backdrop-filter: blur(4px)
+            }
+
+            .ti-ol-card {
+                background: #fff;
+                border-radius: 16px;
+                padding: 40px 44px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+                box-shadow: 0 32px 80px rgba(0, 0, 0, .35);
+                max-width: 380px;
+                width: calc(100vw - 48px);
+                text-align: center
+            }
+
+            .ti-ol-spinner {
+                width: 52px;
+                height: 52px;
+                border: 4px solid #eef1f8;
+                border-top-color: #0c1730;
+                border-radius: 50%;
+                animation: tiSpin .75s linear infinite;
+                flex-shrink: 0
+            }
+
+            @keyframes tiSpin {
+                to {
+                    transform: rotate(360deg)
+                }
+            }
+
+            .ti-ol-title {
+                font-size: 17px;
+                font-weight: 700;
+                color: #0c1730;
+                line-height: 1.3
+            }
+
+            .ti-ol-sub {
+                font-size: 12.5px;
+                color: #64748b;
+                margin-top: -8px;
+                line-height: 1.55
+            }
+
+            .ti-ol-warn {
+                display: flex;
+                align-items: flex-start;
+                gap: 8px;
+                background: #fffbeb;
+                border: 1px solid #f5c97a;
+                border-radius: 8px;
+                padding: 11px 14px;
+                font-size: 12px;
+                color: #92610a;
+                font-weight: 500;
+                line-height: 1.5;
+                text-align: left
+            }
+
+            .ti-ol-warn svg {
+                flex-shrink: 0;
+                margin-top: 1px
+            }
         </style>
 
         <div id="ti-wrap">
@@ -603,7 +679,7 @@ class TeamImportPage
                 </span>
             </div>
 
-            <form method="post" action="<?php echo \esc_url(\admin_url('edit.php?post_type=team_member&page=' . self::MENU_SLUG)); ?>">
+            <form id="ti-review-form" method="post" action="<?php echo \esc_url(\admin_url('edit.php?post_type=team_member&page=' . self::MENU_SLUG)); ?>">
                 <?php \wp_nonce_field(self::NONCE_ACTION); ?>
                 <input type="hidden" name="_action" value="bulk_create">
                 <input type="hidden" name="token" value="<?php echo \esc_attr($token); ?>">
@@ -787,6 +863,23 @@ class TeamImportPage
             </form>
         </div>
 
+        <!-- Submission overlay -->
+        <div class="ti-ol" id="ti-ol" role="status" aria-live="assertive">
+            <div class="ti-ol-card">
+                <div class="ti-ol-spinner"></div>
+                <div class="ti-ol-title">Creating team members&hellip;</div>
+                <div class="ti-ol-sub">Processing photos and saving records.<br>This may take a moment.</div>
+                <div class="ti-ol-warn">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+                        <line x1="12" y1="9" x2="12" y2="13" />
+                        <line x1="12" y1="17" x2="12.01" y2="17" />
+                    </svg>
+                    Do not reload or close this page &mdash; you&rsquo;ll be redirected automatically when done.
+                </div>
+            </div>
+        </div>
+
         <!-- Preview modal -->
         <div class="ti-mo" id="ti-mo">
             <div class="ti-mo-card">
@@ -905,6 +998,45 @@ class TeamImportPage
                 });
                 document.addEventListener('keydown', function(e) {
                     if (e.key === 'Escape') closeModal();
+                });
+
+                // ── Fetch-based submission with full-page overlay ──
+                var isSubmitting = false;
+                var reviewForm = document.getElementById('ti-review-form');
+                var saveBtn = document.querySelector('.ti-save');
+                var ol = document.getElementById('ti-ol');
+
+                if (reviewForm && saveBtn && ol) {
+                    reviewForm.addEventListener('submit', function(e) {
+                        e.preventDefault();
+                        if (isSubmitting) return;
+
+                        isSubmitting = true;
+                        saveBtn.disabled = true;
+                        ol.style.display = 'flex';
+
+                        fetch(reviewForm.action, {
+                            method: 'POST',
+                            body: new FormData(reviewForm),
+                            credentials: 'same-origin',
+                            redirect: 'follow',
+                        }).then(function(res) {
+                            isSubmitting = false;
+                            window.location.href = res.url;
+                        }).catch(function() {
+                            isSubmitting = false;
+                            ol.style.display = 'none';
+                            saveBtn.disabled = false;
+                            alert('A network error occurred. Please try again.');
+                        });
+                    });
+                }
+
+                window.addEventListener('beforeunload', function(e) {
+                    if (isSubmitting) {
+                        e.preventDefault();
+                        e.returnValue = '';
+                    }
                 });
             })();
         </script>

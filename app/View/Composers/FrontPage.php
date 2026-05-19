@@ -18,8 +18,8 @@ class FrontPage extends Composer
 
     public function with(): array
     {
-        $members  = $this->members();
-        $byTier   = $this->groupByTier($members);
+        $members = $this->members();
+        $byTier  = $this->groupByTier($members);
         return [
             'hero'                 => $this->hero(),
             'commitment'           => $this->commitment(),
@@ -27,18 +27,13 @@ class FrontPage extends Composer
             'locations'            => $this->locations(),
             'ctaBanner'            => $this->ctaBanner(),
             'accreditedDevelopers' => $this->accreditedDevelopers(),
-            'team'         => $members,
-            'founders'     => $byTier['founder'] ?? [],
-            'managers'     => $byTier['manager'] ?? [],
-            'managingBrokers' => $members ? array_filter($members, fn($m) => $m['managing_broker']) : [],
-            'brokers'      => $byTier['broker'] ?? [],
-            'staffs'       => $byTier['staff'] ?? [],
-            'teamGroups'   => [
-                ['key' => 'managers', 'label' => 'Managers', 'eyebrow' => 'Leadership', 'members' => $byTier['manager'] ?? []],
-                ['key' => 'managing_broker', 'label' => 'Managing Brokers', 'eyebrow' => 'Salesfloor', 'members' => $byTier['managing_broker'] ?? []],
-                ['key' => 'brokers',  'label' => 'Brokers',  'eyebrow' => 'Salesfloor', 'members' => $byTier['broker'] ?? []],
-                ['key' => 'staffs',   'label' => 'Staff',    'eyebrow' => 'Support',    'members' => $byTier['staff'] ?? []],
-            ],
+            'team'             => $members,
+            'boardOfDirectors' => $byTier['Board of Directors'] ?? [],
+            'brokers'          => $byTier['broker'] ?? [],
+            'boholManagers'    => $byTier['Bohol Managers'] ?? [],
+            'cebuManagers'     => $byTier['Cebu Managers'] ?? [],
+            'boholStaffs'      => $byTier['Bohol Staff'] ?? [],
+            'cebuStaffs'       => $byTier['Cebu Staff'] ?? [],
         ];
     }
 

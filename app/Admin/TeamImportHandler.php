@@ -6,6 +6,11 @@ class TeamImportHandler
 {
     private const IMAGE_EXTS   = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
     private const CATEGORY_MAP = ['BOD' => 'Board of Directors'];
+    private const POSITION_MAP = [
+        'DM'  => 'Division Manager',
+        'SDM' => 'Senior Division Manager',
+        'SM'  => 'Sales Manager',
+    ];
 
     // -------------------------------------------------------------------------
     // Extraction + scanning
@@ -175,8 +180,12 @@ class TeamImportHandler
 
     private static function formatPosition(string $subfolder): string
     {
+        $upper = strtoupper(trim($subfolder));
+        if (isset(self::POSITION_MAP[$upper])) {
+            return self::POSITION_MAP[$upper];
+        }
+
         $name = trim($subfolder);
-        // Keep pure-uppercase abbreviations as-is (DM, SDM, SM, etc.)
         if (preg_match('/^[A-Z]+$/', $name)) {
             return $name;
         }

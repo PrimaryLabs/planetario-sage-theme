@@ -21,16 +21,13 @@ class Team extends Composer
         $byTier   = $this->groupByTier($members);
 
         return [
-            'team'         => $members,
-            'founders'     => $byTier['founder'] ?? [],
-            'managers'     => $byTier['manager'] ?? [],
-            'brokers'      => $byTier['broker'] ?? [],
-            'staffs'       => $byTier['staff'] ?? [],
-            'teamGroups'   => [
-                ['key' => 'managers', 'label' => 'Managers', 'eyebrow' => 'Leadership', 'members' => $byTier['manager'] ?? []],
-                ['key' => 'brokers',  'label' => 'Brokers',  'eyebrow' => 'Salesfloor', 'members' => $byTier['broker'] ?? []],
-                ['key' => 'staffs',   'label' => 'Staff',    'eyebrow' => 'Support',    'members' => $byTier['staff'] ?? []],
-            ],
+            'team'             => $members,
+            'boardOfDirectors' => $byTier['Board of Directors'] ?? [],
+            'brokers'          => $byTier['broker'] ?? [],
+            'boholManagers'    => $byTier['Bohol Managers'] ?? [],
+            'cebuManagers'     => $byTier['Cebu Managers'] ?? [],
+            'boholStaffs'      => $byTier['Bohol Staff'] ?? [],
+            'cebuStaffs'       => $byTier['Cebu Staff'] ?? [],
         ];
     }
 
@@ -71,6 +68,7 @@ class Team extends Composer
             'bio'              => (string) \get_field('team_bio', $post->ID),
             'photo'            => $photoUrl,
             'email'            => (string) \get_field('team_email', $post->ID),
+            'phone'            => (string) \get_field('team_phone', $post->ID),
             'linkedin'         => (string) \get_field('team_linkedin', $post->ID),
             'managing_broker'  => (bool) \get_field('team_managing_broker', $post->ID),
         ];
