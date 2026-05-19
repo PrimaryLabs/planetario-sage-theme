@@ -1224,6 +1224,169 @@
 		margin-top: 2px;
 	}
 
+	/* — Testimonials slider — */
+	.testi-slider {
+		display: flex;
+		align-items: center;
+		gap: 20px;
+		max-width: 800px;
+		margin: 0 auto;
+	}
+	.testi-track {
+		position: relative;
+		flex: 1;
+		overflow: hidden;
+	}
+	.testi-slide {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+		gap: 16px;
+		padding: 52px 48px 44px;
+		background: var(--bg-2);
+		border: 1px solid var(--line);
+		border-radius: var(--r-lg);
+		box-sizing: border-box;
+		opacity: 0;
+		pointer-events: none;
+		transition:
+			opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+			transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+	}
+	.testi-quote-icon {
+		font-family: var(--font-display);
+		font-size: 100px;
+		line-height: 0.55;
+		color: var(--accent);
+		opacity: 0.22;
+		display: block;
+		transition:
+			opacity 0.6s ease,
+			transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+	}
+	.testi-stars {
+		color: var(--accent);
+		font-size: 15px;
+		letter-spacing: 5px;
+		opacity: 0.7;
+	}
+	.testi-quote {
+		font-family: var(--font-display);
+		font-size: clamp(18px, 2.1vw, 22px);
+		line-height: 1.45;
+		font-style: italic;
+		font-weight: 400;
+		color: var(--ink);
+		margin: 0;
+		max-width: 54ch;
+	}
+	.testi-who {
+		display: flex;
+		align-items: center;
+		gap: 14px;
+		padding-top: 20px;
+		border-top: 1px solid var(--line);
+		width: 100%;
+		justify-content: center;
+		margin-top: 4px;
+	}
+	.testi-avatar {
+		width: 52px;
+		height: 52px;
+		border-radius: 50%;
+		object-fit: cover;
+		border: 2px solid var(--line-2);
+		transition: border-color 0.4s ease, box-shadow 0.4s ease;
+		flex-shrink: 0;
+	}
+	.testi-name {
+		font-size: 14.5px;
+		font-weight: 600;
+		color: var(--ink);
+		text-align: left;
+	}
+	.testi-role {
+		font-family: var(--font-mono);
+		font-size: 10.5px;
+		letter-spacing: 0.15em;
+		text-transform: uppercase;
+		color: var(--ink-3);
+		margin-top: 2px;
+		text-align: left;
+	}
+	/* Nav arrows */
+	.testi-nav {
+		flex-shrink: 0;
+		width: 46px;
+		height: 46px;
+		border-radius: 50%;
+		border: 1px solid var(--line);
+		background: var(--bg-2);
+		color: var(--ink-2);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+		transition:
+			background 0.25s ease,
+			border-color 0.25s ease,
+			color 0.25s ease,
+			transform 0.2s ease,
+			box-shadow 0.25s ease;
+		padding: 0;
+	}
+	.testi-nav:hover {
+		background: var(--accent);
+		border-color: var(--accent);
+		color: var(--bg);
+		transform: scale(1.1);
+		box-shadow: 0 4px 20px rgba(136, 224, 184, 0.22);
+	}
+	.testi-nav:active {
+		transform: scale(0.94);
+	}
+	/* Dots */
+	.testi-dots {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 8px;
+		margin-top: 28px;
+	}
+	.testi-dot {
+		width: 8px;
+		height: 8px;
+		border-radius: 4px;
+		background: var(--line-2);
+		border: none;
+		cursor: pointer;
+		transition:
+			background 0.3s ease,
+			width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+		padding: 0;
+	}
+	.testi-dot.active {
+		background: var(--accent);
+		width: 28px;
+	}
+	@media (max-width: 640px) {
+		.testi-nav {
+			width: 38px;
+			height: 38px;
+		}
+		.testi-slide {
+			padding: 36px 24px 32px;
+		}
+		.testi-slider {
+			gap: 10px;
+		}
+	}
+
 	/* — Team — */
 	.team-grid {
 		display: grid;
@@ -1358,6 +1521,94 @@
 		font-size: 26px;
 	}
 
+	/* — Managers tabbed scroll strip — */
+	.managers-tabs {
+		display: flex;
+		gap: 8px;
+		justify-content: center;
+		flex-wrap: wrap;
+	}
+	.managers-tab {
+		padding: 8px 28px;
+		border-radius: 999px;
+		border: 1px solid var(--line);
+		background: transparent;
+		color: var(--ink-2);
+		font-size: 13px;
+		font-family: var(--font-mono);
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		cursor: pointer;
+		transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+	}
+	.managers-tab:hover {
+		border-color: var(--line-2);
+		color: var(--ink);
+	}
+	.managers-tab.is-active {
+		background: var(--accent);
+		border-color: var(--accent);
+		color: #fff;
+	}
+	.managers-panel {
+		display: none;
+	}
+	.managers-panel.is-active {
+		display: block;
+	}
+	.managers-scroll-wrap {
+		position: relative;
+	}
+	.managers-strip {
+		display: flex;
+		gap: 1.5rem;
+		overflow-x: auto;
+		scroll-snap-type: x mandatory;
+		scroll-behavior: smooth;
+		padding: 8px 64px;
+		-webkit-overflow-scrolling: touch;
+		scrollbar-width: none;
+	}
+	.managers-strip::-webkit-scrollbar {
+		display: none;
+	}
+	.managers-strip__card {
+		width: 210px;
+		flex-shrink: 0;
+		scroll-snap-align: start;
+	}
+	.managers-arrow {
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		z-index: 2;
+		width: 40px;
+		height: 40px;
+		border-radius: 50%;
+		border: 1px solid var(--line);
+		background: var(--bg);
+		color: var(--ink-2);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+		transition: border-color 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+	}
+	.managers-arrow:hover {
+		border-color: var(--accent);
+		color: var(--accent);
+	}
+	.managers-arrow.is-hidden {
+		opacity: 0;
+		pointer-events: none;
+	}
+	.managers-arrow--prev {
+		left: 12px;
+	}
+	.managers-arrow--next {
+		right: 12px;
+	}
+
 	.team-group {
 		margin-top: 56px;
 	}
@@ -1474,6 +1725,56 @@
 		font-weight: 500;
 		color: var(--accent);
 		flex-shrink: 0;
+	}
+
+	/* — Developer logo wall (front page) — */
+	.dev-logo-wall {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1px;
+		background: var(--line);
+		border: 1px solid var(--line);
+		border-radius: var(--r-lg);
+		overflow: hidden;
+	}
+	.dev-logo-item {
+		flex: 1 1 180px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: var(--bg-2);
+		padding: 32px 40px;
+		min-height: 100px;
+		transition: background 0.25s ease;
+	}
+	.dev-logo-item:hover {
+		background: var(--bg-3);
+	}
+	.dev-logo-item img {
+		max-width: 140px;
+		max-height: 52px;
+		width: auto;
+		height: auto;
+		object-fit: contain;
+		filter: grayscale(100%) brightness(1.8);
+		opacity: 0.55;
+		transition: filter 0.35s ease, opacity 0.35s ease;
+	}
+	.dev-logo-item:hover img {
+		filter: grayscale(0%) brightness(1);
+		opacity: 1;
+	}
+	.dev-logo-text {
+		font-family: var(--font-display);
+		font-size: 15px;
+		font-weight: 500;
+		letter-spacing: 0.04em;
+		color: var(--ink-3);
+		text-align: center;
+		transition: color 0.25s ease;
+	}
+	.dev-logo-item:hover .dev-logo-text {
+		color: var(--ink);
 	}
 
 	/* — Success story — */

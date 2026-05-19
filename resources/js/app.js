@@ -96,6 +96,258 @@ if (document.readyState === "loading") {
 	initReveal();
 }
 
+// Testimonials slider
+function initTestimonialSlider() {
+	const track = document.getElementById("testiTrack");
+	if (!track) return;
+
+	const slides = Array.from(track.querySelectorAll(".testi-slide"));
+	const dots = Array.from(document.querySelectorAll("[data-testi-dot]"));
+	const prevBtn = document.getElementById("testiPrev");
+	const nextBtn = document.getElementById("testiNext");
+	const sliderEl = document.getElementById("testiSlider");
+	const total = slides.length;
+
+	if (total < 2) {
+		if (slides[0]) {
+			slides[0].style.opacity = "1";
+			slides[0].style.pointerEvents = "auto";
+		}
+		return;
+	}
+
+	let current = 0;
+	let busy = false;
+	let autoTimer;
+	const AUTOPLAY_MS = 5500;
+	const EASING = "cubic-bezier(.4,0,.2,1)";
+
+	// Init — show first slide immediately
+	slides.forEach((s, i) => {
+		s.style.opacity = i === 0 ? "1" : "0";
+		s.style.transform = "translateX(0)";
+		s.style.pointerEvents = i === 0 ? "auto" : "none";
+	});
+	// Animate first slide's quote icon in
+	const firstIcon = slides[0].querySelector(".testi-quote-icon");
+	if (firstIcon) {
+		firstIcon.style.opacity = "0";
+		firstIcon.style.transform = "translateY(14px) scale(0.85)";
+		setTimeout(() => {
+			firstIcon.style.transition =
+				"opacity .6s ease, transform .6s cubic-bezier(.2,.7,.2,1)";
+			firstIcon.style.opacity = "0.22";
+			firstIcon.style.transform = "none";
+		}, 200);
+	}
+
+	function syncHeight() {
+		const maxH = Math.max(...slides.map((s) => s.offsetHeight));
+		if (maxH > 0) track.style.minHeight = maxH + "px";
+	}
+	syncHeight();
+	setTimeout(syncHeight, 500);
+	window.addEventListener("resize", syncHeight, { passive: true });
+
+	function goTo(next, dir) {
+		if (next === current || busy) return;
+		busy = true;
+
+		const from = slides[current];
+		const to = slides[next];
+
+		// Snap entering slide off-screen with no transition
+		to.style.transition = "none";
+		to.style.opacity = "0";
+		to.style.transform = `translateX(${dir > 0 ? "60px" : "-60px"})`;
+		to.style.pointerEvents = "none";
+
+		// Force repaint so the snap registers before transitioning
+		to.getBoundingClientRect();
+
+		// Slide out the current
+		from.style.transition = `opacity .48s ${EASING}, transform .52s ${EASING}`;
+		from.style.opacity = "0";
+		from.style.transform = `translateX(${dir > 0 ? "-60px" : "60px"})`;
+		from.style.pointerEvents = "none";
+
+		// Slide in the next
+		to.style.transition = `opacity .48s ${EASING}, transform .52s ${EASING}`;
+		to.style.opacity = "1";
+		to.style.transform = "translateX(0)";
+		to.style.pointerEvents = "auto";
+
+		// Animate quote icon in incoming slide
+		const qIcon = to.querySelector(".testi-quote-icon");
+		if (qIcon) {
+			qIcon.style.transition = "none";
+			qIcon.style.opacity = "0";
+			qIcon.style.transform = "translateY(14px) scale(0.85)";
+			setTimeout(() => {
+				qIcon.style.transition =
+					"opacity .6s ease, transform .6s cubic-bezier(.2,.7,.2,1)";
+				qIcon.style.opacity = "0.22";
+				qIcon.style.transform = "none";
+			}, 120);
+		}
+
+		// Update dots
+		dots[current].classList.remove("active");
+		dots[current].setAttribute("aria-selected", "false");
+		dots[next].classList.add("active");
+		dots[next].setAttribute("aria-selected", "true");
+
+		// Update ARIA on slides
+		from.setAttribute("aria-hidden", "true");
+		to.removeAttribute("aria-hidden");
+
+		current = next;
+		setTimeout(() => {
+			busy = false;
+		}, 600);
+	}
+
+	const next = () => goTo((current + 1) % total, 1);
+	const prev = () => goTo((current - 1 + total) % total, -1);
+
+	const startAuto = () => {
+		autoTimer = setInterval(next, AUTOPLAY_MS);
+	};
+	const stopAuto = () => clearInterval(autoTimer);
+
+	startAuto();
+
+	if (sliderEl) {
+		sliderEl.addEventListener("mouseenter", stopAuto);
+		sliderEl.addEventListener("mouseleave", startAuto);
+		sliderEl.addEventListener("focusin", stopAuto);
+		sliderEl.addEventListener("focusout", startAuto);
+		sliderEl.addEventListener("keydown", (e) => {
+			if (e.key === "ArrowRight") {
+				stopAuto();
+				next();
+				startAuto();
+			}
+			if (e.key === "ArrowLeft") {
+				stopAuto();
+				prev();
+				startAuto();
+			}
+		});
+	}
+
+	if (nextBtn) {
+		nextBtn.addEventListener("click", () => {
+			stopAuto();
+			next();
+			startAuto();
+		});
+	}
+	if (prevBtn) {
+		prevBtn.addEventListener("click", () => {
+			stopAuto();
+			prev();
+			startAuto();
+		});
+	}
+
+	dots.forEach((dot, i) => {
+		dot.addEventListener("click", () => {
+			stopAuto();
+			goTo(i, i > current ? 1 : -1);
+			startAuto();
+		});
+	});
+
+	// Touch/swipe
+	let touchStartX = 0;
+	track.addEventListener(
+		"touchstart",
+		(e) => {
+			touchStartX = e.touches[0].clientX;
+		},
+		{ passive: true },
+	);
+	track.addEventListener(
+		"touchend",
+		(e) => {
+			const dx = e.changedTouches[0].clientX - touchStartX;
+			if (Math.abs(dx) > 40) {
+				stopAuto();
+				dx < 0 ? next() : prev();
+				startAuto();
+			}
+		},
+		{ passive: true },
+	);
+}
+
+if (document.readyState === "loading") {
+	document.addEventListener("DOMContentLoaded", initTestimonialSlider);
+} else {
+	initTestimonialSlider();
+}
+
+// Managers — tabbed scroll strip with snap + arrow buttons
+function initManagerTabs() {
+	const tabs = document.querySelectorAll("[data-managers-tab]");
+	const panels = document.querySelectorAll("[data-managers-panel]");
+	if (!tabs.length) return;
+
+	tabs.forEach((tab) => {
+		tab.addEventListener("click", () => {
+			const target = tab.dataset.managersTab;
+
+			tabs.forEach((t) => {
+				t.classList.remove("is-active");
+				t.setAttribute("aria-selected", "false");
+			});
+			panels.forEach((p) => p.classList.remove("is-active"));
+
+			tab.classList.add("is-active");
+			tab.setAttribute("aria-selected", "true");
+
+			const panel = document.querySelector(
+				`[data-managers-panel="${target}"]`,
+			);
+			if (panel) panel.classList.add("is-active");
+		});
+	});
+
+	panels.forEach((panel) => {
+		const strip = panel.querySelector("[data-managers-strip]");
+		const prevBtn = panel.querySelector(".managers-arrow--prev");
+		const nextBtn = panel.querySelector(".managers-arrow--next");
+		if (!strip) return;
+
+		const CARD_W = 210 + 24; // card width + gap
+
+		const syncArrows = () => {
+			const atStart = strip.scrollLeft <= 2;
+			const atEnd =
+				strip.scrollLeft >= strip.scrollWidth - strip.clientWidth - 2;
+			prevBtn?.classList.toggle("is-hidden", atStart);
+			nextBtn?.classList.toggle("is-hidden", atEnd);
+		};
+
+		strip.addEventListener("scroll", syncArrows, { passive: true });
+		syncArrows();
+
+		prevBtn?.addEventListener("click", () => {
+			strip.scrollBy({ left: -CARD_W * 2, behavior: "smooth" });
+		});
+		nextBtn?.addEventListener("click", () => {
+			strip.scrollBy({ left: CARD_W * 2, behavior: "smooth" });
+		});
+	});
+}
+
+if (document.readyState === "loading") {
+	document.addEventListener("DOMContentLoaded", initManagerTabs);
+} else {
+	initManagerTabs();
+}
+
 // CountUp — triggered when element enters viewport
 document.querySelectorAll("[data-countup]").forEach((el) => {
 	const target = parseFloat(el.dataset.countup);

@@ -6,7 +6,7 @@ use App\Data\StaticData;
 $properties = $featuredProperties ?? array_slice(StaticData::properties(), 0, 6);
 $servicesData = $site['services'] ?? null;
 $services = $servicesData['items'] ?? array_map(fn($s) => ['number' => $s['num'], 'title' => $s['title'], 'description' => $s['desc']], StaticData::services());
-$testimonialItems = $testimonialsHighlights ?? array_slice(StaticData::testimonials(), 0, 2);
+$testimonialItems = $testimonialsHighlights ?? array_slice(StaticData::testimonials(), 0, 6);
 $accreditedDevelopers = $accreditedDevelopers ?? [];
 @endphp
 
@@ -194,9 +194,9 @@ $accreditedDevelopers = $accreditedDevelopers ?? [];
             loading="lazy">
         </div>
         <div class="body flex flex-col relative items-center justify-center">
-          <div class="name font-bold text-xl tracking-wide">{{ $member['name'] }}</div>
+          <div class="name font-bold text-xl tracking-wide uppercase">{{ $member['name'] }}</div>
           <span class="w-1/2 h-[0.5px] bg-ink/20"></span>
-          <div class="role tracking-wide !font-medium text-sm">{{ $member['role'] }}</div>
+          <div class="tracking-normal font-medium! text-sm mt-1 text-[var(--accent)]">{{ $member['role'] }}</div>
           @if (! empty($member['bio']))
           <p class="bio border-t-0 absolute top-11">{{ $member['bio'] }}</p>
           @endif
@@ -222,16 +222,16 @@ $accreditedDevelopers = $accreditedDevelopers ?? [];
     </div>
     <div class="flex flex-wrap gap-6 items-center justify-center" style="margin-top:36px">
       @foreach ($brokers as $member)
-      <div class="team-card team-card--featured max-w-xs md:w-1/2 lg:w-1/3">
+      <div class="team-card team-card--featured max-w-xs md:w-1/3 lg:w-1/4">
         <div class="media">
           <img src="{{ $member['photo'] ?? ('https://i.pravatar.cc/500?u=' . urlencode($member['name'])) }}"
             alt="{{ esc_attr($member['name']) }}"
             loading="lazy">
         </div>
         <div class="body flex flex-col relative items-center justify-center">
-          <div class="name font-bold text-xl tracking-wide">{{ $member['name'] }}</div>
+          <div class="font-bold text-lg tracking-wide uppercase">{{ $member['name'] }}</div>
           <span class="w-1/2 h-[0.5px] bg-ink/20"></span>
-          <div class="role tracking-wide !font-medium text-xs">{{ $member['role'] }}</div>
+          <div class="tracking-wide font-medium! text-xs text-[var(--accent)]">{{ $member['role'] }}</div>
           @if (! empty($member['bio']))
           <p class="bio border-t-0 absolute top-14">{{ $member['bio'] }}</p>
           @endif
@@ -243,73 +243,103 @@ $accreditedDevelopers = $accreditedDevelopers ?? [];
 </section>
 @endif
 
-{{-- Bohol Managers --}}
-@if (! empty($boholManagers))
-<section class="section">
+{{-- Managers (Bohol + Cebu tabbed) --}}
+@if (! empty($boholManagers) || ! empty($cebuManagers))
+<section class="section managers-section">
   <div class="container" style="text-align:center">
     <div class="section-head-col">
       <div class="reveal flex flex-col items-center">
-        <span class="eyebrow">Bohol</span>
+        <span class="eyebrow">Our Team</span>
         <h2 class="h2" style="margin-top:14px">
-          Bohol <em>Managers.</em>
+          Our <em>Managers.</em>
         </h2>
       </div>
     </div>
-    <div class="flex flex-wrap gap-6 items-center justify-center" style="margin-top:36px">
-      @foreach ($boholManagers as $member)
-      <div class="team-card team-card--featured max-w-xs md:w-1/2 lg:w-1/3">
-        <div class="media">
-          <img src="{{ $member['photo'] ?? ('https://i.pravatar.cc/500?u=' . urlencode($member['name'])) }}"
-            alt="{{ esc_attr($member['name']) }}"
-            loading="lazy">
-        </div>
-        <div class="body flex flex-col relative items-center justify-center">
-          <div class="name font-bold text-xl tracking-wide">{{ $member['name'] }}</div>
-          <span class="w-1/2 h-[0.5px] bg-ink/20"></span>
-          <div class="role tracking-wide !font-medium text-sm">{{ $member['role'] }}</div>
-          @if (! empty($member['bio']))
-          <p class="bio border-t-0 absolute top-14">{{ $member['bio'] }}</p>
-          @endif
-        </div>
-      </div>
-      @endforeach
+    <div class="managers-tabs" role="tablist" aria-label="Managers by region" style="margin-top:28px">
+      @if (! empty($boholManagers))
+      <button class="managers-tab is-active" role="tab" aria-selected="true" aria-controls="managers-panel-bohol" data-managers-tab="bohol">
+        Bohol
+      </button>
+      @endif
+      @if (! empty($cebuManagers))
+      <button class="managers-tab" role="tab" aria-selected="false" aria-controls="managers-panel-cebu" data-managers-tab="cebu">
+        Cebu
+      </button>
+      @endif
     </div>
   </div>
-</section>
-@endif
 
-{{-- Cebu Managers --}}
-@if (! empty($cebuManagers))
-<section class="section" style="background:var(--bg-2)">
-  <div class="container" style="text-align:center">
-    <div class="section-head-col">
-      <div class="reveal flex flex-col items-center">
-        <span class="eyebrow">Cebu</span>
-        <h2 class="h2" style="margin-top:14px">
-          Cebu <em>Managers.</em>
-        </h2>
-      </div>
-    </div>
-    <div class="flex flex-wrap gap-6 items-center justify-center" style="margin-top:36px">
-      @foreach ($cebuManagers as $member)
-      <div class="team-card team-card--featured max-w-xs md:w-1/2 lg:w-1/3">
-        <div class="media">
-          <img src="{{ $member['photo'] ?? ('https://i.pravatar.cc/500?u=' . urlencode($member['name'])) }}"
-            alt="{{ esc_attr($member['name']) }}"
-            loading="lazy">
+  @if (! empty($boholManagers))
+  <div class="managers-panel is-active" id="managers-panel-bohol" role="tabpanel" data-managers-panel="bohol" style="margin-top:36px">
+    <div class="managers-scroll-wrap">
+      <button class="managers-arrow managers-arrow--prev" aria-label="Previous managers">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+          <path d="M11 14L6 9l5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <div class="managers-strip" data-managers-strip>
+        @foreach ($boholManagers as $member)
+        <div class="team-card team-card--featured managers-strip__card">
+          <div class="media">
+            <img src="{{ $member['photo'] ?? ('https://i.pravatar.cc/500?u=' . urlencode($member['name'])) }}"
+              alt="{{ esc_attr($member['name']) }}"
+              loading="lazy">
+          </div>
+          <div class="body flex flex-col relative items-center justify-center">
+            <div class="font-bold text-base tracking-wide uppercase">{{ $member['name'] }}</div>
+            <span class="w-1/2 h-[0.5px] bg-ink/20"></span>
+            <div class="tracking-wide font-medium! text-xs text-[var(--accent)]">{{ $member['role'] }}</div>
+            @if (! empty($member['bio']))
+            <p class="bio border-t-0 absolute top-14">{{ $member['bio'] }}</p>
+            @endif
+          </div>
         </div>
-        <div class="body flex flex-col relative items-center justify-center">
-          <div class="name font-bold text-xl tracking-wide">{{ $member['name'] }}</div>
-          <span class="w-1/2 h-[0.5px] bg-ink/20"></span>
-          <div class="role tracking-wide !font-medium text-sm">{{ $member['role'] }}</div>
-          @if (! empty($member['bio']))
-          <p class="bio border-t-0 absolute top-14">{{ $member['bio'] }}</p>
-          @endif
-        </div>
+        @endforeach
       </div>
-      @endforeach
+      <button class="managers-arrow managers-arrow--next" aria-label="Next managers">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+          <path d="M7 4l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
     </div>
   </div>
+  @endif
+
+  @if (! empty($cebuManagers))
+  <div class="managers-panel" id="managers-panel-cebu" role="tabpanel" data-managers-panel="cebu" style="margin-top:36px">
+    <div class="managers-scroll-wrap">
+      <button class="managers-arrow managers-arrow--prev" aria-label="Previous managers">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+          <path d="M11 14L6 9l5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <div class="managers-strip" data-managers-strip>
+        @foreach ($cebuManagers as $member)
+        <div class="team-card team-card--featured managers-strip__card">
+          <div class="media">
+            <img src="{{ $member['photo'] ?? ('https://i.pravatar.cc/500?u=' . urlencode($member['name'])) }}"
+              alt="{{ esc_attr($member['name']) }}"
+              loading="lazy">
+          </div>
+          <div class="body flex flex-col relative items-center justify-center">
+            <div class="name font-bold text-base tracking-wide">{{ $member['name'] }}</div>
+            <span class="w-1/2 h-[0.5px] bg-ink/20"></span>
+            <div class="tracking-wide font-medium! text-xs text-[var(--accent)]">{{ $member['role'] }}</div>
+            @if (! empty($member['bio']))
+            <p class="bio border-t-0 absolute top-14">{{ $member['bio'] }}</p>
+            @endif
+          </div>
+        </div>
+        @endforeach
+      </div>
+      <button class="managers-arrow managers-arrow--next" aria-label="Next managers">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+          <path d="M7 4l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+  @endif
 </section>
 @endif
 
@@ -551,36 +581,14 @@ $accreditedDevelopers = $accreditedDevelopers ?? [];
       </p>
     </div>
 
-    <div class="stagger-children dev-list" style="margin-top:36px">
+    <div class="stagger-children dev-logo-wall" style="margin-top:36px">
       @foreach ($accreditedDevelopers as $d)
-      <div class="dev">
-        <div>
-          <div class="name">{{ $d['name'] }}</div>
-          <div class="meta">
-            @if (! empty($d['locations']))
-            <span>{{ implode(' · ', $d['locations']) }}</span>
-            @endif
-
-            @if (! empty($d['locations']) && ! empty($d['portfolio']))
-            <span style="color:var(--line-2)">·</span>
-            @endif
-
-            @if (! empty($d['portfolio']))
-            <span style="color:var(--ink-3)">{{ $d['portfolio'] }}</span>
-            @endif
-          </div>
-
-          @if (! empty($d['desc']))
-          <p class="desc">{{ $d['desc'] }}</p>
-          @endif
-        </div>
-        <div class="sigil">
-          @if (! empty($d['logo']))
-          <img src="{{ $d['logo'] }}" alt="{{ $d['name'] }}" style="max-width:60px;max-height:60px;object-fit:contain">
-          @else
-          {{ $d['sigil'] ?? mb_substr($d['name'], 0, 1) }}
-          @endif
-        </div>
+      <div class="dev-logo-item">
+        @if (! empty($d['logo']))
+        <img src="{{ $d['logo'] }}" alt="{{ esc_attr($d['name']) }}" loading="lazy">
+        @else
+        <span class="dev-logo-text">{{ $d['name'] }}</span>
+        @endif
       </div>
       @endforeach
     </div>
@@ -597,31 +605,70 @@ $accreditedDevelopers = $accreditedDevelopers ?? [];
 </section>
 @endif
 
-{{-- Testimonials snippet --}}
-<section class="section" style="padding-top:88px;">
+{{-- Testimonials slider --}}
+<section class="section" style="padding-top:88px">
   <div class="container">
-    <div class="reveal flex flex-col items-center mb-5">
+    <div class="reveal flex flex-col items-center" style="margin-bottom:52px">
       <span class="eyebrow-center">Testimonials</span>
       <h2 class="h2" style="margin-top:14px">
         In our <em>clients' words.</em>
       </h2>
     </div>
-    <div class="stagger-children" style="display:grid;grid-template-columns:1fr 1fr;gap:28px" class="t-grid">
-      @foreach ($testimonialItems as $t)
-      <div class="testimonial">
-        <div class="quote-mk">"</div>
-        <blockquote>{{ $t['quote'] }}</blockquote>
-        <div class="who">
-          <img src="{{ $t['avatar'] ?? ('https://i.pravatar.cc/96?u=' . urlencode($t['name'])) }}" alt="" width="48" height="48">
-          <div>
-            <div class="name">{{ $t['name'] }}</div>
-            <div class="role">{{ $t['role'] }}</div>
+
+    <div class="testi-slider" id="testiSlider">
+      <button class="testi-nav testi-nav--prev" id="testiPrev" aria-label="Previous testimonial">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M11 4L6 9l5 5" />
+        </svg>
+      </button>
+
+      <div class="testi-track" id="testiTrack" aria-live="polite" aria-atomic="true">
+        @foreach ($testimonialItems as $i => $t)
+        <div
+          class="testi-slide"
+          role="group"
+          aria-roledescription="slide"
+          aria-label="Testimonial {{ $i + 1 }} of {{ count($testimonialItems) }}"
+          {!! $i !==0 ? 'aria-hidden="true"' : '' !!}>
+          <div class="testi-quote-icon" aria-hidden="true">&ldquo;</div>
+          <div class="testi-stars" aria-label="5 out of 5 stars" role="img">★ ★ ★ ★ ★</div>
+          <blockquote class="testi-quote">{{ $t['quote'] }}</blockquote>
+          <div class="testi-who">
+            <img
+              src="{{ $t['avatar'] ?? ('https://i.pravatar.cc/96?u=' . urlencode($t['name'])) }}"
+              alt="{{ esc_attr($t['name']) }}"
+              width="52"
+              height="52"
+              class="testi-avatar"
+              loading="lazy">
+            <div>
+              <div class="testi-name">{{ $t['name'] }}</div>
+              <div class="testi-role">{{ $t['role'] }}</div>
+            </div>
           </div>
         </div>
+        @endforeach
       </div>
+
+      <button class="testi-nav testi-nav--next" id="testiNext" aria-label="Next testimonial">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M7 4l5 5-5 5" />
+        </svg>
+      </button>
+    </div>
+
+    <div class="testi-dots" id="testiDots" role="tablist" aria-label="Testimonials navigation">
+      @foreach ($testimonialItems as $i => $t)
+      <button
+        class="testi-dot {{ $i === 0 ? 'active' : '' }}"
+        role="tab"
+        aria-label="Go to testimonial {{ $i + 1 }}"
+        aria-selected="{{ $i === 0 ? 'true' : 'false' }}"
+        data-testi-dot="{{ $i }}"></button>
       @endforeach
     </div>
-    <div style="margin-top:28px;text-align:center">
+
+    <div style="margin-top:40px;text-align:center">
       <a href="{{ home_url('/testimonials') }}" class="btn">
         More testimonials
         <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
@@ -630,13 +677,6 @@ $accreditedDevelopers = $accreditedDevelopers ?? [];
       </a>
     </div>
   </div>
-  <style>
-    @media (max-width:800px) {
-      .t-grid {
-        grid-template-columns: 1fr !important
-      }
-    }
-  </style>
 </section>
 
 {{-- CTA Banner --}}
