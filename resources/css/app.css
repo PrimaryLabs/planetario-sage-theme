@@ -1565,6 +1565,7 @@
 		overflow-x: auto;
 		scroll-snap-type: x mandatory;
 		scroll-behavior: smooth;
+		justify-content: safe center;
 		padding: 8px 64px;
 		-webkit-overflow-scrolling: touch;
 		scrollbar-width: none;

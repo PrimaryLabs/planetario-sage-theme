@@ -274,18 +274,18 @@ $accreditedDevelopers = $accreditedDevelopers ?? [];
     <div class="managers-scroll-wrap">
       <button class="managers-arrow managers-arrow--prev" aria-label="Previous managers">
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-          <path d="M11 14L6 9l5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M11 14L6 9l5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
       </button>
       <div class="managers-strip" data-managers-strip>
         @foreach ($boholManagers as $member)
-        <div class="team-card team-card--featured managers-strip__card">
-          <div class="media">
+        <div class="min-w-50">
+          <div class=" px-2 pt-2 bg-[var(--bg-2)]/80 flex justify-center rounded-3xl">
             <img src="{{ $member['photo'] ?? ('https://i.pravatar.cc/500?u=' . urlencode($member['name'])) }}"
               alt="{{ esc_attr($member['name']) }}"
-              loading="lazy">
+              loading="lazy" class="object-cover h-50">
           </div>
-          <div class="body flex flex-col relative items-center justify-center">
+          <div class="body flex flex-col relative items-center justify-center py-3">
             <div class="font-bold text-base tracking-wide uppercase">{{ $member['name'] }}</div>
             <span class="w-1/2 h-[0.5px] bg-ink/20"></span>
             <div class="tracking-wide font-medium! text-xs text-[var(--accent)]">{{ $member['role'] }}</div>
@@ -298,7 +298,7 @@ $accreditedDevelopers = $accreditedDevelopers ?? [];
       </div>
       <button class="managers-arrow managers-arrow--next" aria-label="Next managers">
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-          <path d="M7 4l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M7 4l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
       </button>
     </div>
@@ -310,19 +310,19 @@ $accreditedDevelopers = $accreditedDevelopers ?? [];
     <div class="managers-scroll-wrap">
       <button class="managers-arrow managers-arrow--prev" aria-label="Previous managers">
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-          <path d="M11 14L6 9l5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M11 14L6 9l5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
       </button>
       <div class="managers-strip" data-managers-strip>
         @foreach ($cebuManagers as $member)
-        <div class="team-card team-card--featured managers-strip__card">
-          <div class="media">
+        <div class="min-w-50">
+          <div class="px-2 pt-2 bg-[var(--bg-2)]/80 flex justify-center rounded-3xl">
             <img src="{{ $member['photo'] ?? ('https://i.pravatar.cc/500?u=' . urlencode($member['name'])) }}"
               alt="{{ esc_attr($member['name']) }}"
-              loading="lazy">
+              loading="lazy" class="object-cover h-50">
           </div>
-          <div class="body flex flex-col relative items-center justify-center">
-            <div class="name font-bold text-base tracking-wide">{{ $member['name'] }}</div>
+          <div class="body flex flex-col relative items-center justify-center py-3">
+            <div class="font-bold text-base tracking-wide uppercase">{{ $member['name'] }}</div>
             <span class="w-1/2 h-[0.5px] bg-ink/20"></span>
             <div class="tracking-wide font-medium! text-xs text-[var(--accent)]">{{ $member['role'] }}</div>
             @if (! empty($member['bio']))
@@ -334,93 +334,133 @@ $accreditedDevelopers = $accreditedDevelopers ?? [];
       </div>
       <button class="managers-arrow managers-arrow--next" aria-label="Next managers">
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-          <path d="M7 4l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M7 4l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
       </button>
     </div>
   </div>
   @endif
-</section>
-@endif
-
-{{-- Bohol Staffs --}}
-@if (! empty($boholStaffs))
-<section class="section">
-  <div class="container" style="text-align:center">
-    <div class="section-head-col">
-      <div class="reveal flex flex-col items-center">
-        <span class="eyebrow">Bohol</span>
-        <h2 class="h2" style="margin-top:14px">
-          Bohol <em>Staff.</em>
-        </h2>
-      </div>
-    </div>
-    <div class="flex flex-wrap gap-6 items-center justify-center" style="margin-top:36px">
-      @foreach ($boholStaffs as $member)
-      <div class="team-card team-card--featured max-w-xs md:w-1/2 lg:w-1/3">
-        <div class="media">
-          <img src="{{ $member['photo'] ?? ('https://i.pravatar.cc/500?u=' . urlencode($member['name'])) }}"
-            alt="{{ esc_attr($member['name']) }}"
-            loading="lazy">
-        </div>
-        <div class="body flex flex-col relative items-center justify-center">
-          <div class="name font-bold text-xl tracking-wide">{{ $member['name'] }}</div>
-          <span class="w-1/2 h-[0.5px] bg-ink/20"></span>
-          <div class="role tracking-wide !font-medium text-xs">{{ $member['role'] }}</div>
-          @if (! empty($member['bio']))
-          <p class="bio border-t-0 absolute top-14">{{ $member['bio'] }}</p>
-          @endif
-        </div>
-      </div>
-      @endforeach
-    </div>
+  <div style="padding:36px 0;text-align:center">
+    <a href="{{ home_url('/team') }}" class="btn py-2!">
+      See all in teams
+      <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+        <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </a>
   </div>
 </section>
 @endif
 
-{{-- Cebu Staffs --}}
-@if (! empty($cebuStaffs))
-<section class="section" style="background:var(--bg-2)">
+{{-- Staff (Bohol + Cebu tabbed) --}}
+@if (! empty($boholStaffs) || ! empty($cebuStaffs))
+<section class="section bg-[var(--bg-2)]/30">
   <div class="container" style="text-align:center">
     <div class="section-head-col">
       <div class="reveal flex flex-col items-center">
-        <span class="eyebrow">Cebu</span>
+        <span class="eyebrow">Our Team</span>
         <h2 class="h2" style="margin-top:14px">
-          Cebu <em>Staff.</em>
+          Our <em>Staff.</em>
         </h2>
       </div>
     </div>
-    <div class="flex flex-wrap gap-6 items-center justify-center" style="margin-top:36px">
-      @foreach ($cebuStaffs as $member)
-      <div class="team-card team-card--featured max-w-xs md:w-1/2 lg:w-1/3">
-        <div class="media">
-          <img src="{{ $member['photo'] ?? ('https://i.pravatar.cc/500?u=' . urlencode($member['name'])) }}"
-            alt="{{ esc_attr($member['name']) }}"
-            loading="lazy">
-        </div>
-        <div class="body flex flex-col relative items-center justify-center">
-          <div class="name font-bold text-xl tracking-wide">{{ $member['name'] }}</div>
-          <span class="w-1/2 h-[0.5px] bg-ink/20"></span>
-          <div class="role tracking-wide !font-medium text-xs">{{ $member['role'] }}</div>
-          @if (! empty($member['bio']))
-          <p class="bio border-t-0 absolute top-14">{{ $member['bio'] }}</p>
-          @endif
-        </div>
-      </div>
-      @endforeach
+    <div class="managers-tabs" role="tablist" aria-label="Staff by region" style="margin-top:28px">
+      @if (! empty($boholStaffs))
+      <button class="managers-tab is-active" role="tab" aria-selected="true" aria-controls="staff-panel-bohol" data-managers-tab="staff-bohol">
+        Bohol
+      </button>
+      @endif
+      @if (! empty($cebuStaffs))
+      <button class="managers-tab" role="tab" aria-selected="false" aria-controls="staff-panel-cebu" data-managers-tab="staff-cebu">
+        Cebu
+      </button>
+      @endif
     </div>
   </div>
+
+
+  @if (! empty($boholStaffs))
+  <div class="managers-panel is-active" id="staff-panel-bohol" role="tabpanel" data-managers-panel="staff-bohol" style="margin-top:36px">
+    <div class="managers-scroll-wrap">
+      <button class="managers-arrow managers-arrow--prev" aria-label="Previous staff">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+          <path d="M11 14L6 9l5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+      <div class="managers-strip" data-managers-strip>
+        @foreach ($boholStaffs as $member)
+        <div class="min-w-50">
+          <div class="px-2 pt-2 bg-[var(--bg-2)]/80 flex justify-center rounded-3xl">
+            <img src="{{ $member['photo'] ?? ('https://i.pravatar.cc/500?u=' . urlencode($member['name'])) }}"
+              alt="{{ esc_attr($member['name']) }}"
+              loading="lazy" class="object-cover h-50">
+          </div>
+          <div class="body flex flex-col relative items-center justify-center py-3">
+            <div class="font-bold text-base tracking-wide uppercase">{{ $member['name'] }}</div>
+            <span class="w-1/2 h-[0.5px] bg-ink/20"></span>
+            <div class="tracking-wide font-medium! text-xs text-[var(--accent)]">{{ $member['role'] }}</div>
+            @if (! empty($member['bio']))
+            <p class="bio border-t-0 absolute top-14">{{ $member['bio'] }}</p>
+            @endif
+          </div>
+        </div>
+        @endforeach
+      </div>
+      <button class="managers-arrow managers-arrow--next" aria-label="Next staff">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+          <path d="M7 4l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+    </div>
+  </div>
+  @endif
+
+  @if (! empty($cebuStaffs))
+  <div class="managers-panel" id="staff-panel-cebu" role="tabpanel" data-managers-panel="staff-cebu" style="margin-top:36px">
+    <div class="managers-scroll-wrap">
+      <button class="managers-arrow managers-arrow--prev" aria-label="Previous staff">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+          <path d="M11 14L6 9l5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+      <div class="managers-strip" data-managers-strip>
+        @foreach ($cebuStaffs as $member)
+        <div class="min-w-50">
+          <div class="px-2 pt-2 bg-[var(--bg-2)]/80 flex justify-center rounded-3xl">
+            <img src="{{ $member['photo'] ?? ('https://i.pravatar.cc/500?u=' . urlencode($member['name'])) }}"
+              alt="{{ esc_attr($member['name']) }}"
+              loading="lazy" class="object-cover h-50">
+          </div>
+          <div class="body flex flex-col relative items-center justify-center py-3">
+            <div class="font-bold text-base tracking-wide uppercase">{{ $member['name'] }}</div>
+            <span class="w-1/2 h-[0.5px] bg-ink/20"></span>
+            <div class="tracking-wide font-medium! text-xs text-[var(--accent)]">{{ $member['role'] }}</div>
+            @if (! empty($member['bio']))
+            <p class="bio border-t-0 absolute top-14">{{ $member['bio'] }}</p>
+            @endif
+          </div>
+        </div>
+        @endforeach
+      </div>
+      <button class="managers-arrow managers-arrow--next" aria-label="Next staff">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+          <path d="M7 4l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+    </div>
+  </div>
+  @endif
+
+  <div style="padding:36px 0;text-align:center">
+    <a href="{{ home_url('/team') }}" class="btn py-2!">
+      See all in teams
+      <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+        <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </a>
+  </div>
+
 </section>
 @endif
-
-<div style="padding:36px 0;text-align:center">
-  <a href="{{ home_url('/team') }}" class="btn">
-    See all teams
-    <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-      <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
-    </svg>
-  </a>
-</div>
 
 
 {{-- Featured properties --}}

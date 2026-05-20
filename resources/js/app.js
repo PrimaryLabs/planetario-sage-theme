@@ -288,58 +288,67 @@ if (document.readyState === "loading") {
 	initTestimonialSlider();
 }
 
-// Managers — tabbed scroll strip with snap + arrow buttons
+// Managers / Staff — tabbed scroll strip with snap + arrow buttons
+// Each tablist is scoped to its own <section> so Managers and Staff tabs
+// never interfere with each other's panels.
 function initManagerTabs() {
-	const tabs = document.querySelectorAll("[data-managers-tab]");
-	const panels = document.querySelectorAll("[data-managers-panel]");
-	if (!tabs.length) return;
+	document
+		.querySelectorAll(".managers-tabs[role='tablist']")
+		.forEach((tablist) => {
+			const section = tablist.closest("section");
+			if (!section) return;
 
-	tabs.forEach((tab) => {
-		tab.addEventListener("click", () => {
-			const target = tab.dataset.managersTab;
+			const tabs = tablist.querySelectorAll("[data-managers-tab]");
+			const panels = section.querySelectorAll("[data-managers-panel]");
 
-			tabs.forEach((t) => {
-				t.classList.remove("is-active");
-				t.setAttribute("aria-selected", "false");
+			tabs.forEach((tab) => {
+				tab.addEventListener("click", () => {
+					const target = tab.dataset.managersTab;
+
+					tabs.forEach((t) => {
+						t.classList.remove("is-active");
+						t.setAttribute("aria-selected", "false");
+					});
+					panels.forEach((p) => p.classList.remove("is-active"));
+
+					tab.classList.add("is-active");
+					tab.setAttribute("aria-selected", "true");
+
+					const panel = section.querySelector(
+						`[data-managers-panel="${target}"]`,
+					);
+					if (panel) panel.classList.add("is-active");
+				});
 			});
-			panels.forEach((p) => p.classList.remove("is-active"));
 
-			tab.classList.add("is-active");
-			tab.setAttribute("aria-selected", "true");
+			panels.forEach((panel) => {
+				const strip = panel.querySelector("[data-managers-strip]");
+				const prevBtn = panel.querySelector(".managers-arrow--prev");
+				const nextBtn = panel.querySelector(".managers-arrow--next");
+				if (!strip) return;
 
-			const panel = document.querySelector(
-				`[data-managers-panel="${target}"]`,
-			);
-			if (panel) panel.classList.add("is-active");
+				const CARD_W = 210 + 24; // card width + gap
+
+				const syncArrows = () => {
+					const atStart = strip.scrollLeft <= 2;
+					const atEnd =
+						strip.scrollLeft >=
+						strip.scrollWidth - strip.clientWidth - 2;
+					prevBtn?.classList.toggle("is-hidden", atStart);
+					nextBtn?.classList.toggle("is-hidden", atEnd);
+				};
+
+				strip.addEventListener("scroll", syncArrows, { passive: true });
+				syncArrows();
+
+				prevBtn?.addEventListener("click", () => {
+					strip.scrollBy({ left: -CARD_W * 2, behavior: "smooth" });
+				});
+				nextBtn?.addEventListener("click", () => {
+					strip.scrollBy({ left: CARD_W * 2, behavior: "smooth" });
+				});
+			});
 		});
-	});
-
-	panels.forEach((panel) => {
-		const strip = panel.querySelector("[data-managers-strip]");
-		const prevBtn = panel.querySelector(".managers-arrow--prev");
-		const nextBtn = panel.querySelector(".managers-arrow--next");
-		if (!strip) return;
-
-		const CARD_W = 210 + 24; // card width + gap
-
-		const syncArrows = () => {
-			const atStart = strip.scrollLeft <= 2;
-			const atEnd =
-				strip.scrollLeft >= strip.scrollWidth - strip.clientWidth - 2;
-			prevBtn?.classList.toggle("is-hidden", atStart);
-			nextBtn?.classList.toggle("is-hidden", atEnd);
-		};
-
-		strip.addEventListener("scroll", syncArrows, { passive: true });
-		syncArrows();
-
-		prevBtn?.addEventListener("click", () => {
-			strip.scrollBy({ left: -CARD_W * 2, behavior: "smooth" });
-		});
-		nextBtn?.addEventListener("click", () => {
-			strip.scrollBy({ left: CARD_W * 2, behavior: "smooth" });
-		});
-	});
 }
 
 if (document.readyState === "loading") {
