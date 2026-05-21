@@ -53,10 +53,11 @@ class CompanyEvent
 
             if (\is_wp_error($postId) || ! $postId) continue;
 
-            \update_post_meta($postId, 'event_date',     $row['date']     ?? '');
-            \update_post_meta($postId, 'event_location', $row['location'] ?? '');
-            \update_post_meta($postId, 'event_summary',  $row['summary']  ?? '');
-            \update_post_meta($postId, 'event_gallery',  0);
+            \update_post_meta($postId, 'event_date',      $row['date']      ?? '');
+            \update_post_meta($postId, 'event_location',  $row['location']  ?? '');
+            \update_post_meta($postId, 'event_summary',   $row['summary']   ?? '');
+            \update_post_meta($postId, 'event_cover_url', $row['cover']     ?? '');
+            \update_post_meta($postId, 'event_gallery',   0);
             $created++;
         }
 

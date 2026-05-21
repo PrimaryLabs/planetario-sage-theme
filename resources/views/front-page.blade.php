@@ -501,6 +501,240 @@ $accreditedDevelopers = $accreditedDevelopers ?? ['bohol' => [], 'cebu' => []];
   </div>
 </section>
 
+{{-- Featured Content — Stories / Events / Blog --}}
+<section class="section" style="border-top:1px solid var(--line)">
+  <div class="container">
+    <div class="">
+      <div class="reveal" style="text-align:center">
+        <span class="eyebrow-center">Stay connected</span>
+        <h2 class="h2" style="margin-top:14px">Stories, events, <em>and more.</em></h2>
+      </div>
+    </div>
+
+    {{-- Tab bar --}}
+    <div class="content-tabs" role="tablist" aria-label="Content categories" style="display:flex;gap:8px;margin-top:36px;flex-wrap:wrap;justify-content:center">
+      <button
+        class="managers-tab is-active"
+        role="tab"
+        aria-selected="true"
+        aria-controls="content-panel-stories"
+        data-content-tab="stories">
+        Stories
+      </button>
+      <button
+        class="managers-tab"
+        role="tab"
+        aria-selected="false"
+        aria-controls="content-panel-events"
+        data-content-tab="events">
+        Events
+      </button>
+      <button
+        class="managers-tab"
+        role="tab"
+        aria-selected="false"
+        aria-controls="content-panel-blog"
+        data-content-tab="blog">
+        Blog
+      </button>
+    </div>
+
+    {{-- Stories panel --}}
+    <div
+      class="content-panel is-active"
+      id="content-panel-stories"
+      role="tabpanel"
+      data-content-panel="stories"
+      style="margin-top:36px">
+      @if (empty($featuredContent['stories']))
+      <p style="color:var(--ink-2);font-size:14px">No stories yet.</p>
+      @else
+      <div class="stagger-children" style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px">
+        @foreach ($featuredContent['stories'] as $story)
+        <div
+          class="reveal"
+          style="background:var(--bg-2);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column">
+          @if ($story['image'])
+          <div style="aspect-ratio:4/3;overflow:hidden;background:#000;flex-shrink:0">
+            <img
+              src="{{ $story['image'] }}"
+              alt="{{ esc_attr($story['client']) }}"
+              style="width:100%;height:100%;object-fit:cover;display:block"
+              loading="lazy">
+          </div>
+          @endif
+          <div style="padding:22px;flex:1;display:flex;flex-direction:column;gap:8px">
+            <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)">
+              {{ $story['client'] }}
+            </div>
+            @if ($story['quote'])
+            <p style="font-size:15px;line-height:1.6;color:var(--ink);margin:0;display:-webkit-box;-webkit-line-clamp:3;line-clamp:3;-webkit-box-orient:vertical;overflow:hidden">
+              &ldquo;{{ $story['quote'] }}&rdquo;
+            </p>
+            @endif
+            @if ($story['location'] || $story['year'])
+            <div style="margin-top:auto;padding-top:8px;font-size:12px;color:var(--ink-2)">
+              {{ $story['location'] }}
+              @if ($story['location'] && $story['year'])
+              &nbsp;·&nbsp;
+              @endif
+              {{ $story['year'] }}
+            </div>
+            @endif
+          </div>
+        </div>
+        @endforeach
+      </div>
+      @endif
+      <div style="margin-top:28px;text-align:right">
+        <a href="{{ $featuredContent['storiesUrl'] }}" class="btn btn-sm">
+          View all stories
+          <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    {{-- Events panel --}}
+    <div
+      class="content-panel"
+      id="content-panel-events"
+      role="tabpanel"
+      data-content-panel="events"
+      style="margin-top:36px">
+      @if (empty($featuredContent['events']))
+      <p style="color:var(--ink-2);font-size:14px">No events yet.</p>
+      @else
+      <div class="stagger-children" style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px">
+        @foreach ($featuredContent['events'] as $ev)
+        <a
+          href="{{ $ev['permalink'] }}"
+          class="ev-card reveal"
+          style="position:relative;border-radius:14px;overflow:hidden;aspect-ratio:4/3;border:1px solid var(--line);display:block;text-decoration:none">
+          @if ($ev['cover'])
+          <img
+            src="{{ $ev['cover'] }}"
+            alt="{{ esc_attr($ev['title']) }}"
+            style="width:100%;height:100%;object-fit:cover;filter:brightness(.65);transition:transform .4s ease"
+            loading="lazy">
+          @endif
+          <div style="position:absolute;inset:0;padding:22px;display:flex;flex-direction:column;justify-content:flex-end;background:linear-gradient(180deg,transparent 30%,rgba(6,13,31,.92))">
+            @if ($ev['dateLabel'] || $ev['location'])
+            <span class="eyebrow">
+              {{ $ev['dateLabel'] }}
+              @if ($ev['dateLabel'] && $ev['location'])
+              &nbsp;·&nbsp;
+              @endif
+              {{ $ev['location'] }}
+            </span>
+            @endif
+            <h3 class="h3" style="margin-top:8px;font-size:clamp(16px,1.6vw,20px)">{{ $ev['title'] }}</h3>
+            <div style="margin-top:10px;display:inline-flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)">
+              View event
+              <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </div>
+          </div>
+        </a>
+        @endforeach
+      </div>
+      @endif
+      <div style="margin-top:28px;text-align:right">
+        <a href="{{ $featuredContent['eventsUrl'] }}" class="btn btn-sm">
+          View all events
+          <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    {{-- Blog panel --}}
+    <div
+      class="content-panel"
+      id="content-panel-blog"
+      role="tabpanel"
+      data-content-panel="blog"
+      style="margin-top:36px">
+      @if (empty($featuredContent['blogPosts']))
+      <p style="color:var(--ink-2);font-size:14px">No posts yet.</p>
+      @else
+      <div class="stagger-children" style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px">
+        @foreach ($featuredContent['blogPosts'] as $post)
+        <a
+          href="{{ $post['permalink'] }}"
+          class="reveal"
+          style="background:var(--bg-2);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;text-decoration:none">
+          @if ($post['thumbnail'])
+          <div style="aspect-ratio:16/9;overflow:hidden;background:#000;flex-shrink:0">
+            <img
+              src="{{ $post['thumbnail'] }}"
+              alt="{{ esc_attr($post['title']) }}"
+              style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease"
+              loading="lazy">
+          </div>
+          @endif
+          <div style="padding:22px;flex:1;display:flex;flex-direction:column;gap:8px">
+            <div class="tag-row" style="flex-wrap:wrap;gap:6px">
+              <span style="color:var(--ink-2);font-size:12px">{{ $post['dateFormatted'] }}</span>
+              @foreach ($post['categories'] as $cat)
+              <span class="sep">·</span>
+              <span style="color:var(--accent);font-size:12px">{{ $cat['name'] }}</span>
+              @endforeach
+            </div>
+            <h3 class="h3" style="margin:0;font-size:clamp(16px,1.6vw,20px)">{{ $post['title'] }}</h3>
+            @if ($post['excerpt'])
+            <p style="color:var(--ink-2);font-size:13px;line-height:1.6;margin:0;display:-webkit-box;-webkit-line-clamp:3;line-clamp:3;-webkit-box-orient:vertical;overflow:hidden">
+              {{ $post['excerpt'] }}
+            </p>
+            @endif
+            <div style="margin-top:auto;padding-top:8px;display:inline-flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)">
+              Read more
+              <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </div>
+          </div>
+        </a>
+        @endforeach
+      </div>
+      @endif
+      <div style="margin-top:28px;text-align:right">
+        <a href="{{ $featuredContent['blogUrl'] }}" class="btn btn-sm">
+          View all posts
+          <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .content-panel {
+      display: none
+    }
+
+    .content-panel.is-active {
+      display: block
+    }
+
+    @media (max-width: 860px) {
+      .content-panel [style*="repeat(3,1fr)"] {
+        grid-template-columns: repeat(2, 1fr) !important
+      }
+    }
+
+    @media (max-width: 540px) {
+      .content-panel [style*="repeat(3,1fr)"] {
+        grid-template-columns: 1fr !important
+      }
+    }
+  </style>
+</section>
+
 {{-- Services --}}
 <section class="section" style="background:var(--bg-2)">
   <div class="container">
@@ -571,7 +805,9 @@ $accreditedDevelopers = $accreditedDevelopers ?? ['bohol' => [], 'cebu' => []];
         @endif
         <h2 class="h2" style="margin-top:14px">
           {{ $locations['headlineLead'] }}
-          @if ($locations['headlineEm']) <em>{{ $locations['headlineEm'] }}</em>@endif
+          @if ($locations['headlineEm'])
+          <em>{{ $locations['headlineEm'] }}</em>
+          @endif
         </h2>
       </div>
       @if ($locations['intro'])
@@ -582,8 +818,35 @@ $accreditedDevelopers = $accreditedDevelopers ?? ['bohol' => [], 'cebu' => []];
     <div style="display:grid;grid-template-columns:repeat({{ min(count($locations['items']), 2) }}, 1fr);gap:28px" class="loc-grid">
       @foreach ($locations['items'] as $i => $loc)
       <div class="reveal {{ $i % 2 === 0 ? 'reveal-left' : 'reveal-right' }}" style="position:relative;border-radius:14px;overflow:hidden;aspect-ratio:4/3;border:1px solid var(--line){{ $i > 0 ? ';transition-delay:.1s' : '' }}">
-        @if ($loc['image'] && $loc['image']['url'])
-        <img src="{{ $loc['image']['url'] }}" alt="{{ $loc['image']['alt'] }}"
+
+        @if ($i === 0)
+        {{-- Card 1: Google Map (same embed as contact page) --}}
+        <iframe
+          src="https://www.google.com/maps?q=9.6500419,123.853422&output=embed"
+          title="Map showing Planetario Realty office location"
+          width="100%"
+          height="100%"
+          style="border:0;display:block;position:absolute;inset:0;width:100%;height:100%"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          allowfullscreen>
+        </iframe>
+
+        @elseif ($i === 1)
+        {{-- Card 2: Auto-cycling office gallery (no thumbs) --}}
+        @if (! empty($officePhotos))
+        @foreach ($officePhotos as $pi => $photo)
+        <img
+          class="loc-gallery-img"
+          src="{{ $photo['url'] }}"
+          alt="{{ $photo['alt'] }}"
+          style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.7);opacity:{{ $pi === 0 ? '1' : '0' }};transition:opacity .8s ease"
+          loading="{{ $pi === 0 ? 'eager' : 'lazy' }}">
+        @endforeach
+        @elseif (! empty($loc['image']['url']))
+        <img
+          src="{{ $loc['image']['url'] }}"
+          alt="{{ $loc['image']['alt'] ?? '' }}"
           style="width:100%;height:100%;object-fit:cover;filter:brightness(.7)">
         @endif
         <div style="position:absolute;inset:0;padding:32px;display:flex;flex-direction:column;justify-content:flex-end;background:linear-gradient(180deg,transparent 40%,rgba(6,13,31,.9))">
@@ -595,6 +858,26 @@ $accreditedDevelopers = $accreditedDevelopers ?? ['bohol' => [], 'cebu' => []];
           <p class="muted" style="margin-top:8px;max-width:36ch">{{ $loc['description'] }}</p>
           @endif
         </div>
+
+        @else
+        {{-- Remaining cards: standard image + overlay --}}
+        @if (! empty($loc['image']['url']))
+        <img
+          src="{{ $loc['image']['url'] }}"
+          alt="{{ $loc['image']['alt'] ?? '' }}"
+          style="width:100%;height:100%;object-fit:cover;filter:brightness(.7)">
+        @endif
+        <div style="position:absolute;inset:0;padding:32px;display:flex;flex-direction:column;justify-content:flex-end;background:linear-gradient(180deg,transparent 40%,rgba(6,13,31,.9))">
+          @if ($loc['eyebrow'])
+          <span class="eyebrow">{{ $loc['eyebrow'] }}</span>
+          @endif
+          <h3 class="h2" style="font-size:clamp(22px,2.4vw,36px);margin-top:10px">{{ $loc['title'] }}</h3>
+          @if ($loc['description'])
+          <p class="muted" style="margin-top:8px;max-width:36ch">{{ $loc['description'] }}</p>
+          @endif
+        </div>
+        @endif
+
       </div>
       @endforeach
     </div>
@@ -607,6 +890,18 @@ $accreditedDevelopers = $accreditedDevelopers ?? ['bohol' => [], 'cebu' => []];
       }
     }
   </style>
+  <script>
+    (function() {
+      var imgs = document.querySelectorAll('.loc-gallery-img');
+      if (imgs.length < 2) return;
+      var cur = 0;
+      setInterval(function() {
+        imgs[cur].style.opacity = '0';
+        cur = (cur + 1) % imgs.length;
+        imgs[cur].style.opacity = '1';
+      }, 3000);
+    })();
+  </script>
 </section>
 
 {{-- Accredited Developers --}}
@@ -629,26 +924,28 @@ $cebuDevs = $accreditedDevelopers['cebu'] ?? [];
       </p>
     </div>
 
-    <div class="managers-tabs" role="tablist" aria-label="Developers by region" style="margin-top:28px">
+    <div class="managers-tabs" role="tablist" aria-label="Filter developers by region" style="margin-top:28px" data-dev-filter-bar>
+      <button class="managers-tab is-active" role="tab" aria-selected="true" data-dev-filter="all">
+        All
+      </button>
       @if (! empty($boholDevs))
-      <button class="managers-tab is-active" role="tab" aria-selected="true" aria-controls="dev-panel-bohol" data-managers-tab="dev-bohol">
+      <button class="managers-tab" role="tab" aria-selected="false" data-dev-filter="bohol">
         Bohol
       </button>
       @endif
       @if (! empty($cebuDevs))
-      <button class="managers-tab" role="tab" aria-selected="false" aria-controls="dev-panel-cebu" data-managers-tab="dev-cebu">
+      <button class="managers-tab" role="tab" aria-selected="false" data-dev-filter="cebu">
         Cebu
       </button>
       @endif
     </div>
   </div>
 
-  @if (! empty($boholDevs))
-  <div class="managers-panel is-active" id="dev-panel-bohol" role="tabpanel" data-managers-panel="dev-bohol" style="margin-top:36px">
+  <div class="managers-panel is-active" id="dev-panel-all" role="tabpanel" style="margin-top:36px">
     <div class="container">
       <div class="stagger-children dev-logo-wall">
         @foreach ($boholDevs as $d)
-        <div class="dev-logo-item">
+        <div class="dev-logo-item" data-dev-region="bohol">
           @if (! empty($d['logo']))
           <img src="{{ $d['logo'] }}" alt="{{ esc_attr($d['name']) }}" loading="lazy">
           @else
@@ -656,17 +953,8 @@ $cebuDevs = $accreditedDevelopers['cebu'] ?? [];
           @endif
         </div>
         @endforeach
-      </div>
-    </div>
-  </div>
-  @endif
-
-  @if (! empty($cebuDevs))
-  <div class="managers-panel" id="dev-panel-cebu" role="tabpanel" data-managers-panel="dev-cebu" style="margin-top:36px">
-    <div class="container">
-      <div class="stagger-children dev-logo-wall">
         @foreach ($cebuDevs as $d)
-        <div class="dev-logo-item">
+        <div class="dev-logo-item" data-dev-region="cebu">
           @if (! empty($d['logo']))
           <img src="{{ $d['logo'] }}" alt="{{ esc_attr($d['name']) }}" loading="lazy">
           @else
@@ -677,7 +965,6 @@ $cebuDevs = $accreditedDevelopers['cebu'] ?? [];
       </div>
     </div>
   </div>
-  @endif
 
   <div style="margin-top:36px;text-align:center">
     <a href="{{ home_url('/developers') }}" class="btn">

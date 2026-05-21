@@ -4,7 +4,7 @@
     "src": "editor.deps.json"
   },
   "resources/css/app.css": {
-    "file": "assets/app-C3gWKmK1.css",
+    "file": "assets/app-DP0FT9HT.css",
     "name": "app",
     "names": [
       "app.css"
@@ -13,7 +13,7 @@
     "isEntry": true
   },
   "resources/css/editor.css": {
-    "file": "assets/editor-DytdH57a.css",
+    "file": "assets/editor-CCKkXCoG.css",
     "name": "editor",
     "names": [
       "editor.css"
@@ -22,7 +22,7 @@
     "isEntry": true
   },
   "resources/js/app.js": {
-    "file": "assets/app-DPvFeSml.js",
+    "file": "assets/app-ChyVrkOx.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true

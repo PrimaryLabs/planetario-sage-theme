@@ -411,10 +411,174 @@ function initManagerTabs() {
 		});
 }
 
+function initDevFilter() {
+	document.querySelectorAll("[data-dev-filter-bar]").forEach((bar) => {
+		const section = bar.closest("section");
+		if (!section) return;
+
+		const buttons = bar.querySelectorAll("[data-dev-filter]");
+		const items = section.querySelectorAll("[data-dev-region]");
+
+		buttons.forEach((btn) => {
+			btn.addEventListener("click", () => {
+				const filter = btn.dataset.devFilter; // "all" | "bohol" | "cebu"
+
+				buttons.forEach((b) => {
+					b.classList.remove("is-active");
+					b.setAttribute("aria-selected", "false");
+				});
+				btn.classList.add("is-active");
+				btn.setAttribute("aria-selected", "true");
+
+				items.forEach((item) => {
+					const show = filter === "all" || item.dataset.devRegion === filter;
+					item.style.display = show ? "" : "none";
+				});
+			});
+		});
+	});
+}
+
+function initContentTabs() {
+	document
+		.querySelectorAll(".content-tabs[role='tablist']")
+		.forEach((tablist) => {
+			const section = tablist.closest("section");
+			if (!section) return;
+
+			const tabs   = tablist.querySelectorAll("[data-content-tab]");
+			const panels = section.querySelectorAll("[data-content-panel]");
+
+			tabs.forEach((tab) => {
+				tab.addEventListener("click", () => {
+					const target = tab.dataset.contentTab;
+
+					tabs.forEach((t) => {
+						t.classList.remove("is-active");
+						t.setAttribute("aria-selected", "false");
+					});
+					panels.forEach((p) => p.classList.remove("is-active"));
+
+					tab.classList.add("is-active");
+					tab.setAttribute("aria-selected", "true");
+
+					const panel = section.querySelector(
+						`[data-content-panel="${target}"]`,
+					);
+					if (panel) panel.classList.add("is-active");
+				});
+			});
+		});
+}
+
 if (document.readyState === "loading") {
-	document.addEventListener("DOMContentLoaded", initManagerTabs);
+	document.addEventListener("DOMContentLoaded", () => {
+		initManagerTabs();
+		initDevFilter();
+		initContentTabs();
+	});
 } else {
 	initManagerTabs();
+	initDevFilter();
+	initContentTabs();
+}
+
+// Office gallery — main preview + thumbnail rail
+function initOfficeGallery() {
+	document.querySelectorAll("[data-og]").forEach((gallery) => {
+		const mainImg = gallery.querySelector(".og__main");
+		const thumbs = Array.from(gallery.querySelectorAll("[data-og-thumb]"));
+
+		if (!mainImg || thumbs.length < 2) return;
+
+		let current = 0;
+		const FADE_MS = 150;
+		const AUTOPLAY_MS = 3000;
+		const INTERACT_RESUME_MS = 10000;
+
+		let intervalId = null;
+		let resumeId = null;
+
+		function goTo(index) {
+			if (index === current) return;
+
+			mainImg.classList.add("is-switching");
+
+			setTimeout(() => {
+				mainImg.src = thumbs[index].dataset.ogSrc;
+				mainImg.alt = thumbs[index].dataset.ogAlt;
+				mainImg.classList.remove("is-switching");
+			}, FADE_MS);
+
+			thumbs[current].classList.remove("is-active");
+			thumbs[current].setAttribute("aria-pressed", "false");
+			thumbs[index].classList.add("is-active");
+			thumbs[index].setAttribute("aria-pressed", "true");
+
+			thumbs[index].scrollIntoView({
+				block: "nearest",
+				inline: "nearest",
+				behavior: "smooth",
+			});
+
+			current = index;
+		}
+
+		const next = () => goTo((current + 1) % thumbs.length);
+
+		// Always clears both the running interval and any pending resume timeout
+		// before (re)starting — prevents timer stacking on rapid events.
+		const stopAuto = () => {
+			clearInterval(intervalId);
+			clearTimeout(resumeId);
+			intervalId = resumeId = null;
+		};
+
+		const startAuto = (delay = 0) => {
+			stopAuto();
+			const kick = () => {
+				intervalId = setInterval(next, AUTOPLAY_MS);
+			};
+			if (delay > 0) {
+				resumeId = setTimeout(kick, delay);
+			} else {
+				kick();
+			}
+		};
+
+		startAuto();
+
+		// Hover pauses immediately and resumes immediately on leave.
+		// focusin/focusout are intentionally omitted — they fire during clicks
+		// and would cancel the manual-interaction pause window.
+		gallery.addEventListener("mouseenter", stopAuto);
+		gallery.addEventListener("mouseleave", () => startAuto(0));
+
+		thumbs.forEach((thumb, i) => {
+			thumb.addEventListener("click", () => {
+				goTo(i);
+				startAuto(INTERACT_RESUME_MS);
+			});
+		});
+
+		gallery.addEventListener("keydown", (e) => {
+			if (!gallery.contains(document.activeElement)) return;
+			if (e.key === "ArrowRight") {
+				goTo((current + 1) % thumbs.length);
+				startAuto(INTERACT_RESUME_MS);
+			}
+			if (e.key === "ArrowLeft") {
+				goTo((current - 1 + thumbs.length) % thumbs.length);
+				startAuto(INTERACT_RESUME_MS);
+			}
+		});
+	});
+}
+
+if (document.readyState === "loading") {
+	document.addEventListener("DOMContentLoaded", initOfficeGallery);
+} else {
+	initOfficeGallery();
 }
 
 // CountUp — triggered when element enters viewport
@@ -451,3 +615,61 @@ document.querySelectorAll("[data-countup]").forEach((el) => {
 
 	io.observe(el);
 });
+
+// Blog reader — master-detail interaction
+function initBlogReader() {
+	const posts = window.__blogPosts || [];
+	if (!posts.length) return;
+
+	const elImg       = document.getElementById("blog-detail-img");
+	const elMeta      = document.getElementById("blog-detail-meta");
+	const elTitle     = document.getElementById("blog-detail-title");
+	const elTitleLink = document.getElementById("blog-detail-title-link");
+	const elBody      = document.getElementById("blog-detail-body");
+	const elLink      = document.getElementById("blog-detail-link");
+
+	function showPost(id) {
+		const post = posts.find((p) => p.id === id);
+		if (!post) return;
+
+		if (elImg) {
+			elImg.src = post.thumbnail || "";
+			elImg.alt = post.title;
+			elImg.style.display = post.thumbnail ? "" : "none";
+		}
+
+		if (elTitle) elTitle.textContent = post.title;
+		if (elTitleLink) elTitleLink.href = post.permalink;
+		if (elBody) elBody.textContent = post.bodyPreview || post.excerpt || "";
+		if (elLink) elLink.href = post.permalink;
+
+		if (elMeta) {
+			const sep = '<span class="blog-detail__sep">·</span>';
+			const cats = post.categories
+				.map((c) => `<a href="${c.url}" class="blog-detail__cat">${c.name}</a>`)
+				.join(sep);
+			elMeta.innerHTML =
+				(cats ? cats + sep : "") +
+				`<time datetime="${post.date}">${post.dateFormatted}</time>` +
+				`${sep}${post.readTime} min read`;
+		}
+
+		document.querySelectorAll(".blog-list-item").forEach((el) => {
+			const active = Number(el.dataset.id) === id;
+			el.classList.toggle("is-active", active);
+			el.setAttribute("aria-pressed", active ? "true" : "false");
+		});
+	}
+
+	document.querySelectorAll(".blog-list-item").forEach((el) => {
+		el.addEventListener("click", () => showPost(Number(el.dataset.id)));
+		el.addEventListener("keydown", (e) => {
+			if (e.key === "Enter" || e.key === " ") {
+				e.preventDefault();
+				showPost(Number(el.dataset.id));
+			}
+		});
+	});
+}
+
+if (document.querySelector(".blog-reader")) initBlogReader();

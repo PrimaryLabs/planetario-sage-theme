@@ -39,35 +39,31 @@
 
     <div class="ev-featured stagger-children" style="display:grid;grid-template-columns:1.4fr 1fr;gap:24px;margin-top:48px">
 
-      {{-- Primary featured --}}
+      {{-- Primary featured — full-bleed loc-style card --}}
       @php($primary = $featuredEvents[0])
       <a href="{{ $primary['permalink'] }}"
         class="ev-card reveal"
-        style="border-radius:14px;overflow:hidden;background:var(--bg-2);border:1px solid var(--line);display:flex;flex-direction:column;text-decoration:none">
+        style="position:relative;border-radius:14px;overflow:hidden;aspect-ratio:4/3;border:1px solid var(--line);display:block;text-decoration:none">
         @if ($primary['cover'])
-        <div style="aspect-ratio:16/9;overflow:hidden;background:#000;flex-shrink:0">
-          <img src="{{ $primary['cover'] }}" alt="{{ esc_attr($primary['title']) }}"
-            style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease"
-            loading="eager">
-        </div>
+        <img src="{{ $primary['cover'] }}" alt="{{ esc_attr($primary['title']) }}"
+          style="width:100%;height:100%;object-fit:cover;filter:brightness(.65);transition:transform .4s ease"
+          loading="eager">
         @endif
-        <div style="padding:28px 32px;flex:1;display:flex;flex-direction:column;gap:14px">
-          <div class="tag-row">
-            @if ($primary['dateLabel'])
-            <span>{{ $primary['dateLabel'] }}</span>
-            @endif
+        <div style="position:absolute;inset:0;padding:32px;display:flex;flex-direction:column;justify-content:flex-end;background:linear-gradient(180deg,transparent 35%,rgba(6,13,31,.92))">
+          @if ($primary['dateLabel'] || $primary['location'])
+          <span class="eyebrow">
+            {{ $primary['dateLabel'] }}
             @if ($primary['dateLabel'] && $primary['location'])
-            <span class="sep">·</span>
+            &nbsp;·&nbsp;
             @endif
-            @if ($primary['location'])
-            <span style="color:var(--accent)">{{ $primary['location'] }}</span>
-            @endif
-          </div>
-          <h2 class="h2" style="font-size:clamp(22px,2.8vw,36px);margin:0">{{ $primary['title'] }}</h2>
-          @if ($primary['summary'])
-          <p class="lead" style="font-size:14.5px;margin:0">{{ $primary['summary'] }}</p>
+            {{ $primary['location'] }}
+          </span>
           @endif
-          <div style="margin-top:auto;padding-top:8px;display:inline-flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)">
+          <h2 class="h2" style="font-size:clamp(22px,2.8vw,36px);margin-top:10px">{{ $primary['title'] }}</h2>
+          @if ($primary['summary'])
+          <p class="muted" style="margin-top:8px;max-width:40ch">{{ $primary['summary'] }}</p>
+          @endif
+          <div style="margin-top:16px;display:inline-flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)">
             View event
             <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true">
               <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
@@ -76,32 +72,34 @@
         </div>
       </a>
 
-      {{-- Secondary (2nd + 3rd) --}}
+      {{-- Secondary (2nd + 3rd) — same loc-style, flex column --}}
       <div style="display:flex;flex-direction:column;gap:20px">
         @foreach (array_slice($featuredEvents, 1, 2) as $ev)
         <a href="{{ $ev['permalink'] }}"
           class="ev-card reveal"
-          style="border-radius:14px;overflow:hidden;background:var(--bg-2);border:1px solid var(--line);display:flex;flex-direction:column;flex:1;text-decoration:none">
+          style="position:relative;border-radius:14px;overflow:hidden;flex:1;border:1px solid var(--line);display:block;text-decoration:none">
           @if ($ev['cover'])
-          <div style="aspect-ratio:16/7;overflow:hidden;background:#000;flex-shrink:0">
-            <img src="{{ $ev['cover'] }}" alt="{{ esc_attr($ev['title']) }}"
-              style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease"
-              loading="lazy">
-          </div>
+          <img src="{{ $ev['cover'] }}" alt="{{ esc_attr($ev['title']) }}"
+            style="width:100%;height:100%;object-fit:cover;filter:brightness(.65);transition:transform .4s ease"
+            loading="lazy">
           @endif
-          <div style="padding:20px 24px;flex:1;display:flex;flex-direction:column;gap:10px">
-            <div class="tag-row">
-              @if ($ev['dateLabel'])
-              <span>{{ $ev['dateLabel'] }}</span>
-              @endif
+          <div style="position:absolute;inset:0;padding:24px;display:flex;flex-direction:column;justify-content:flex-end;background:linear-gradient(180deg,transparent 30%,rgba(6,13,31,.92))">
+            @if ($ev['dateLabel'] || $ev['location'])
+            <span class="eyebrow">
+              {{ $ev['dateLabel'] }}
               @if ($ev['dateLabel'] && $ev['location'])
-              <span class="sep">·</span>
+              &nbsp;·&nbsp;
               @endif
-              @if ($ev['location'])
-              <span style="color:var(--accent)">{{ $ev['location'] }}</span>
-              @endif
+              {{ $ev['location'] }}
+            </span>
+            @endif
+            <h3 class="h3" style="margin-top:8px;font-size:clamp(17px,1.8vw,22px)">{{ $ev['title'] }}</h3>
+            <div style="margin-top:12px;display:inline-flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)">
+              View event
+              <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
             </div>
-            <h3 class="h3" style="margin:0">{{ $ev['title'] }}</h3>
           </div>
         </a>
         @endforeach

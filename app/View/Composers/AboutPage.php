@@ -3,7 +3,10 @@
 namespace App\View\Composers;
 
 use App\Data\StaticData;
+use App\PostTypes\TeamMember as TeamMemberPostType;
 use Roots\Acorn\View\Composer;
+use WP_Post;
+use WP_Query;
 
 class AboutPage extends Composer
 {
@@ -18,6 +21,7 @@ class AboutPage extends Composer
         return [
             'aboutIntro'   => $this->intro($pageId),
             'aboutVm'      => $this->visionMission($pageId),
+            'aboutBoard'   => $this->boardOfDirectors(),
             'aboutValues'  => $this->values($pageId),
             'aboutWhy'     => $this->why($pageId),
             'aboutOffice'  => $this->officePhotos($pageId),
@@ -53,6 +57,43 @@ class AboutPage extends Composer
             'vision'  => (string) $this->field('about_vm_vision', $pageId, '<p>To be a <em>world-class</em> real-estate company delivering exceptional service to clients, salespeople, business partners, and team members transforming lives by creating opportunities for growth, empowering communities, and fostering progress, all while contributing to a sustainable future for our planet.</p>'),
             'mission' => (string) $this->field('about_vm_mission', $pageId, "<p>To deliver <em>world-class</em> services in the realty industry ensuring our clients' happiness and complete satisfaction. We continuously enhance our competitive edge through innovation, motivation, and training, while fostering long-term relationships built on trust and excellence.</p>"),
         ];
+    }
+
+    private function boardOfDirectors(): array
+    {
+        if (! \post_type_exists(TeamMemberPostType::POST_TYPE)) {
+            return [];
+        }
+
+        $query = new WP_Query([
+            'post_type'      => TeamMemberPostType::POST_TYPE,
+            'post_status'    => 'publish',
+            'posts_per_page' => -1,
+            'orderby'        => ['menu_order' => 'ASC', 'date' => 'ASC'],
+            'tax_query'      => [[
+                'taxonomy' => TeamMemberPostType::TAX_ROLE,
+                'field'    => 'name',
+                'terms'    => 'Board of Directors',
+            ]],
+        ]);
+
+        if (! $query->have_posts()) {
+            return [];
+        }
+
+        return array_map(function (WP_Post $post): array {
+            $photo    = \get_field('team_photo', $post->ID);
+            $photoUrl = is_array($photo) ? ($photo['url'] ?? '') : '';
+            if (! $photoUrl) {
+                $photoUrl = 'https://i.pravatar.cc/500?u=' . rawurlencode($post->post_title);
+            }
+            return [
+                'name'  => $post->post_title,
+                'role'  => (string) \get_field('team_title', $post->ID),
+                'photo' => $photoUrl,
+                'bio'   => (string) \get_field('team_bio', $post->ID),
+            ];
+        }, $query->posts);
     }
 
     private function values(int $pageId): array

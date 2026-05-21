@@ -279,48 +279,104 @@ class StaticData
                 'date'     => '2023-12-15',
                 'location' => 'Tagbilaran City, Bohol',
                 'summary'  => 'Five years of Planetario — closed with the team, partner brokers, and family at a Tagbilaran banquet hall. Awards for top producers and a year-end thank-you to our developer partners.',
+                'cover'    => 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&h=600&fit=crop&q=80',
             ],
             [
                 'title'    => 'Managers TeamBuilding',
                 'date'     => '2024-03-08',
                 'location' => 'Panglao Island, Bohol',
                 'summary'  => 'Two-day managers offsite at Panglao — pipeline planning for the year, leadership workshops, and a brokerage-wide alignment on standards and client care.',
+                'cover'    => 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=800&h=600&fit=crop&q=80',
             ],
             [
                 'title'    => 'Staff TeamBuilding',
                 'date'     => '2024-04-12',
                 'location' => 'Loboc, Bohol',
                 'summary'  => 'A full-staff day along the Loboc river — paddle, lunch, and a workshop on the client journey from first inquiry to title transfer.',
+                'cover'    => 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&h=600&fit=crop&q=80',
             ],
             [
                 'title'    => 'Seminars',
                 'date'     => '2024-06-21',
                 'location' => 'Tagbilaran City, Bohol',
                 'summary'  => 'Series of internal seminars on documentation, BIR filings, and the Registry of Deeds workflow — keeping every broker sharp on the paperwork that protects our clients.',
+                'cover'    => 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&h=600&fit=crop&q=80',
             ],
             [
                 'title'    => '6TH YEAR ANNIVERSARY AND CHRISTMAS PARTY',
                 'date'     => '2024-12-14',
                 'location' => 'Tagbilaran City, Bohol',
                 'summary'  => 'Six years in. A bigger team, more partner developers, and a Christmas Party that celebrated the brokers who showed up for clients all year.',
+                'cover'    => 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=800&h=600&fit=crop&q=80',
             ],
             [
                 'title'    => 'Real Estate Career Orientation Seminar',
                 'date'     => '2025-02-22',
                 'location' => 'Tagbilaran City, Bohol',
                 'summary'  => 'Open orientation for aspiring real estate professionals across Bohol — covering PRC licensing, ethics, and what a career under a brokerage like Planetario looks like day-to-day.',
+                'cover'    => 'https://images.unsplash.com/photo-1560439513-74b037a25d84?w=800&h=600&fit=crop&q=80',
             ],
             [
                 'title'    => 'video of turn over',
                 'date'     => '2025-09-05',
                 'location' => 'Cebu City',
                 'summary'  => 'Turn-over walkthrough captured on video for a remote buyer — keys, fixtures, and final condition documented before handover.',
+                'cover'    => 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&h=600&fit=crop&q=80',
             ],
             [
                 'title'    => 'Realty 7th Anniversary and Christmas Party',
                 'date'     => '2025-12-13',
                 'location' => 'Tagbilaran City, Bohol',
                 'summary'  => 'Seven years of Planetario Realty & Brokerage Services Inc. — a night to recognise top brokers, longest-tenured staff, and the partner developers who grew with us.',
+                'cover'    => 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=800&h=600&fit=crop&q=80',
+            ],
+        ];
+    }
+
+    public static function blog(): array
+    {
+        return [
+            [
+                'title'      => 'Bohol Real Estate Market Outlook 2025',
+                'excerpt'    => 'Demand from OFWs and retiring professionals is reshaping Bohol\'s property landscape. Here\'s what the numbers say for buyers and investors this year.',
+                'content'    => "Bohol has quietly become one of the Visayas' most active property markets. Transaction volumes in Tagbilaran and Panglao rose steadily through 2024, driven by returning OFWs, retiring government workers, and a new wave of remote-working professionals seeking a slower pace without sacrificing connectivity.\n\nCoastal lots in the Anda and Panglao corridors saw the sharpest appreciation — parcels that listed at ₱4,500 per sqm in 2022 are now moving at ₱6,000 to ₱7,500. Vertical developments in Tagbilaran's city core remain the most accessible entry point, with one-bedroom units still available below ₱5M.\n\nFor investors, the fundamentals remain strong: a recovering tourism sector, improving infrastructure with the Panglao International Airport at full capacity, and a provincial government that has consistently prioritized ease of doing business.\n\nIf you are weighing a purchase in 2025, the window for below-market coastal land is narrowing. Our brokers are tracking several off-market parcels right now — reach out before the next listing cycle.",
+                'thumbnail'  => 'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&h=600&fit=crop&q=80',
+                'categories' => ['Market Insights'],
+            ],
+            [
+                'title'      => 'Your Step-by-Step Guide to Buying Property in the Philippines',
+                'excerpt'    => 'From offer to title transfer — a plain-language walkthrough of every stage, so you know exactly what to expect and what documents to prepare.',
+                'content'    => "Buying property in the Philippines involves more steps than many buyers expect — but once you understand the sequence, it is entirely manageable. Here is the process we walk every Planetario client through, step by step.\n\nStep one is due diligence. Before any offer, verify the title at the Registry of Deeds, confirm real property tax is current at the LGU, and check for encumbrances or annotations. Your broker should do this with you, not for you — understanding what you are signing matters.\n\nStep two is the Reservation Agreement and down payment. Once you are satisfied with due diligence, a signed reservation secures the property and locks the price. The down payment schedule follows, usually 20–30% spread over 6–12 months for developer units or paid lump-sum for secondary market lots.\n\nStep three is the Deed of Absolute Sale, notarized by both parties. From here, the buyer pays the Capital Gains Tax (6% of selling price or zonal value, whichever is higher), Documentary Stamp Tax (1.5%), and Transfer Tax at the LGU. The seller pays broker's commission and real estate agent fees unless otherwise agreed.\n\nStep four is the CAR (Certificate Authorizing Registration) from the BIR, followed by title transfer at the Registry of Deeds. Total timeline from signed deed to new title in hand: 30–60 days if paperwork is clean. Our documentation team handles every filing — you attend only the signings.",
+                'thumbnail'  => 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&h=600&fit=crop&q=80',
+                'categories' => ["Buyer's Guide"],
+            ],
+            [
+                'title'      => 'Why Bohol is Becoming the Visayas\' Top Investment Destination',
+                'excerpt'    => 'Infrastructure, tourism, and a growing expat community are converging on one island. Here is why investors are paying attention.',
+                'content'    => "Five years ago, investors who mentioned Bohol in the same breath as Cebu were usually dismissed. That conversation has changed. The island now draws serious capital — from Manila-based developers, Singaporean buyers, and returning OFWs who want yield alongside lifestyle.\n\nThe catalyst was infrastructure. Panglao International Airport opened to full international operations, cutting the island's dependence on Cebu connections. A new bridge proposal linking the mainland to northern Bohol has advanced through feasibility. Road improvements into Carmen and along the coastal corridor have made inland parcels suddenly viable.\n\nThe tourism base has diversified. Beyond the Chocolate Hills and Alona Beach, Anda's limestone coast and the Loboc river valley now draw boutique operators. This is important for investors: dispersed tourism means dispersed demand for accommodation and residential inventory, not just one strip.\n\nFinally, property values still have room to run. Compared to equivalent coastal land in Palawan or Siargao — both further along the appreciation curve — Bohol parcels remain 30–40% cheaper per sqm. For patient investors, the entry window is still open.",
+                'thumbnail'  => 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=600&fit=crop&q=80',
+                'categories' => ['Investment Tips'],
+            ],
+            [
+                'title'      => 'OFW Property Buying: How to Invest in the Philippines from Abroad',
+                'excerpt'    => 'A practical guide for overseas Filipino workers — from remote due diligence to signing by Special Power of Attorney without setting foot in Manila.',
+                'content'    => "More than a third of Planetario's clients are based abroad. Some are in Dubai, Singapore, or Qatar; others are on cargo ships or working seasonal contracts in Europe. What they share is the goal of putting their savings into something real — land or a home back in the Philippines — without the luxury of flying back for every document signing.\n\nThe good news: a Philippine property purchase can be completed almost entirely remotely. The tool that makes this possible is the Special Power of Attorney (SPA). A notarized and authenticated SPA — processed at the Philippine Consulate in your host country — authorizes a trusted person (a family member, lawyer, or your broker) to sign on your behalf at every stage of the transaction.\n\nWhat you will need: a valid Philippine ID or passport, the SPA form (your broker can draft this), consular authentication, and a Philippine bank account or an arrangement with your authorized representative to handle fund transfers. Our documentation team has processed remote transactions from twelve countries — we know every consulate's requirements.\n\nThe one step that benefits from your physical presence is the final title pickup — but even that can be delegated. Several of our OFW buyers have never set foot in the Registry of Deeds and still hold clean, registered titles in their name.",
+                'thumbnail'  => 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=800&h=600&fit=crop&q=80',
+                'categories' => ["Buyer's Guide", 'OFW Corner'],
+            ],
+            [
+                'title'      => 'Panglao vs Tagbilaran: Which Bohol Locale Fits Your Investment?',
+                'excerpt'    => 'Two very different markets, an hour apart. One is leisure and appreciation plays; the other is yield and urban convenience. Here is how to choose.',
+                'content'    => "When buyers ask us where to invest in Bohol, the first question we ask back is: what are you optimizing for? The answer almost always points to either Panglao or Tagbilaran — and they are genuinely different markets.\n\nPanglao is the appreciation play. Coastal land here has compounded at 8–12% annually over the last five years. The buyer profile skews toward long-hold investors, retirees building a dream home, and operators running short-term rentals to the tourism market. Entry prices are higher — expect ₱6,500 to ₱10,000 per sqm for titled coastal land — but the ceiling is not yet visible.\n\nTagbilaran is the yield play. The provincial capital has a stable rental market anchored by government workers, students, and young professionals. A one-bedroom condo in the city core at ₱4M to ₱5.5M can yield 7–8% annually under a managed rental program. Infrastructure is better, utilities are reliable, and resale liquidity is higher.\n\nThe right answer depends entirely on your holding period and income needs. Buyers who need cash flow in year one belong in Tagbilaran. Buyers who can wait five to seven years for appreciation belong on the coast. We work through this analysis with every client before we show the first listing.",
+                'thumbnail'  => 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=800&h=600&fit=crop&q=80',
+                'categories' => ['Market Insights', 'Investment Tips'],
+            ],
+            [
+                'title'      => 'The Complete Property Transfer Checklist for Philippine Buyers',
+                'excerpt'    => 'A printable checklist covering every document, fee, and agency visit from signed deed to new title — so nothing falls through the cracks.',
+                'content'    => "Title transfer is where most property purchases slow down or fall apart. Not because the process is impossible, but because it involves five government agencies, four document types, and deadlines that are easy to miss if you are doing it for the first time.\n\nHere is the sequence our documentation team follows for every transaction. First, secure the notarized Deed of Absolute Sale and compute the Capital Gains Tax (6%) and Documentary Stamp Tax (1.5%) due to the BIR. Both must be paid within 30 days of notarization to avoid surcharges.\n\nNext, file at the BIR Revenue District Office covering the property's location. You will need: the notarized deed, the Transfer Certificate of Title (TCT) or Condominium Certificate of Title (CCT), tax declaration, tax clearance from the LGU, and proof of payment of both taxes. The BIR issues the Certificate Authorizing Registration (CAR) — this is the document that unlocks the next steps.\n\nWith the CAR in hand, pay the Transfer Tax at the provincial or city treasurer's office (typically 0.5–0.75% of selling price). Then proceed to the Registry of Deeds to cancel the old title and issue the new TCT or CCT in the buyer's name. Finally, update the tax declaration at the Assessor's Office. Total government fees outside of taxes: ₱3,000 to ₱8,000 depending on location and title type.",
+                'thumbnail'  => 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&h=600&fit=crop&q=80',
+                'categories' => ['Legal & Documentation'],
             ],
         ];
     }

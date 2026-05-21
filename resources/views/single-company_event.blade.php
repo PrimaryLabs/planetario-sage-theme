@@ -145,11 +145,18 @@
     </div>
 
     {{-- Gallery caption / count --}}
-    <div style="margin-top:14px;display:flex;align-items:center;justify-content:space-between;gap:12px">
-      <p id="ev-caption" style="font-size:13px;color:var(--ink-3);min-height:1em">
-        {{ $galleryItems[0]['caption'] ?? '' }}
-      </p>
-      <span style="font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);white-space:nowrap">
+    <div style="margin-top:14px;display:flex;align-items:start;justify-content:space-between;gap:16px">
+      <div style="min-height:1.2em;display:flex;flex-direction:column;gap:3px">
+        <span id="ev-caption-title"
+          style="font-size:13.5px;font-weight:600;color:var(--ink);display:block">
+          {{ $galleryItems[0]['title'] ?? '' }}
+        </span>
+        <span id="ev-caption-desc"
+          style="font-size:13px;color:var(--ink-3);display:block">
+          {{ $galleryItems[0]['description'] ?? '' }}
+        </span>
+      </div>
+      <span style="font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);white-space:nowrap;padding-top:3px">
         1 / {{ $galleryCount }}
       </span>
     </div>
@@ -299,14 +306,15 @@
 
 <script>
 (function () {
-  var dialog   = document.getElementById('ev-lb');
-  var mediaEl  = document.getElementById('ev-lb-media');
-  var capEl    = document.getElementById('ev-lb-cap');
+  var dialog    = document.getElementById('ev-lb');
+  var mediaEl   = document.getElementById('ev-lb-media');
+  var capEl     = document.getElementById('ev-lb-cap');
   var counterEl = document.getElementById('ev-lb-counter');
-  var capInline = document.getElementById('ev-caption');
-  var items    = JSON.parse(document.getElementById('ev-gallery-data').textContent);
-  var thumbs   = document.querySelectorAll('.ev-gal-thumb');
-  var cur      = 0;
+  var capTitle  = document.getElementById('ev-caption-title');
+  var capDesc   = document.getElementById('ev-caption-desc');
+  var items     = JSON.parse(document.getElementById('ev-gallery-data').textContent);
+  var thumbs    = document.querySelectorAll('.ev-gal-thumb');
+  var cur       = 0;
 
   function mediaHtml(item) {
     if (item.kind === 'youtube') {
@@ -337,8 +345,11 @@
     var item = items[cur];
     mediaEl.innerHTML = mediaHtml(item);
     counterEl.textContent = (cur + 1) + ' / ' + items.length;
-    capEl.textContent = item.caption || '';
-    if (capInline) capInline.textContent = item.caption || '';
+    capEl.textContent = item.title && item.description
+      ? item.title + ' — ' + item.description
+      : (item.title || item.description || '');
+    if (capTitle) capTitle.textContent = item.title || '';
+    if (capDesc)  capDesc.textContent  = item.description || '';
     setThumbActive(cur);
   }
 

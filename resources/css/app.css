@@ -1819,18 +1819,22 @@
 		background: var(--bg-2);
 		padding: 32px;
 		display: grid;
-		grid-template-columns: 1fr auto;
-		gap: 20px;
-		align-items: start;
+		grid-template-columns: auto 1fr;
+		gap: 24px;
+		align-items: center;
 		transition: background 0.25s ease;
 	}
 	.dev:hover {
 		background: var(--bg-3);
 	}
 	.dev .name {
-		font-family: var(--font-display);
-		font-size: 26px;
+		font-family: var(--font-mono);
+		font-size: 11px;
 		font-weight: 500;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: var(--ink-2);
+		margin-top: 10px;
 	}
 	.dev .meta {
 		font-family: var(--font-mono);
@@ -1853,14 +1857,15 @@
 		max-width: 56ch;
 	}
 	.dev .sigil {
-		width: 64px;
-		height: 64px;
-		border-radius: 50%;
+		width: 140px;
+		height: 100px;
+		border-radius: var(--r-md);
 		border: 1px solid var(--line-2);
+		background: var(--bg-3);
 		display: grid;
 		place-items: center;
 		font-family: var(--font-display);
-		font-size: 22px;
+		font-size: 28px;
 		font-weight: 500;
 		color: var(--accent);
 		flex-shrink: 0;
@@ -1877,11 +1882,14 @@
 	}
 	.dev-logo-item {
 		display: flex;
+		flex-direction: column;
 		align-items: center;
 		justify-content: center;
 		background: var(--bg-2);
 		padding: 16px 20px;
 		min-height: 100px;
+		gap: 8px;
+		text-decoration: none;
 		transition: all 1s ease-in-out;
 	}
 	.dev-logo-item:hover {
@@ -1912,6 +1920,18 @@
 	}
 	.dev-logo-item:hover .dev-logo-text {
 		color: var(--ink);
+	}
+	.dev-logo-label {
+		font-family: var(--font-mono);
+		font-size: 10px;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: var(--ink-3);
+		text-align: center;
+		transition: color 0.25s ease;
+	}
+	.dev-logo-item:hover .dev-logo-label {
+		color: var(--ink-2);
 	}
 
 	/* — Success story — */
@@ -2536,52 +2556,88 @@
 }
 
 /* — Office gallery — */
-.office-gallery__grid {
-	display: grid;
-	grid-template-columns: repeat(3, 1fr);
-	gap: 12px;
+.og {
 	margin-top: 48px;
 }
 
-.office-gallery__item {
-	margin: 0;
+.og__stage {
+	position: relative;
+	border-radius: 16px;
 	overflow: hidden;
-	border-radius: 12px;
-	aspect-ratio: 4 / 3;
-}
-
-.office-gallery__item:first-child {
-	grid-column: span 2;
 	aspect-ratio: 16 / 9;
+	background: var(--bg-3, var(--bg-2));
 }
 
-.office-gallery__item img {
+.og__main {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
 	display: block;
-	transition: transform 0.4s ease;
+	transition: opacity 0.3s ease;
 }
 
-.office-gallery__item:hover img {
-	transform: scale(1.04);
+.og__main.is-switching {
+	opacity: 0;
 }
 
-@media (max-width: 860px) {
-	.office-gallery__grid {
-		grid-template-columns: repeat(2, 1fr);
-	}
-	.office-gallery__item:first-child {
-		grid-column: span 2;
-	}
+.og__rail {
+	display: flex;
+	gap: 10px;
+	margin-top: 12px;
+	overflow-x: auto;
+	scroll-snap-type: x mandatory;
+	padding-bottom: 4px;
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
+
+.og__rail::-webkit-scrollbar {
+	display: none;
+}
+
+.og__thumb {
+	flex: 0 0 auto;
+	width: 108px;
+	height: 72px;
+	padding: 0;
+	border: 2px solid transparent;
+	border-radius: 8px;
+	overflow: hidden;
+	cursor: pointer;
+	background: none;
+	opacity: 0.45;
+	transition: opacity 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+	scroll-snap-align: start;
+}
+
+.og__thumb img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+	pointer-events: none;
+}
+
+.og__thumb:hover {
+	opacity: 0.75;
+	transform: translateY(-2px);
+}
+
+.og__thumb.is-active {
+	opacity: 1;
+	border-color: var(--accent);
+}
+
+.og__thumb:focus-visible {
+	outline: 2px solid var(--accent);
+	outline-offset: 2px;
+	opacity: 1;
 }
 
 @media (max-width: 540px) {
-	.office-gallery__grid {
-		grid-template-columns: 1fr;
-	}
-	.office-gallery__item:first-child {
-		grid-column: span 1;
+	.og__thumb {
+		width: 80px;
+		height: 54px;
 	}
 }
 

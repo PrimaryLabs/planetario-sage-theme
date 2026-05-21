@@ -53,6 +53,9 @@ class CompanyEvents extends Composer
         if (! $coverUrl) {
             $coverUrl = (string) \get_the_post_thumbnail_url($post->ID, 'large');
         }
+        if (! $coverUrl) {
+            $coverUrl = (string) (\get_field('event_cover_url', $post->ID) ?: '');
+        }
 
         $dateRaw = (string) \get_field('event_date', $post->ID);
         $dateLabel = $dateRaw ? \date_i18n('F j, Y', strtotime($dateRaw)) : '';
@@ -61,14 +64,15 @@ class CompanyEvents extends Composer
         $items   = [];
         if (is_array($gallery)) {
             foreach ($gallery as $row) {
-                $mediaType = (string) ($row['media_type'] ?? 'image') ?: 'image';
-                $caption   = (string) ($row['caption'] ?? '');
+                $mediaType   = (string) ($row['media_type'] ?? 'image') ?: 'image';
+                $title       = (string) ($row['title'] ?? '');
+                $description = (string) ($row['description'] ?? '');
 
                 $image    = $row['image'] ?? null;
                 $imageUrl = is_array($image) ? (string) ($image['url'] ?? '') : '';
-                if ($imageUrl === '') {
-                    $imageUrl = (string) ($row['image_url'] ?? '');
-                }
+
+                $poster    = $row['poster'] ?? null;
+                $posterUrl = is_array($poster) ? (string) ($poster['url'] ?? '') : '';
 
                 $video     = $row['video'] ?? null;
                 $videoUrl  = is_array($video) ? (string) ($video['url'] ?? '') : '';
@@ -81,26 +85,28 @@ class CompanyEvents extends Composer
 
                 if ($mediaType === 'youtube') {
                     $items[] = [
-                        'kind'    => 'youtube',
-                        'url'     => '',
-                        'embed'   => $youtubeEmbed,
-                        'mime'    => '',
-                        'poster'  => $imageUrl,
-                        'alt'     => $caption,
-                        'caption' => $caption,
+                        'kind'        => 'youtube',
+                        'url'         => '',
+                        'embed'       => $youtubeEmbed,
+                        'mime'        => '',
+                        'poster'      => '',
+                        'alt'         => $title,
+                        'title'       => $title,
+                        'description' => $description,
                     ];
                     continue;
                 }
 
                 if ($mediaType === 'video') {
                     $items[] = [
-                        'kind'    => 'video',
-                        'url'     => $videoUrl,
-                        'embed'   => '',
-                        'mime'    => $videoMime ?: $this->videoMime($videoUrl),
-                        'poster'  => $imageUrl,
-                        'alt'     => $caption,
-                        'caption' => $caption,
+                        'kind'        => 'video',
+                        'url'         => $videoUrl,
+                        'embed'       => '',
+                        'mime'        => $videoMime ?: $this->videoMime($videoUrl),
+                        'poster'      => $posterUrl,
+                        'alt'         => $title,
+                        'title'       => $title,
+                        'description' => $description,
                     ];
                     continue;
                 }
@@ -108,13 +114,14 @@ class CompanyEvents extends Composer
                 if ($imageUrl === '') continue;
 
                 $items[] = [
-                    'kind'    => 'image',
-                    'url'     => $imageUrl,
-                    'embed'   => '',
-                    'mime'    => is_array($image) ? (string) ($image['mime_type'] ?? 'image/jpeg') : 'image/jpeg',
-                    'poster'  => '',
-                    'alt'     => is_array($image) ? (string) ($image['alt'] ?? $caption) : $caption,
-                    'caption' => $caption,
+                    'kind'        => 'image',
+                    'url'         => $imageUrl,
+                    'embed'       => '',
+                    'mime'        => is_array($image) ? (string) ($image['mime_type'] ?? 'image/jpeg') : 'image/jpeg',
+                    'poster'      => '',
+                    'alt'         => is_array($image) ? (string) ($image['alt'] ?? $title) : $title,
+                    'title'       => $title,
+                    'description' => $description,
                 ];
             }
         }

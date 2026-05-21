@@ -69,6 +69,41 @@
   </div>
 </section>
 
+{{-- Board of Directors --}}
+@if (! empty($aboutBoard))
+<section class="section">
+  <div class="container" style="text-align:center">
+    <div class="section-head-col">
+      <div class="reveal flex flex-col items-center">
+        <span class="eyebrow">Leadership</span>
+        <h2 class="h2" style="margin-top:14px">
+          Board of <em>Directors.</em>
+        </h2>
+      </div>
+    </div>
+    <div class="flex flex-wrap gap-6 items-center justify-center" style="margin-top:36px">
+      @foreach ($aboutBoard as $member)
+      <div class="team-card team-card--featured max-w-xs md:w-1/2 lg:w-1/3">
+        <div class="media">
+          <img src="{{ $member['photo'] }}"
+               alt="{{ esc_attr($member['name']) }}"
+               loading="lazy">
+        </div>
+        <div class="body flex flex-col relative items-center justify-center">
+          <div class="name font-bold text-xl tracking-wide">{{ $member['name'] }}</div>
+          <span class="w-1/2 h-[0.5px] bg-ink/20"></span>
+          <div class="role tracking-wide font-medium! text-sm">{{ $member['role'] }}</div>
+          @if (! empty($member['bio']))
+          <p class="bio border-t-0 absolute top-11 text-xs">{{ $member['bio'] }}</p>
+          @endif
+        </div>
+      </div>
+      @endforeach
+    </div>
+  </div>
+</section>
+@endif
+
 {{-- Core Values --}}
 <section class="section" style="background:var(--bg-2)">
   <div class="container">
@@ -122,7 +157,7 @@
 
 {{-- Office Photos --}}
 @if (!empty($aboutOffice['photos']))
-<section class="section office-gallery" style="background:var(--bg-2)">
+<section class="section" style="background:var(--bg-2)">
   <div class="container">
     <div class="section-head-col">
       <div class="reveal text-center">
@@ -134,17 +169,7 @@
         @endif
       </div>
     </div>
-    <div class="office-gallery__grid stagger-children">
-      @foreach ($aboutOffice['photos'] as $photo)
-      <figure class="office-gallery__item reveal">
-        <img
-          src="{{ $photo['url'] }}"
-          alt="{{ $photo['alt'] }}"
-          loading="lazy"
-        >
-      </figure>
-      @endforeach
-    </div>
+    <x-office-gallery :photos="$aboutOffice['photos']" />
   </div>
 </section>
 @endif

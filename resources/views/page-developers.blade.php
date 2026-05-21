@@ -27,27 +27,45 @@
   </div>
 </section>
 
-<section class="section" style="padding-top:128px">
+<section class="section" style="padding-top:64px">
   <div class="container">
-    <div class="stagger-children dev-list">
+    <div class="managers-tabs" role="tablist" aria-label="Filter by region" style="margin-bottom:36px" data-dev-filter-bar>
+      <button class="managers-tab is-active" role="tab" aria-selected="true" data-dev-filter="all">
+        All
+      </button>
+      <button class="managers-tab" role="tab" aria-selected="false" data-dev-filter="bohol">
+        Bohol
+      </button>
+      <button class="managers-tab" role="tab" aria-selected="false" data-dev-filter="cebu">
+        Cebu
+      </button>
+    </div>
+
+    <div class="stagger-children dev-logo-wall">
       @foreach ($devs as $d)
-      <div class="dev">
-        <div>
-          <div class="name">{{ $d['name'] }}</div>
-          @if (! empty($d['website']))
-          <a href="{{ $d['website'] }}" class="dev-website" target="_blank" rel="noopener noreferrer">
-            {{ $d['website'] }}
-          </a>
-          @endif
-        </div>
-        <div class="sigil">
-          @if (! empty($d['logo']))
-          <img src="{{ $d['logo'] }}" alt="{{ $d['name'] }}" style="max-width:60px;max-height:60px;object-fit:contain">
-          @else
-          {{ mb_substr($d['name'], 0, 1) }}
-          @endif
-        </div>
+      @php
+        $region = str_contains(strtolower($d['region'] ?? ''), 'cebu') ? 'cebu' : 'bohol';
+      @endphp
+      @if (! empty($d['website']))
+      <a href="{{ $d['website'] }}" class="dev-logo-item reveal" data-dev-region="{{ $region }}"
+        target="_blank" rel="noopener noreferrer">
+        @if (! empty($d['logo']))
+        <img src="{{ $d['logo'] }}" alt="{{ esc_attr($d['name']) }}" loading="lazy">
+        @else
+        <span class="dev-logo-text">{{ $d['name'] }}</span>
+        @endif
+        <span class="dev-logo-label">{{ $d['name'] }}</span>
+      </a>
+      @else
+      <div class="dev-logo-item reveal" data-dev-region="{{ $region }}">
+        @if (! empty($d['logo']))
+        <img src="{{ $d['logo'] }}" alt="{{ esc_attr($d['name']) }}" loading="lazy">
+        @else
+        <span class="dev-logo-text">{{ $d['name'] }}</span>
+        @endif
+        <span class="dev-logo-label">{{ $d['name'] }}</span>
       </div>
+      @endif
       @endforeach
     </div>
   </div>

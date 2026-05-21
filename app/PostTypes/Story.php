@@ -19,12 +19,13 @@ class Story
                 'edit_item'     => 'Edit Success Story',
                 'menu_name'     => 'Stories',
             ],
-            'public'        => false,
+            'public'        => true,
             'show_ui'       => true,
             'show_in_rest'  => true,
+            'has_archive'   => false,
+            'rewrite'       => ['slug' => 'story'],
             'menu_icon'     => 'dashicons-format-status',
             'menu_position' => 28,
-            'has_archive'   => false,
             'supports'      => ['title', 'thumbnail', 'page-attributes'],
         ]);
     }

@@ -51,7 +51,8 @@ class Blog extends Composer
             'url'  => \get_category_link($c->term_id),
         ], $categories ?: []);
 
-        $thumbnail = \get_the_post_thumbnail_url($post->ID, 'large') ?: '';
+        $thumbnail = \get_the_post_thumbnail_url($post->ID, 'large')
+            ?: (string) \get_post_meta($post->ID, 'post_thumbnail_url', true);
 
         $wordCount = str_word_count(strip_tags($post->post_content));
         $readTime  = max(1, (int) ceil($wordCount / 200));
@@ -61,6 +62,7 @@ class Blog extends Composer
             'title'        => \get_the_title($post->ID),
             'permalink'    => \get_permalink($post->ID),
             'excerpt'      => \get_the_excerpt($post->ID),
+            'bodyPreview'  => \wp_trim_words(strip_tags($post->post_content), 50, '…'),
             'thumbnail'    => $thumbnail,
             'date'         => $post->post_date,
             'dateFormatted'=> \get_the_date('M j, Y', $post->ID),

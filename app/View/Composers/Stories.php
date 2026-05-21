@@ -39,7 +39,7 @@ class Stories extends Composer
         return array_map([$this, 'normalize'], $query->posts);
     }
 
-    private function normalize(WP_Post $post): array
+    protected function normalize(WP_Post $post): array
     {
         $image    = \get_field('story_image', $post->ID);
         $imageUrl = is_array($image) ? ($image['url'] ?? '') : '';
@@ -74,6 +74,8 @@ class Stories extends Composer
         $propertyId = (int) (\get_field('story_property', $post->ID) ?: 0);
 
         return [
+            'id'        => $post->ID,
+            'url'       => (string) \get_permalink($post->ID),
             'client'    => $post->post_title,
             'quote'     => (string) \get_field('story_quote', $post->ID),
             'location'  => (string) \get_field('story_location', $post->ID),

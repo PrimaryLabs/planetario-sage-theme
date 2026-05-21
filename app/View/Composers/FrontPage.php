@@ -25,6 +25,7 @@ class FrontPage extends Composer
             'commitment'           => $this->commitment(),
             'vm'                   => $this->visionMission(),
             'locations'            => $this->locations(),
+            'officePhotos'         => $this->officePhotos(),
             'ctaBanner'            => $this->ctaBanner(),
             'accreditedDevelopers' => $this->accreditedDevelopersByRegion(),
             'team'             => $members,
@@ -34,7 +35,157 @@ class FrontPage extends Composer
             'cebuManagers'     => $byTier['Cebu Managers'] ?? [],
             'boholStaffs'      => $byTier['Bohol Staff'] ?? [],
             'cebuStaffs'       => $byTier['Cebu Staff'] ?? [],
+            'featuredContent'  => $this->featuredContent(),
         ];
+    }
+
+    private function featuredContent(): array
+    {
+        $storiesPage = \get_page_by_path('stories');
+        $eventsPage  = \get_page_by_path('events');
+        $blogPage    = \get_page_by_path('blog');
+
+        return [
+            'storiesUrl' => $storiesPage ? \get_permalink($storiesPage) : \home_url('/stories'),
+            'eventsUrl'  => $eventsPage  ? \get_permalink($eventsPage)  : \home_url('/events'),
+            'blogUrl'    => $blogPage    ? \get_permalink($blogPage)     : \home_url('/blog'),
+            'stories'    => $this->featuredStories(),
+            'events'     => $this->featuredEvents(),
+            'blogPosts'  => $this->featuredBlogPosts(),
+        ];
+    }
+
+    private function featuredStories(): array
+    {
+        if (! \post_type_exists('story')) {
+            return [];
+        }
+
+        $query = new WP_Query([
+            'post_type'      => 'story',
+            'post_status'    => 'publish',
+            'posts_per_page' => 3,
+            'orderby'        => ['menu_order' => 'ASC', 'date' => 'ASC'],
+            'no_found_rows'  => true,
+        ]);
+
+        $items = [];
+        foreach ($query->posts as $post) {
+            $image    = \get_field('story_image', $post->ID);
+            $imageUrl = is_array($image) ? ($image['url'] ?? '') : '';
+            if (! $imageUrl) {
+                $imageUrl = (string) (\get_field('story_image_url', $post->ID)
+                    ?: \get_the_post_thumbnail_url($post->ID, 'large'));
+            }
+            $items[] = [
+                'client'   => $post->post_title,
+                'quote'    => (string) \get_field('story_quote', $post->ID),
+                'location' => (string) \get_field('story_location', $post->ID),
+                'year'     => (string) \get_field('story_year', $post->ID),
+                'image'    => $imageUrl ?: '',
+            ];
+        }
+        \wp_reset_postdata();
+
+        return $items;
+    }
+
+    private function featuredEvents(): array
+    {
+        if (! \post_type_exists('company_event')) {
+            return [];
+        }
+
+        $query = new WP_Query([
+            'post_type'      => 'company_event',
+            'post_status'    => 'publish',
+            'posts_per_page' => 3,
+            'meta_key'       => 'event_date',
+            'orderby'        => ['meta_value' => 'DESC', 'menu_order' => 'ASC'],
+            'no_found_rows'  => true,
+        ]);
+
+        $items = [];
+        foreach ($query->posts as $post) {
+            $rawDate   = (string) \get_post_meta($post->ID, 'event_date', true);
+            $coverField = function_exists('get_field') ? \get_field('event_cover', $post->ID) : null;
+            $cover      = is_array($coverField) ? ($coverField['url'] ?? '') : '';
+            if (! $cover) {
+                $cover = (string) (\get_the_post_thumbnail_url($post->ID, 'large') ?: '');
+            }
+            $items[] = [
+                'title'     => $post->post_title,
+                'permalink' => \get_permalink($post),
+                'cover'     => $cover,
+                'dateLabel' => $rawDate ? \date_i18n('F j, Y', strtotime($rawDate)) : '',
+                'location'  => (string) \get_post_meta($post->ID, 'event_location', true),
+            ];
+        }
+        \wp_reset_postdata();
+
+        return $items;
+    }
+
+    private function featuredBlogPosts(): array
+    {
+        $query = new WP_Query([
+            'post_type'      => 'post',
+            'post_status'    => 'publish',
+            'posts_per_page' => 3,
+            'orderby'        => 'date',
+            'order'          => 'DESC',
+            'no_found_rows'  => true,
+        ]);
+
+        $items = [];
+        foreach ($query->posts as $post) {
+            $cats = array_map(static fn ($c) => [
+                'name' => $c->name,
+                'url'  => \get_category_link($c->term_id),
+            ], \get_the_category($post->ID) ?: []);
+
+            $items[] = [
+                'title'         => $post->post_title,
+                'permalink'     => \get_permalink($post),
+                'thumbnail'     => (string) (\get_the_post_thumbnail_url($post->ID, 'large') ?: ''),
+                'dateFormatted' => \get_the_date('F j, Y', $post),
+                'excerpt'       => \wp_trim_words(\get_the_excerpt($post), 20, '…'),
+                'categories'    => $cats,
+            ];
+        }
+        \wp_reset_postdata();
+
+        return $items;
+    }
+
+    private function officePhotos(): array
+    {
+        if (! function_exists('get_field')) {
+            return [];
+        }
+
+        $page   = \get_page_by_path('about');
+        $pageId = $page ? (int) $page->ID : 0;
+        if (! $pageId) {
+            return [];
+        }
+
+        $raw  = \get_field('about_office_gallery', $pageId);
+        $rows = is_array($raw) ? $raw : [];
+
+        $photos = [];
+        foreach ($rows as $row) {
+            $img = is_array($row['photo'] ?? null) ? $row['photo'] : null;
+            if (! $img || empty($img['url'])) {
+                continue;
+            }
+            $photos[] = [
+                'url' => (string) $img['url'],
+                'alt' => (string) ($img['alt'] ?? ''),
+            ];
+        }
+
+        return $photos;
     }
 
     public function members(): array
@@ -235,9 +386,9 @@ class FrontPage extends Composer
                     ],
                 ],
                 [
-                    'eyebrow'     => 'Cebu sister team',
-                    'title'       => 'Cebu City, Mactan, Talisay, Liloan',
-                    'description' => 'Urban and bayfront condominiums, commercial floors, and gated family residences.',
+                    'eyebrow'     => 'Our Office',
+                    'title'       => '66 Remolador Ext.Brgy.Cogon Tagbilaran City',
+                    'description' => 'beside Reddorze Building or JazzM Building .',
                     'image'       => [
                         'url' => 'https://images.unsplash.com/photo-1514924013411-cbf25faa35bb?w=1000&h=750&fit=crop&q=80',
                         'alt' => 'Cebu',

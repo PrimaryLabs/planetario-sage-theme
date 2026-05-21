@@ -26,7 +26,7 @@
   </div>
 </section>
 
-{{-- Post grid --}}
+{{-- Blog reader: detail + list --}}
 <section class="section" style="padding-top:88px">
   <div class="container">
 
@@ -36,76 +36,105 @@
     </div>
     @else
 
-    <div class="blog-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:32px">
-      @foreach ($blogPosts as $post)
-      <article class="blog-card reveal" style="background:var(--bg-2);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;transition-delay:{{ $loop->index * 0.06 }}s">
+    <script>window.__blogPosts = @json($blogPosts);</script>
 
-        @if ($post['thumbnail'])
-        <a href="{{ $post['permalink'] }}" tabindex="-1" aria-hidden="true" style="display:block;aspect-ratio:16/9;overflow:hidden;background:var(--bg-3)">
-          <img src="{{ $post['thumbnail'] }}"
-            alt="{{ esc_attr($post['title']) }}"
-            loading="lazy"
-            style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease">
-        </a>
+    <div class="blog-reader">
+
+      {{-- Detail panel (server-rendered with first post) --}}
+      @php $first = $blogPosts[0]; @endphp
+      <div class="blog-reader__detail">
+
+        @if ($first['thumbnail'])
+        <img id="blog-detail-img"
+          src="{{ $first['thumbnail'] }}"
+          alt="{{ esc_attr($first['title']) }}"
+          class="blog-detail__img">
+        @else
+        <img id="blog-detail-img"
+          src=""
+          alt=""
+          class="blog-detail__img"
+          style="display:none">
         @endif
 
-        <div style="padding:28px;display:flex;flex-direction:column;gap:12px;flex:1">
+        <div id="blog-detail-meta" class="blog-detail__meta">
+          @foreach ($first['categories'] as $cat)
+          <a href="{{ $cat['url'] }}" class="blog-detail__cat">{{ $cat['name'] }}</a>
+          @if (!$loop->last)
+          <span class="blog-detail__sep">·</span>
+          @endif
+          @endforeach
 
-          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
-            @foreach ($post['categories'] as $cat)
-            <a href="{{ $cat['url'] }}"
-              style="font-family:var(--font-mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);text-decoration:none">
-              {{ $cat['name'] }}
-            </a>
-            @endforeach
+          @if (!empty($first['categories']))
+          <span class="blog-detail__sep">·</span>
+          @endif
 
-            @if (!empty($post['categories']))
-            <span style="color:var(--line);font-size:11px">·</span>
-            @endif
+          <time datetime="{{ $first['date'] }}">{{ $first['dateFormatted'] }}</time>
+          <span class="blog-detail__sep">·</span>
+          <span>{{ $first['readTime'] }} min read</span>
+        </div>
 
+        <h2 style="font-family:var(--font-display);font-size:clamp(22px,2.4vw,34px);font-weight:700;line-height:1.25;margin:0 0 16px">
+          <a id="blog-detail-title-link" href="{{ $first['permalink'] }}" style="color:inherit;text-decoration:none">
+            <span id="blog-detail-title">{{ $first['title'] }}</span>
+          </a>
+        </h2>
+
+        <p id="blog-detail-body" style="color:var(--ink-2);font-size:15.5px;line-height:1.75;margin:0 0 28px">
+          {{ $first['bodyPreview'] ?: $first['excerpt'] }}
+        </p>
+
+        <a id="blog-detail-link" href="{{ $first['permalink'] }}" class="btn btn-primary">
+          Read full article
+          <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </a>
+
+      </div>
+
+      {{-- Post list --}}
+      <div class="blog-reader__list">
+        @foreach ($blogPosts as $post)
+        <div class="blog-list-item{{ $loop->first ? ' is-active' : '' }}"
+          data-id="{{ $post['id'] }}"
+          role="button"
+          tabindex="0"
+          aria-pressed="{{ $loop->first ? 'true' : 'false' }}">
+
+          @if ($post['thumbnail'])
+          <img src="{{ $post['thumbnail'] }}"
+            alt=""
+            loading="lazy"
+            style="width:80px;height:60px;object-fit:cover;border-radius:8px;display:block;flex-shrink:0">
+          @else
+          <div style="width:80px;height:60px;border-radius:8px;background:var(--bg-3);flex-shrink:0"></div>
+          @endif
+
+          <div style="min-width:0">
+            <h3 style="font-family:var(--font-display);font-size:14px;font-weight:600;line-height:1.35;margin:0 0 6px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical">
+              {{ $post['title'] }}
+            </h3>
             <time datetime="{{ $post['date'] }}"
-              style="font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)">
+              style="font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)">
               {{ $post['dateFormatted'] }}
             </time>
           </div>
 
-          <h2 style="font-family:var(--font-display);font-size:clamp(18px,1.6vw,22px);font-weight:600;line-height:1.3;margin:0">
-            <a href="{{ $post['permalink'] }}" style="color:inherit;text-decoration:none">
-              {{ $post['title'] }}
-            </a>
-          </h2>
-
-          @if ($post['excerpt'])
-          <p style="color:var(--ink-2);font-size:14.5px;line-height:1.65;margin:0;flex:1">
-            {{ $post['excerpt'] }}
-          </p>
-          @endif
-
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:8px">
-            <span style="font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)">
-              {{ $post['readTime'] }} min read
-            </span>
-            <a href="{{ $post['permalink'] }}" class="btn" style="font-size:13px;padding:8px 14px;gap:6px">
-              Read
-              <svg class="arr" width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
-            </a>
-          </div>
-
         </div>
-      </article>
-      @endforeach
-    </div>
+        @endforeach
 
-    @if ($blogHasMore)
-    <nav class="blog-pagination" aria-label="Blog pages"
-      style="display:flex;justify-content:center;gap:8px;margin-top:56px;flex-wrap:wrap">
-      @foreach ($blogPagination as $pageLink)
-      {!! $pageLink !!}
-      @endforeach
-    </nav>
-    @endif
+        @if ($blogHasMore)
+        <nav class="blog-pagination" aria-label="Blog pages"
+          style="display:flex;justify-content:center;gap:8px;margin-top:20px;flex-wrap:wrap;padding:0 4px">
+          @foreach ($blogPagination as $pageLink)
+          {!! $pageLink !!}
+          @endforeach
+        </nav>
+        @endif
+      </div>
+
+    </div>
 
     @endif
 
@@ -148,20 +177,83 @@
 @endif
 
 <style>
-  @media (max-width: 900px) {
-    .blog-grid {
-      grid-template-columns: repeat(2, 1fr) !important;
-    }
+  .blog-reader {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 56px;
+    align-items: start;
   }
 
-  @media (max-width: 560px) {
-    .blog-grid {
-      grid-template-columns: 1fr !important;
-    }
+  .blog-reader__detail {
+    position: sticky;
+    top: 100px;
   }
 
-  .blog-card:hover img {
-    transform: scale(1.04);
+  .blog-detail__img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: 14px;
+    display: block;
+    margin-bottom: 24px;
+  }
+
+  .blog-detail__meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 16px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+
+  .blog-detail__cat {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .blog-detail__sep {
+    color: var(--line);
+  }
+
+  .blog-reader__list {
+    max-height: 680px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--line) transparent;
+  }
+
+  .blog-list-item {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 14px;
+    padding: 14px 16px;
+    border-radius: 10px;
+    border-left: 3px solid transparent;
+    cursor: pointer;
+    transition: background .2s, border-color .2s;
+    align-items: center;
+  }
+
+  .blog-list-item:hover {
+    background: var(--bg-2);
+  }
+
+  .blog-list-item.is-active {
+    background: var(--bg-2);
+    border-left-color: var(--accent);
+  }
+
+  .blog-list-item:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
   }
 
   .blog-pagination a,
@@ -192,6 +284,20 @@
     background: var(--accent);
     border-color: var(--accent);
     color: #fff;
+  }
+
+  @media (max-width: 900px) {
+    .blog-reader {
+      grid-template-columns: 1fr;
+    }
+
+    .blog-reader__detail {
+      position: static;
+    }
+
+    .blog-reader__list {
+      max-height: 400px;
+    }
   }
 </style>
 
