@@ -112,22 +112,12 @@ class FrontPage extends Composer
 
     private function normalizeDeveloper(WP_Post $post): array
     {
-        $rows      = \get_field('developer_locations', $post->ID);
-        $locations = is_array($rows)
-            ? array_values(array_filter(array_map(static fn ($r) => (string) ($r['location'] ?? ''), $rows)))
-            : [];
-
         $logo = \get_field('developer_logo', $post->ID);
 
         return [
-            'name'        => $post->post_title,
-            'sigil'       => (string) (\get_field('developer_sigil', $post->ID) ?: mb_substr($post->post_title, 0, 1)),
-            'portfolio'   => (string) \get_field('developer_portfolio', $post->ID),
-            'desc'        => (string) \get_field('developer_desc', $post->ID),
-            'locations'   => $locations,
-            'website'     => (string) \get_field('developer_website', $post->ID),
-            'established' => (string) \get_field('developer_established', $post->ID),
-            'logo'        => is_array($logo) ? ($logo['url'] ?? '') : '',
+            'name'    => $post->post_title,
+            'website' => (string) \get_field('developer_website', $post->ID),
+            'logo'    => is_array($logo) ? ($logo['url'] ?? '') : '',
         ];
     }
     public function hero(): array

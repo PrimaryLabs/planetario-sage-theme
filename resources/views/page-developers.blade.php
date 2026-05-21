@@ -34,29 +34,17 @@
       <div class="dev">
         <div>
           <div class="name">{{ $d['name'] }}</div>
-          <div class="meta">
-            @if (! empty($d['locations']))
-            <span>{{ implode(' · ', $d['locations']) }}</span>
-            @endif
-
-            @if (! empty($d['locations']) && ! empty($d['portfolio']))
-            <span style="color:var(--line-2)">·</span>
-            @endif
-
-            @if (! empty($d['portfolio']))
-            <span style="color:var(--ink-3)">{{ $d['portfolio'] }}</span>
-            @endif
-          </div>
-
-          @if (! empty($d['desc']))
-          <p class="desc">{{ $d['desc'] }}</p>
+          @if (! empty($d['website']))
+          <a href="{{ $d['website'] }}" class="dev-website" target="_blank" rel="noopener noreferrer">
+            {{ $d['website'] }}
+          </a>
           @endif
         </div>
         <div class="sigil">
           @if (! empty($d['logo']))
           <img src="{{ $d['logo'] }}" alt="{{ $d['name'] }}" style="max-width:60px;max-height:60px;object-fit:contain">
           @else
-          {{ $d['sigil'] ?? mb_substr($d['name'], 0, 1) }}
+          {{ mb_substr($d['name'], 0, 1) }}
           @endif
         </div>
       </div>

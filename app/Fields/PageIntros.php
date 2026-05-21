@@ -8,6 +8,7 @@ class PageIntros
 
     /** Pages that get the shared Intro + Closing CTA group. */
     public const PAGE_SLUGS = [
+        'blog',
         'contact',
         'developers',
         'stories',

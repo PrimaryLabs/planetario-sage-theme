@@ -188,7 +188,7 @@ $accreditedDevelopers = $accreditedDevelopers ?? [];
     <div class="flex flex-wrap gap-6 items-center justify-center" style="margin-top:36px">
       @foreach ($boardOfDirectors as $member)
       <div class="team-card team-card--featured max-w-xs md:w-1/2 lg:w-1/3">
-        <div class="media">
+        <div class="media bg-[var(--bg)]/60!">
           <img src="{{ $member['photo'] ?? ('https://i.pravatar.cc/500?u=' . urlencode($member['name'])) }}"
             alt="{{ esc_attr($member['name']) }}"
             loading="lazy">
@@ -286,7 +286,7 @@ $accreditedDevelopers = $accreditedDevelopers ?? [];
               loading="lazy" class="object-cover h-50">
           </div>
           <div class="body flex flex-col relative items-center justify-center py-3">
-            <div class="font-bold text-base tracking-wide uppercase">{{ $member['name'] }}</div>
+            <div class="font-bold text-base tracking-wide uppercase text-center">{{ $member['name'] }}</div>
             <span class="w-1/2 h-[0.5px] bg-ink/20"></span>
             <div class="tracking-wide font-medium! text-xs text-[var(--accent)]">{{ $member['role'] }}</div>
             @if (! empty($member['bio']))
@@ -322,7 +322,7 @@ $accreditedDevelopers = $accreditedDevelopers ?? [];
               loading="lazy" class="object-cover h-50">
           </div>
           <div class="body flex flex-col relative items-center justify-center py-3">
-            <div class="font-bold text-base tracking-wide uppercase">{{ $member['name'] }}</div>
+            <div class="font-bold text-base tracking-wide uppercase text-center">{{ $member['name'] }}</div>
             <span class="w-1/2 h-[0.5px] bg-ink/20"></span>
             <div class="tracking-wide font-medium! text-xs text-[var(--accent)]">{{ $member['role'] }}</div>
             @if (! empty($member['bio']))
@@ -395,7 +395,7 @@ $accreditedDevelopers = $accreditedDevelopers ?? [];
               loading="lazy" class="object-cover h-50">
           </div>
           <div class="body flex flex-col relative items-center justify-center py-3">
-            <div class="font-bold text-base tracking-wide uppercase">{{ $member['name'] }}</div>
+            <div class="font-bold text-base tracking-wide uppercase text-center">{{ $member['name'] }}</div>
             <span class="w-1/2 h-[0.5px] bg-ink/20"></span>
             <div class="tracking-wide font-medium! text-xs text-[var(--accent)]">{{ $member['role'] }}</div>
             @if (! empty($member['bio']))
@@ -431,7 +431,7 @@ $accreditedDevelopers = $accreditedDevelopers ?? [];
               loading="lazy" class="object-cover h-50">
           </div>
           <div class="body flex flex-col relative items-center justify-center py-3">
-            <div class="font-bold text-base tracking-wide uppercase">{{ $member['name'] }}</div>
+            <div class="font-bold text-base tracking-wide uppercase text-center">{{ $member['name'] }}</div>
             <span class="w-1/2 h-[0.5px] bg-ink/20"></span>
             <div class="tracking-wide font-medium! text-xs text-[var(--accent)]">{{ $member['role'] }}</div>
             @if (! empty($member['bio']))

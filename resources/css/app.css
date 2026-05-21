@@ -487,6 +487,100 @@
 		border-radius: 50%;
 		transform: translateX(-50%);
 	}
+	/* — Stories dropdown — */
+	.nav-dropdown-wrap {
+		position: relative;
+	}
+	.nav-link--has-dropdown {
+		display: inline-flex;
+		align-items: center;
+		gap: 5px;
+		background: transparent;
+		border: none;
+		cursor: pointer;
+		font-family: inherit;
+		font-size: 14px;
+		padding: 8px 14px;
+		border-radius: 999px;
+		color: var(--ink-2);
+		position: relative;
+		overflow: hidden;
+		transition: color 0.2s ease;
+	}
+	.nav-link--has-dropdown::before {
+		content: "";
+		position: absolute;
+		left: 14px;
+		right: 14px;
+		bottom: 4px;
+		height: 1px;
+		background: var(--accent);
+		transform: scaleX(0);
+		transform-origin: left;
+		transition: transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1);
+	}
+	.nav-dropdown-wrap:hover .nav-link--has-dropdown {
+		color: var(--ink);
+	}
+	.nav-dropdown-wrap:hover .nav-link--has-dropdown::before {
+		transform: scaleX(1);
+	}
+	.nav-link--has-dropdown.active {
+		color: var(--accent);
+	}
+	.nav-link--has-dropdown .dd-chevron {
+		flex-shrink: 0;
+		transition: transform 0.2s ease;
+	}
+
+	.nav-dropdown {
+		position: absolute;
+		top: calc(100%);
+		left: 50%;
+		transform: translateX(-50%) translateY(-8px);
+		min-width: 148px;
+		background: var(--bg-2);
+		border: 1px solid var(--line);
+		border-radius: 12px;
+		padding: 6px;
+		opacity: 0;
+		pointer-events: none;
+		transition:
+			opacity 0.18s ease,
+			transform 0.18s ease;
+		z-index: 60;
+	}
+	.nav-dropdown__item {
+		display: block;
+		padding: 9px 14px;
+		border-radius: 8px;
+		font-size: 13.5px;
+		color: var(--ink-2);
+		transition:
+			background 0.15s ease,
+			color 0.15s ease;
+	}
+	.nav-dropdown__item:hover {
+		background: var(--bg-3);
+		color: var(--ink);
+	}
+	.nav-dropdown__item.active {
+		color: var(--accent);
+	}
+
+	@media (min-width: 981px) {
+		.nav-dropdown-wrap:hover .nav-dropdown,
+		.nav-dropdown-wrap.open .nav-dropdown {
+			opacity: 1;
+			pointer-events: auto;
+			transform: translateX(-50%) translateY(0);
+		}
+		.nav-dropdown-wrap:hover .dd-chevron,
+		.nav-dropdown-wrap.open .dd-chevron {
+			transform: rotate(180deg);
+		}
+	}
+
 	.nav-cta {
 		display: flex;
 		align-items: center;
@@ -584,6 +678,42 @@
 		}
 		.nav-links.open .nav-link {
 			padding: 12px 14px;
+		}
+		.nav-dropdown-wrap {
+			display: flex;
+			flex-direction: column;
+		}
+		.nav-link--has-dropdown {
+			padding: 12px 14px;
+			width: 100%;
+			text-align: left;
+			justify-content: space-between;
+		}
+		.nav-dropdown {
+			position: static;
+			transform: none;
+			left: auto;
+			min-width: auto;
+			background: transparent;
+			border: none;
+			border-left: 2px solid var(--line);
+			border-radius: 0;
+			padding: 4px 0 4px 12px;
+			opacity: 0;
+			max-height: 0;
+			overflow: hidden;
+			transition:
+				opacity 0.2s ease,
+				max-height 0.25s ease;
+			z-index: auto;
+		}
+		.nav-dropdown-wrap.mobile-open .nav-dropdown {
+			opacity: 1;
+			pointer-events: auto;
+			max-height: 200px;
+		}
+		.nav-dropdown-wrap.mobile-open .dd-chevron {
+			transform: rotate(180deg);
 		}
 	}
 
@@ -1301,7 +1431,9 @@
 		border-radius: 50%;
 		object-fit: cover;
 		border: 2px solid var(--line-2);
-		transition: border-color 0.4s ease, box-shadow 0.4s ease;
+		transition:
+			border-color 0.4s ease,
+			box-shadow 0.4s ease;
 		flex-shrink: 0;
 	}
 	.testi-name {
@@ -1539,7 +1671,10 @@
 		letter-spacing: 0.1em;
 		text-transform: uppercase;
 		cursor: pointer;
-		transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+		transition:
+			background 0.2s ease,
+			border-color 0.2s ease,
+			color 0.2s ease;
 	}
 	.managers-tab:hover {
 		border-color: var(--line-2);
@@ -1593,7 +1728,10 @@
 		align-items: center;
 		justify-content: center;
 		cursor: pointer;
-		transition: border-color 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+		transition:
+			border-color 0.2s ease,
+			color 0.2s ease,
+			opacity 0.2s ease;
 	}
 	.managers-arrow:hover {
 		border-color: var(--accent);
@@ -1759,7 +1897,9 @@
 		object-fit: contain;
 		filter: grayscale(100%) brightness(1.8);
 		opacity: 0.55;
-		transition: filter 0.35s ease, opacity 0.35s ease;
+		transition:
+			filter 0.35s ease,
+			opacity 0.35s ease;
 	}
 	.dev-logo-item:hover img {
 		filter: grayscale(0%) brightness(1);

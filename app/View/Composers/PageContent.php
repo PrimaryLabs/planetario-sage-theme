@@ -7,6 +7,7 @@ use Roots\Acorn\View\Composer;
 class PageContent extends Composer
 {
     protected static $views = [
+        'page-blog',
         'page-contact',
         'page-developers',
         'page-stories',
@@ -20,6 +21,25 @@ class PageContent extends Composer
      * gracefully before any ACF values are set.
      */
     private const DEFAULTS = [
+        'blog' => [
+            'intro' => [
+                'eyebrow'       => 'Insights & news',
+                'headlineLead'  => 'From the',
+                'headlineEm'    => 'Planetario desk.',
+                'headlineTrail' => '',
+                'lead'          => 'Market updates, buying guides, and stories from the field — written by the brokers who close the deals.',
+            ],
+            'closing' => [
+                'eyebrow'        => 'Ready to move?',
+                'headlineLead'   => 'Reading is a start.',
+                'headlineEm'     => 'A conversation',
+                'body'           => 'gets you further. Tell us what you\'re looking for and one of our brokers will follow up the same day.',
+                'primaryLabel'   => 'Get in touch',
+                'primaryUrl'     => '/contact',
+                'secondaryLabel' => 'Browse listings',
+                'secondaryUrl'   => '/properties',
+            ],
+        ],
         'contact' => [
             'intro' => [
                 'eyebrow'      => 'Contact us',
