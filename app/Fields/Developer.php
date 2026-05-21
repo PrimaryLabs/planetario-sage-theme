@@ -44,6 +44,16 @@ class Developer
                     'type'         => 'url',
                     'instructions' => 'Optional.',
                     'required'     => 0,
+                    'wrapper'      => ['width' => '60'],
+                ],
+                [
+                    'key'          => 'field_developer_region',
+                    'label'        => 'Region',
+                    'name'         => 'developer_region',
+                    'type'         => 'text',
+                    'instructions' => 'e.g. Bohol, Cebu, Visayas',
+                    'required'     => 0,
+                    'wrapper'      => ['width' => '40'],
                 ],
             ],
         ]);

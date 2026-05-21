@@ -288,6 +288,20 @@ add_action('widgets_init', function () {
 });
 
 /**
+ * Rename the default "Posts" post type to "Blog Post" throughout wp-admin.
+ * Uses gettext so the label propagates to menus, page titles, and notices.
+ */
+add_filter('gettext', function (string $translated, string $original, string $domain): string {
+    $map = [
+        'Posts'    => 'Blog Posts',
+        'Post'     => 'Blog Post',
+        'Add New Post' => 'Add New Blog Post',
+    ];
+
+    return $map[$original] ?? $translated;
+}, 10, 3);
+
+/**
  * Fix Sage local development CORS errors
  */
 add_action('init', function () {

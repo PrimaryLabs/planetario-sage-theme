@@ -27,6 +27,48 @@ class Developer
             'has_archive'   => false,
             'supports'      => ['title', 'thumbnail', 'page-attributes'],
         ]);
+
+        \add_filter('manage_' . self::POST_TYPE . '_posts_columns', [self::class, 'addColumns']);
+        \add_action('manage_' . self::POST_TYPE . '_posts_custom_column', [self::class, 'renderColumn'], 10, 2);
+        \add_filter('manage_edit-' . self::POST_TYPE . '_sortable_columns', [self::class, 'sortableColumns']);
+    }
+
+    public static function addColumns(array $columns): array
+    {
+        $reordered = [];
+        foreach ($columns as $key => $label) {
+            $reordered[$key] = $label;
+            if ($key === 'title') {
+                $reordered['developer_image']  = 'Image';
+                $reordered['developer_region'] = 'Region';
+            }
+        }
+        return $reordered;
+    }
+
+    public static function renderColumn(string $column, int $postId): void
+    {
+        if ($column === 'developer_image') {
+            $logo = \get_field('developer_logo', $postId);
+            if (! empty($logo['url'])) {
+                $url = \esc_url($logo['url']);
+                $alt = \esc_attr($logo['alt'] ?? '');
+                echo '<img src="' . $url . '" alt="' . $alt . '" style="height:40px;width:auto;object-fit:contain;">';
+            } else {
+                echo '—';
+            }
+        }
+
+        if ($column === 'developer_region') {
+            $region = \get_field('developer_region', $postId);
+            echo $region ? \esc_html($region) : '—';
+        }
+    }
+
+    public static function sortableColumns(array $columns): array
+    {
+        $columns['developer_region'] = 'developer_region';
+        return $columns;
     }
 
     public static function seed(bool $force = false): array

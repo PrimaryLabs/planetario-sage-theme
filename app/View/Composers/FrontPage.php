@@ -26,7 +26,7 @@ class FrontPage extends Composer
             'vm'                   => $this->visionMission(),
             'locations'            => $this->locations(),
             'ctaBanner'            => $this->ctaBanner(),
-            'accreditedDevelopers' => $this->accreditedDevelopers(),
+            'accreditedDevelopers' => $this->accreditedDevelopersByRegion(),
             'team'             => $members,
             'boardOfDirectors' => $byTier['Board of Directors'] ?? [],
             'brokers'          => $byTier['broker'] ?? [],
@@ -89,7 +89,24 @@ class FrontPage extends Composer
         return $groups;
     }
 
-    public function accreditedDevelopers(int $limit = 6): array
+    public function accreditedDevelopersByRegion(int $limit = 12): array
+    {
+        $devs    = $this->accreditedDevelopers($limit);
+        $grouped = ['bohol' => [], 'cebu' => []];
+
+        foreach ($devs as $d) {
+            $region = strtolower(trim($d['region'] ?? ''));
+            if (str_contains($region, 'cebu')) {
+                $grouped['cebu'][] = $d;
+            } else {
+                $grouped['bohol'][] = $d;
+            }
+        }
+
+        return $grouped;
+    }
+
+    public function accreditedDevelopers(int $limit = 12): array
     {
         if (! \post_type_exists(DeveloperPostType::POST_TYPE) || ! function_exists('get_field')) {
             return array_slice(StaticData::developers(), 0, $limit);
@@ -116,6 +133,7 @@ class FrontPage extends Composer
 
         return [
             'name'    => $post->post_title,
+            'region'  => (string) \get_field('developer_region', $post->ID),
             'website' => (string) \get_field('developer_website', $post->ID),
             'logo'    => is_array($logo) ? ($logo['url'] ?? '') : '',
         ];

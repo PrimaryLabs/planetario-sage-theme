@@ -45,6 +45,7 @@ class Developers extends Composer
 
         return [
             'name'    => $post->post_title,
+            'region'  => (string) \get_field('developer_region', $post->ID),
             'website' => (string) \get_field('developer_website', $post->ID),
             'logo'    => is_array($logo) ? ($logo['url'] ?? '') : '',
         ];

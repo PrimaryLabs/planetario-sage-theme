@@ -19,12 +19,13 @@ class CompanyEvent
                 'edit_item'     => 'Edit Company Event',
                 'menu_name'     => 'Events',
             ],
-            'public'        => false,
+            'public'        => true,
             'show_ui'       => true,
             'show_in_rest'  => true,
             'menu_icon'     => 'dashicons-calendar-alt',
             'menu_position' => 29,
             'has_archive'   => false,
+            'rewrite'       => ['slug' => 'event', 'with_front' => false],
             'supports'      => ['title', 'editor', 'thumbnail', 'page-attributes'],
         ]);
     }

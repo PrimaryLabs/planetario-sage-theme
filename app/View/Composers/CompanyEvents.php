@@ -11,12 +11,17 @@ class CompanyEvents extends Composer
 {
     protected static $views = [
         'page-stories',
+        'page-events',
     ];
 
     public function with(): array
     {
+        $all = $this->all();
+
         return [
-            'companyEvents' => $this->all(),
+            'companyEvents'  => $all,
+            'featuredEvents' => array_slice($all, 0, 3),
+            'allEvents'      => $all,
         ];
     }
 
@@ -41,7 +46,7 @@ class CompanyEvents extends Composer
         return array_map([$this, 'normalize'], $query->posts);
     }
 
-    private function normalize(WP_Post $post): array
+    protected function normalize(WP_Post $post): array
     {
         $cover    = \get_field('event_cover', $post->ID);
         $coverUrl = is_array($cover) ? ($cover['url'] ?? '') : '';
@@ -117,6 +122,7 @@ class CompanyEvents extends Composer
         return [
             'id'        => $post->ID,
             'title'     => $post->post_title,
+            'permalink' => (string) \get_permalink($post->ID),
             'date'      => $dateRaw,
             'dateLabel' => $dateLabel,
             'location'  => (string) \get_field('event_location', $post->ID),
@@ -126,7 +132,7 @@ class CompanyEvents extends Composer
         ];
     }
 
-    private function youtubeEmbedUrl(string $url): string
+    protected function youtubeEmbedUrl(string $url): string
     {
         $url = trim($url);
         if ($url === '') return '';
@@ -143,7 +149,7 @@ class CompanyEvents extends Composer
         return '';
     }
 
-    private function videoMime(string $url): string
+    protected function videoMime(string $url): string
     {
         $ext = strtolower(pathinfo(parse_url($url, PHP_URL_PATH) ?: '', PATHINFO_EXTENSION));
 

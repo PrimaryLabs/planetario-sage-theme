@@ -7,7 +7,7 @@ $properties = $featuredProperties ?? array_slice(StaticData::properties(), 0, 6)
 $servicesData = $site['services'] ?? null;
 $services = $servicesData['items'] ?? array_map(fn($s) => ['number' => $s['num'], 'title' => $s['title'], 'description' => $s['desc']], StaticData::services());
 $testimonialItems = $testimonialsHighlights ?? array_slice(StaticData::testimonials(), 0, 6);
-$accreditedDevelopers = $accreditedDevelopers ?? [];
+$accreditedDevelopers = $accreditedDevelopers ?? ['bohol' => [], 'cebu' => []];
 @endphp
 
 {{-- Hero --}}
@@ -606,7 +606,11 @@ $accreditedDevelopers = $accreditedDevelopers ?? [];
 </section>
 
 {{-- Accredited Developers --}}
-@if (! empty($accreditedDevelopers))
+@php
+$boholDevs = $accreditedDevelopers['bohol'] ?? [];
+$cebuDevs  = $accreditedDevelopers['cebu']  ?? [];
+@endphp
+@if (! empty($boholDevs) || ! empty($cebuDevs))
 <section class="section" style="background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
   <div class="container">
     <div class="section-head-col">
@@ -621,26 +625,63 @@ $accreditedDevelopers = $accreditedDevelopers ?? [];
       </p>
     </div>
 
-    <div class="stagger-children dev-logo-wall" style="margin-top:36px">
-      @foreach ($accreditedDevelopers as $d)
-      <div class="dev-logo-item">
-        @if (! empty($d['logo']))
-        <img src="{{ $d['logo'] }}" alt="{{ esc_attr($d['name']) }}" loading="lazy">
-        @else
-        <span class="dev-logo-text">{{ $d['name'] }}</span>
-        @endif
-      </div>
-      @endforeach
+    <div class="managers-tabs" role="tablist" aria-label="Developers by region" style="margin-top:28px">
+      @if (! empty($boholDevs))
+      <button class="managers-tab is-active" role="tab" aria-selected="true" aria-controls="dev-panel-bohol" data-managers-tab="dev-bohol">
+        Bohol
+      </button>
+      @endif
+      @if (! empty($cebuDevs))
+      <button class="managers-tab" role="tab" aria-selected="false" aria-controls="dev-panel-cebu" data-managers-tab="dev-cebu">
+        Cebu
+      </button>
+      @endif
     </div>
+  </div>
 
-    <div style="margin-top:36px;text-align:center">
-      <a href="{{ home_url('/developers') }}" class="btn">
-        See all developers
-        <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-          <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
-      </a>
+  @if (! empty($boholDevs))
+  <div class="managers-panel is-active" id="dev-panel-bohol" role="tabpanel" data-managers-panel="dev-bohol" style="margin-top:36px">
+    <div class="container">
+      <div class="stagger-children dev-logo-wall">
+        @foreach ($boholDevs as $d)
+        <div class="dev-logo-item">
+          @if (! empty($d['logo']))
+          <img src="{{ $d['logo'] }}" alt="{{ esc_attr($d['name']) }}" loading="lazy">
+          @else
+          <span class="dev-logo-text">{{ $d['name'] }}</span>
+          @endif
+        </div>
+        @endforeach
+      </div>
     </div>
+  </div>
+  @endif
+
+  @if (! empty($cebuDevs))
+  <div class="managers-panel" id="dev-panel-cebu" role="tabpanel" data-managers-panel="dev-cebu" style="margin-top:36px">
+    <div class="container">
+      <div class="stagger-children dev-logo-wall">
+        @foreach ($cebuDevs as $d)
+        <div class="dev-logo-item">
+          @if (! empty($d['logo']))
+          <img src="{{ $d['logo'] }}" alt="{{ esc_attr($d['name']) }}" loading="lazy">
+          @else
+          <span class="dev-logo-text">{{ $d['name'] }}</span>
+          @endif
+        </div>
+        @endforeach
+      </div>
+    </div>
+  </div>
+  @endif
+
+  <div style="margin-top:36px;text-align:center">
+    <a href="{{ home_url('/developers') }}" class="btn">
+      See all developers
+      <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+        <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </a>
   </div>
 </section>
 @endif

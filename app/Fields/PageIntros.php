@@ -11,6 +11,7 @@ class PageIntros
         'blog',
         'contact',
         'developers',
+        'events',
         'stories',
         'testimonials',
         'properties',

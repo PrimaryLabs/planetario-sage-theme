@@ -1870,33 +1870,29 @@
 	.dev-logo-wall {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 1px;
-		background: var(--line);
-		border: 1px solid var(--line);
-		border-radius: var(--r-lg);
+		gap: 8px;
 		overflow: hidden;
+		justify-content: center;
+		align-items: center;
 	}
 	.dev-logo-item {
-		flex: 1 1 180px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		background: var(--bg-2);
-		padding: 32px 40px;
+		padding: 16px 20px;
 		min-height: 100px;
-		transition: background 0.25s ease;
+		transition: all 1s ease-in-out;
 	}
 	.dev-logo-item:hover {
 		background: var(--bg-3);
 	}
 	.dev-logo-item img {
-		max-width: 140px;
-		max-height: 52px;
 		width: auto;
-		height: auto;
+		height: 128px;
 		object-fit: contain;
-		filter: grayscale(100%) brightness(1.8);
-		opacity: 0.55;
+		filter: grayscale(10%) brightness(1);
+		opacity: 1;
 		transition:
 			filter 0.35s ease,
 			opacity 0.35s ease;
