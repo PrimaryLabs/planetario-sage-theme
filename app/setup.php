@@ -288,18 +288,12 @@ add_action('widgets_init', function () {
 });
 
 /**
- * Rename the default "Posts" post type to "Blog Post" throughout wp-admin.
- * Uses gettext so the label propagates to menus, page titles, and notices.
+ * Rename "Posts" → "Blog Posts" in wp-admin via DOM text replacement.
  */
-add_filter('gettext', function (string $translated, string $original, string $domain): string {
-    $map = [
-        'Posts'    => 'Blog Posts',
-        'Post'     => 'Blog Post',
-        'Add New Post' => 'Add New Blog Post',
-    ];
-
-    return $map[$original] ?? $translated;
-}, 10, 3);
+add_action('admin_enqueue_scripts', function () {
+    $asset = \get_theme_file_uri('resources/js/admin.js');
+    \wp_enqueue_script('planetario-admin', $asset, [], null, true);
+});
 
 /**
  * Fix Sage local development CORS errors

@@ -4,7 +4,7 @@
 
 {{-- Intro — Tier 1 full-bleed hero --}}
 @php
-  $contactHeroImage = 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1600&h=900&fit=crop&q=80';
+$contactHeroImage = 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1600&h=900&fit=crop&q=80';
 @endphp
 <section class="page-hero">
   <div class="page-hero__bg">
@@ -15,21 +15,21 @@
 
   <div class="container page-hero__inner">
     @if ($pageIntro['eyebrow'])
-      <span class="eyebrow">{{ $pageIntro['eyebrow'] }}</span>
+    <span class="eyebrow">{{ $pageIntro['eyebrow'] }}</span>
     @endif
 
     <h1 class="display" style="margin-top:18px;max-width:18ch">
       {{ $pageIntro['headlineLead'] }}
       @if ($pageIntro['headlineEm'])
-        <em>{{ $pageIntro['headlineEm'] }}</em>
+      <em>{{ $pageIntro['headlineEm'] }}</em>
       @endif
       @if ($pageIntro['headlineTrail'])
-        {{ $pageIntro['headlineTrail'] }}
+      {{ $pageIntro['headlineTrail'] }}
       @endif
     </h1>
 
     @if ($pageIntro['lead'])
-      <p class="lead" style="margin-top:22px;max-width:60ch">{{ $pageIntro['lead'] }}</p>
+    <p class="lead" style="margin-top:22px;max-width:60ch">{{ $pageIntro['lead'] }}</p>
     @endif
   </div>
 </section>
@@ -112,7 +112,7 @@
         </div>
         @else
         @php
-          $contact_action = admin_url('admin-post.php');
+        $contact_action = admin_url('admin-post.php');
         @endphp
         <form method="POST" action="{{ $contact_action }}" style="display:grid;gap:28px;grid-template-columns:1fr 1fr"
           id="contact-form" class="contact-form" novalidate>
@@ -190,11 +190,6 @@
   </style>
 </section>
 
-@php
-  $mapAddress = trim(($site['contact']['addressLine1'] ?? '') . ' ' . ($site['contact']['addressLine2'] ?? ''));
-  $mapQuery = urlencode($mapAddress !== '' ? $mapAddress : 'Tagbilaran City, Bohol');
-@endphp
-
 <section class="section" style="padding-top:64px">
   <div class="container">
     <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:24px">
@@ -204,7 +199,7 @@
           Visit the <em>Tagbilaran</em> office.
         </h2>
       </div>
-      <a class="btn btn-ghost" href="https://www.google.com/maps/dir/?api=1&destination={{ $mapQuery }}" target="_blank" rel="noopener noreferrer">
+      <a class="btn btn-ghost" href="https://www.google.com/maps/dir/?api=1&destination=9.6500419,123.853422" target="_blank" rel="noopener noreferrer" style="padding-left: 24px; padding-right: 24px;">
         Get directions
         <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
           <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
@@ -214,8 +209,8 @@
 
     <div style="border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--bg-2);aspect-ratio:16/7;min-height:360px">
       <iframe
-        src="https://www.google.com/maps?q={{ $mapQuery }}&output=embed"
-        title="Map showing {{ esc_attr($mapAddress) }}"
+        src="https://www.google.com/maps?q=9.6500419,123.853422&output=embed"
+        title="Map showing Jaz-M Bldg., Tagbilaran City, Bohol"
         width="100%"
         height="100%"
         style="border:0;display:block"

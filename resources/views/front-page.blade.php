@@ -92,10 +92,12 @@ $accreditedDevelopers = $accreditedDevelopers ?? ['bohol' => [], 'cebu' => []];
             {!! $vm['vision'] !!}
           </div>
         </div>
-        <svg class="vm-card__icon vm-card__icon--vision" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z" />
-          <circle cx="12" cy="12" r="3" />
-        </svg>
+        <div class="animate-pulse">
+          <svg class="vm-card__icon vm-card__icon--vision" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z" />
+            <circle cx="12" cy="12" r="3" />
+          </svg>
+        </div>
       </article>
       <article class="vm-card vm-card--mission reveal">
         <div class="vm-card__bg" aria-hidden="true"></div>
@@ -106,12 +108,14 @@ $accreditedDevelopers = $accreditedDevelopers ?? ['bohol' => [], 'cebu' => []];
             {!! $vm['mission'] !!}
           </div>
         </div>
-        <svg class="vm-card__icon vm-card__icon--mission" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <circle cx="12" cy="12" r="9" />
-          <circle cx="12" cy="12" r="5" />
-          <circle cx="12" cy="12" r="1.4" fill="currentColor" />
-          <path d="M12 3V1.5M21 12h1.5M18.5 5.5L22 2" />
-        </svg>
+        <div class="animate-pulse">
+          <svg class="vm-card__icon vm-card__icon--mission" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="9" />
+            <circle cx="12" cy="12" r="5" />
+            <circle cx="12" cy="12" r="1.4" fill="currentColor" />
+            <path d="M12 3V1.5M21 12h1.5M18.5 5.5L22 2" />
+          </svg>
+        </div>
       </article>
     </div>
 
@@ -608,7 +612,7 @@ $accreditedDevelopers = $accreditedDevelopers ?? ['bohol' => [], 'cebu' => []];
 {{-- Accredited Developers --}}
 @php
 $boholDevs = $accreditedDevelopers['bohol'] ?? [];
-$cebuDevs  = $accreditedDevelopers['cebu']  ?? [];
+$cebuDevs = $accreditedDevelopers['cebu'] ?? [];
 @endphp
 @if (! empty($boholDevs) || ! empty($cebuDevs))
 <section class="section" style="background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
