@@ -120,6 +120,35 @@
   </div>
 </section>
 
+{{-- Office Photos --}}
+@if (!empty($aboutOffice['photos']))
+<section class="section office-gallery" style="background:var(--bg-2)">
+  <div class="container">
+    <div class="section-head-col">
+      <div class="reveal text-center">
+        @if ($aboutOffice['eyebrow'])
+        <span class="eyebrow">{{ $aboutOffice['eyebrow'] }}</span>
+        @endif
+        @if ($aboutOffice['headline'])
+        <h2 class="h2" style="margin-top:14px">{{ $aboutOffice['headline'] }}</h2>
+        @endif
+      </div>
+    </div>
+    <div class="office-gallery__grid stagger-children">
+      @foreach ($aboutOffice['photos'] as $photo)
+      <figure class="office-gallery__item reveal">
+        <img
+          src="{{ $photo['url'] }}"
+          alt="{{ $photo['alt'] }}"
+          loading="lazy"
+        >
+      </figure>
+      @endforeach
+    </div>
+  </div>
+</section>
+@endif
+
 {{-- Closing quote --}}
 <section class="section" style="background:var(--bg-2);border-top:1px solid var(--line)">
   <div class="container" style="text-align:center">

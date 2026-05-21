@@ -2535,6 +2535,56 @@
 	}
 }
 
+/* — Office gallery — */
+.office-gallery__grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 12px;
+	margin-top: 48px;
+}
+
+.office-gallery__item {
+	margin: 0;
+	overflow: hidden;
+	border-radius: 12px;
+	aspect-ratio: 4 / 3;
+}
+
+.office-gallery__item:first-child {
+	grid-column: span 2;
+	aspect-ratio: 16 / 9;
+}
+
+.office-gallery__item img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+	transition: transform 0.4s ease;
+}
+
+.office-gallery__item:hover img {
+	transform: scale(1.04);
+}
+
+@media (max-width: 860px) {
+	.office-gallery__grid {
+		grid-template-columns: repeat(2, 1fr);
+	}
+	.office-gallery__item:first-child {
+		grid-column: span 2;
+	}
+}
+
+@media (max-width: 540px) {
+	.office-gallery__grid {
+		grid-template-columns: 1fr;
+	}
+	.office-gallery__item:first-child {
+		grid-column: span 1;
+	}
+}
+
 /* — Tiered page heroes — */
 /* Tier 1: full-bleed image hero (about, contact) */
 .page-hero {

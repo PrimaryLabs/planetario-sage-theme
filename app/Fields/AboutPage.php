@@ -18,7 +18,7 @@ class AboutPage
             return;
         }
 
-        acf_add_local_field_group([
+        \acf_add_local_field_group([
             'key'      => self::GROUP_KEY,
             'title'    => 'About Page',
             'location' => [[
@@ -45,6 +45,8 @@ class AboutPage
             self::valuesFields(),
             [['key' => 'field_about_tab_why', 'label' => 'Why Choose Us', 'type' => 'tab']],
             self::whyFields(),
+            [['key' => 'field_about_tab_office', 'label' => 'Office Photos', 'type' => 'tab']],
+            self::officeFields(),
             [['key' => 'field_about_tab_closing', 'label' => 'Closing Quote', 'type' => 'tab']],
             self::closingFields(),
         );
@@ -258,6 +260,39 @@ class AboutPage
                         'wrapper'   => ['width' => '50'],
                     ],
                 ],
+            ],
+        ];
+    }
+
+    private static function officeFields(): array
+    {
+        return [
+            [
+                'key'           => 'field_about_office_eyebrow',
+                'label'         => 'Eyebrow',
+                'name'          => 'about_office_eyebrow',
+                'type'          => 'text',
+                'default_value' => 'Our workspace',
+            ],
+            [
+                'key'           => 'field_about_office_headline',
+                'label'         => 'Headline',
+                'name'          => 'about_office_headline',
+                'type'          => 'text',
+                'default_value' => 'Where we work',
+            ],
+            [
+                'key'             => 'field_about_office_gallery',
+                'label'           => 'Office photos',
+                'name'            => 'about_office_gallery',
+                'type'            => 'repeater_field',
+                'instructions'    => 'Add up to 12 office photos. The first photo is displayed larger.',
+                'rf_sub_fields'   => 'photo | Photo | image',
+                'rf_min'          => 0,
+                'rf_max'          => 12,
+                'rf_layout'       => 'block',
+                'rf_button_label' => 'Add photo',
+                'rf_empty_label'  => 'No photos yet.',
             ],
         ];
     }

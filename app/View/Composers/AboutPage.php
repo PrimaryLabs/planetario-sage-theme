@@ -20,6 +20,7 @@ class AboutPage extends Composer
             'aboutVm'      => $this->visionMission($pageId),
             'aboutValues'  => $this->values($pageId),
             'aboutWhy'     => $this->why($pageId),
+            'aboutOffice'  => $this->officePhotos($pageId),
             'aboutClosing' => $this->closing($pageId),
         ];
     }
@@ -105,6 +106,30 @@ class AboutPage extends Composer
             'headlineLead' => (string) $this->field('about_why_headline_lead', $pageId, 'Five practical reasons.'),
             'headlineEm'   => (string) $this->field('about_why_headline_emphasis', $pageId, 'Felt, not advertised.'),
             'items'        => $items,
+        ];
+    }
+
+    private function officePhotos(int $pageId): array
+    {
+        $raw  = \get_field('about_office_gallery', $pageId);
+        $rows = is_array($raw) ? $raw : [];
+
+        $photos = [];
+        foreach ($rows as $row) {
+            $img = is_array($row['photo'] ?? null) ? $row['photo'] : null;
+            if (! $img || empty($img['url'])) {
+                continue;
+            }
+            $photos[] = [
+                'url' => (string) $img['url'],
+                'alt' => (string) ($img['alt'] ?? ''),
+            ];
+        }
+
+        return [
+            'eyebrow'  => (string) $this->field('about_office_eyebrow', $pageId, 'Our workspace'),
+            'headline' => (string) $this->field('about_office_headline', $pageId, 'Where we work'),
+            'photos'   => $photos,
         ];
     }
 
