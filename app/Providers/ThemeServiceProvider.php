@@ -17,6 +17,7 @@ use App\Fields\SiteSettings;
 use App\Fields\Story as StoryFields;
 use App\Fields\TeamMember as TeamMemberFields;
 use App\Fields\Testimonial as TestimonialFields;
+use App\PostTypes\BlogPost as BlogPostType;
 use App\PostTypes\CompanyEvent as CompanyEventPostType;
 use App\PostTypes\Developer as DeveloperPostType;
 use App\PostTypes\Property as PropertyPostType;
@@ -36,6 +37,7 @@ class ThemeServiceProvider extends SageServiceProvider
     public function register()
     {
         parent::register();
+        $this->commands([\App\Console\Commands\SeedDemoData::class]);
     }
 
     /**
@@ -65,6 +67,8 @@ class ThemeServiceProvider extends SageServiceProvider
         \add_action('acf/init', [PageIntros::class, 'register']);
         \add_action('acf/init', [PageAdminLinks::class, 'register']);
         \add_action('admin_init', [AcfMetaboxUi::class, 'register']);
+        \add_action('admin_init', [CompanyEventPostType::class, 'seed']);
+        \add_action('admin_init', [BlogPostType::class, 'seed']);
 
         SiteIdentityPage::register();
         SiteIdentitySync::register();

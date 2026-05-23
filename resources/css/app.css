@@ -735,8 +735,12 @@
 	}
 	.hero-bg {
 		position: absolute;
-		inset: 0;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: -30%;
 		z-index: -2;
+		will-change: transform;
 	}
 	.hero-bg img {
 		width: 100%;
@@ -977,6 +981,18 @@
 	.prop-card:hover .media img {
 		transform: scale(1.05);
 		animation: none;
+	}
+	.ev-card:hover img {
+		transform: scale(1.05);
+	}
+	.story-card img {
+		transition: transform 0.5s ease;
+	}
+	.story-card:hover img {
+		transform: scale(1.06);
+	}
+	.blog-card:hover img {
+		transform: scale(1.05);
 	}
 	.prop-card .tag {
 		position: absolute;
@@ -2331,9 +2347,15 @@
 	}
 }
 @keyframes heroIn {
+	from {
+		opacity: 0;
+		transform: translateY(24px);
+		filter: blur(6px);
+	}
 	to {
 		opacity: 1;
 		transform: translateY(0);
+		filter: blur(0px);
 	}
 }
 @keyframes kenburns {

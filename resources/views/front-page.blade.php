@@ -552,7 +552,7 @@ $accreditedDevelopers = $accreditedDevelopers ?? ['bohol' => [], 'cebu' => []];
       <div class="stagger-children" style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px">
         @foreach ($featuredContent['stories'] as $story)
         <div
-          class="reveal"
+          class="reveal story-card"
           style="background:var(--bg-2);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column">
           @if ($story['image'])
           <div style="aspect-ratio:4/3;overflow:hidden;background:#000;flex-shrink:0">
@@ -665,7 +665,7 @@ $accreditedDevelopers = $accreditedDevelopers ?? ['bohol' => [], 'cebu' => []];
         @foreach ($featuredContent['blogPosts'] as $post)
         <a
           href="{{ $post['permalink'] }}"
-          class="reveal"
+          class="reveal blog-card"
           style="background:var(--bg-2);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;text-decoration:none">
           @if ($post['thumbnail'])
           <div style="aspect-ratio:16/9;overflow:hidden;background:#000;flex-shrink:0">

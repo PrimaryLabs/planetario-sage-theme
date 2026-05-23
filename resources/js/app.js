@@ -483,6 +483,40 @@ if (document.readyState === "loading") {
 	initContentTabs();
 }
 
+// Hero parallax — background scrolls at 28% of page scroll speed
+function initParallax() {
+	const heroBg = document.querySelector(".hero-bg");
+	if (!heroBg) return;
+
+	const hero = heroBg.closest(".hero");
+	let ticking = false;
+
+	window.addEventListener(
+		"scroll",
+		() => {
+			if (ticking) return;
+			ticking = true;
+			requestAnimationFrame(() => {
+				const scrollY = window.scrollY;
+				// No-op once hero is fully off screen
+				if (hero && scrollY > hero.offsetHeight) {
+					ticking = false;
+					return;
+				}
+				heroBg.style.transform = `translateY(${scrollY * 0.28}px)`;
+				ticking = false;
+			});
+		},
+		{ passive: true },
+	);
+}
+
+if (document.readyState === "loading") {
+	document.addEventListener("DOMContentLoaded", initParallax);
+} else {
+	initParallax();
+}
+
 // Office gallery — main preview + thumbnail rail
 function initOfficeGallery() {
 	document.querySelectorAll("[data-og]").forEach((gallery) => {
