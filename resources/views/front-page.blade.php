@@ -284,7 +284,7 @@ $accreditedDevelopers = $accreditedDevelopers ?? ['bohol' => [], 'cebu' => []];
           <path d="M11 14L6 9l5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
       </button>
-      <div class="managers-strip" data-managers-strip>
+      <div class="managers-strip stagger-children" data-managers-strip>
         @foreach ($boholManagers as $i => $member)
 
         <div class="min-w-50 reveal" style="{{ $i > 0 ? 'transition-delay:.'.(($i+1)*1).'s' : '' }}">
@@ -321,7 +321,7 @@ $accreditedDevelopers = $accreditedDevelopers ?? ['bohol' => [], 'cebu' => []];
           <path d="M11 14L6 9l5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
       </button>
-      <div class="managers-strip" data-managers-strip>
+      <div class="managers-strip stagger-children" data-managers-strip>
         @foreach ($cebuManagers as $i => $member)
 
         <div class="min-w-50 reveal" style="{{ $i > 0 ? 'transition-delay:.'.(($i+1)*1).'s' : '' }}">
@@ -395,10 +395,10 @@ $accreditedDevelopers = $accreditedDevelopers ?? ['bohol' => [], 'cebu' => []];
           <path d="M11 14L6 9l5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
       </button>
-      <div class="managers-strip" data-managers-strip>
+      <div class="managers-strip stagger-children" data-managers-strip>
         @foreach ($boholStaffs as $i => $member)
 
-        <div class="min-w-50 reveal" style="{{ $i > 0 ? 'transition-delay:.'.(($i+1)*1).'s' : '' }}">
+        <div class="min-w-50 reveal">
           <div class="px-2 pt-2 bg-[var(--bg-2)]/80 flex justify-center rounded-3xl">
             <img src="{{ $member['photo'] ?? ('https://i.pravatar.cc/500?u=' . urlencode($member['name'])) }}"
               alt="{{ esc_attr($member['name']) }}"
@@ -432,9 +432,9 @@ $accreditedDevelopers = $accreditedDevelopers ?? ['bohol' => [], 'cebu' => []];
           <path d="M11 14L6 9l5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
       </button>
-      <div class="managers-strip" data-managers-strip>
+      <div class="managers-strip stagger-children" data-managers-strip>
         @foreach ($cebuStaffs as $i => $member)
-        <div class="min-w-50 reveal" style="{{ $i > 0 ? 'transition-delay:.'.(($i+1)*1).'s' : '' }}">
+        <div class="min-w-50 reveal">
           <div class="px-2 pt-2 bg-[var(--bg-2)]/80 flex justify-center rounded-3xl">
             <img src="{{ $member['photo'] ?? ('https://i.pravatar.cc/500?u=' . urlencode($member['name'])) }}"
               alt="{{ esc_attr($member['name']) }}"

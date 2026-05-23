@@ -1714,6 +1714,7 @@
 		display: flex;
 		gap: 1.5rem;
 		overflow-x: auto;
+		overflow-y: hidden;
 		scroll-snap-type: x mandatory;
 		scroll-behavior: smooth;
 		justify-content: safe center;
@@ -2628,7 +2629,10 @@
 	cursor: pointer;
 	background: none;
 	opacity: 0.45;
-	transition: opacity 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+	transition:
+		opacity 0.2s ease,
+		border-color 0.2s ease,
+		transform 0.2s ease;
 	scroll-snap-align: start;
 }
 
