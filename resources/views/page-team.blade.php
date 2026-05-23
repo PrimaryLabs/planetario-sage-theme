@@ -38,8 +38,8 @@
       </div>
     </div>
     <div class="flex flex-wrap gap-6 items-center justify-center" style="margin-top:36px">
-      @foreach ($boardOfDirectors as $member)
-      <div class="team-card team-card--featured max-w-xs md:w-1/2 lg:w-1/3">
+      @foreach ($boardOfDirectors as $i => $member)
+      <div class="team-card team-card--featured max-w-xs md:w-1/2 lg:w-1/3 reveal" style="{{ $i > 0 ? 'transition-delay:.'.(($i+1)*1).'s' : '' }}">
         <div class="media">
           <img src="{{ $member['photo'] ?? ('https://i.pravatar.cc/500?u=' . urlencode($member['name'])) }}"
             alt="{{ esc_attr($member['name']) }}"
@@ -73,8 +73,8 @@
       </div>
     </div>
     <div class="flex flex-wrap gap-6 items-center justify-center" style="margin-top:36px">
-      @foreach ($brokers as $member)
-      <div class="team-card team-card--featured max-w-xs md:w-1/2 lg:w-1/3">
+      @foreach ($brokers as $i => $member)
+      <div class="team-card team-card--featured max-w-xs md:w-1/2 lg:w-1/3 reveal" style="{{ $i > 0 ? 'transition-delay:.'.(($i+1)*1).'s' : '' }}">
         <div class="media">
           <img src="{{ $member['photo'] ?? ('https://i.pravatar.cc/500?u=' . urlencode($member['name'])) }}"
             alt="{{ esc_attr($member['name']) }}"
@@ -108,8 +108,8 @@
       </div>
     </div>
     <div class="flex flex-wrap gap-6 items-center justify-center" style="margin-top:36px">
-      @foreach ($boholManagers as $member)
-      <div class="team-card team-card--featured max-w-xs md:w-1/2 lg:w-1/3">
+      @foreach ($boholManagers as $i => $member)
+      <div class="team-card team-card--featured max-w-xs md:w-1/2 lg:w-1/3 reveal">
         <div class="media">
           <img src="{{ $member['photo'] ?? ('https://i.pravatar.cc/500?u=' . urlencode($member['name'])) }}"
             alt="{{ esc_attr($member['name']) }}"
@@ -143,8 +143,8 @@
       </div>
     </div>
     <div class="flex flex-wrap gap-6 items-center justify-center" style="margin-top:36px">
-      @foreach ($cebuManagers as $member)
-      <div class="team-card team-card--featured max-w-xs md:w-1/2 lg:w-1/3">
+      @foreach ($cebuManagers as $i => $member)
+      <div class="team-card team-card--featured max-w-xs md:w-1/2 lg:w-1/3 reveal">
         <div class="media">
           <img src="{{ $member['photo'] ?? ('https://i.pravatar.cc/500?u=' . urlencode($member['name'])) }}"
             alt="{{ esc_attr($member['name']) }}"
@@ -179,7 +179,7 @@
     </div>
     <div class="flex flex-wrap gap-6 items-center justify-center" style="margin-top:36px">
       @foreach ($boholStaffs as $member)
-      <div class="team-card team-card--featured max-w-xs md:w-1/2 lg:w-1/3">
+      <div class="team-card team-card--featured max-w-xs md:w-1/2 lg:w-1/3 reveal">
         <div class="media">
           <img src="{{ $member['photo'] ?? ('https://i.pravatar.cc/500?u=' . urlencode($member['name'])) }}"
             alt="{{ esc_attr($member['name']) }}"
@@ -214,7 +214,7 @@
     </div>
     <div class="flex flex-wrap gap-6 items-center justify-center" style="margin-top:36px">
       @foreach ($cebuStaffs as $member)
-      <div class="team-card team-card--featured max-w-xs md:w-1/2 lg:w-1/3">
+      <div class="team-card team-card--featured max-w-xs md:w-1/2 lg:w-1/3 reveal">
         <div class="media">
           <img src="{{ $member['photo'] ?? ('https://i.pravatar.cc/500?u=' . urlencode($member['name'])) }}"
             alt="{{ esc_attr($member['name']) }}"

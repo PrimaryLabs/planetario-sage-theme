@@ -190,8 +190,11 @@ $accreditedDevelopers = $accreditedDevelopers ?? ['bohol' => [], 'cebu' => []];
       </div>
     </div>
     <div class="flex flex-wrap gap-6 items-center justify-center" style="margin-top:36px">
-      @foreach ($boardOfDirectors as $member)
-      <div class="team-card team-card--featured max-w-xs md:w-1/2 lg:w-1/3">
+
+
+
+      @foreach ($boardOfDirectors as $i => $member)
+      <div class="team-card team-card--featured max-w-xs md:w-1/2 lg:w-1/3 reveal" style="{{ $i > 0 ? 'transition-delay:.'.(($i+1)*1).'s' : '' }}">
         <div class="media bg-[var(--bg)]/60!">
           <img src="{{ $member['photo'] ?? ('https://i.pravatar.cc/500?u=' . urlencode($member['name'])) }}"
             alt="{{ esc_attr($member['name']) }}"
@@ -225,8 +228,8 @@ $accreditedDevelopers = $accreditedDevelopers ?? ['bohol' => [], 'cebu' => []];
       </div>
     </div>
     <div class="flex flex-wrap gap-6 items-center justify-center" style="margin-top:36px">
-      @foreach ($brokers as $member)
-      <div class="team-card team-card--featured max-w-xs md:w-1/3 lg:w-1/4">
+      @foreach ($brokers as $i => $member)
+      <div class="team-card team-card--featured max-w-xs md:w-1/3 lg:w-1/4 reveal" style="{{ $i > 0 ? 'transition-delay:.'.(($i+1)*1).'s' : '' }}">
         <div class="media">
           <img src="{{ $member['photo'] ?? ('https://i.pravatar.cc/500?u=' . urlencode($member['name'])) }}"
             alt="{{ esc_attr($member['name']) }}"
@@ -282,8 +285,9 @@ $accreditedDevelopers = $accreditedDevelopers ?? ['bohol' => [], 'cebu' => []];
         </svg>
       </button>
       <div class="managers-strip" data-managers-strip>
-        @foreach ($boholManagers as $member)
-        <div class="min-w-50">
+        @foreach ($boholManagers as $i => $member)
+
+        <div class="min-w-50 reveal" style="{{ $i > 0 ? 'transition-delay:.'.(($i+1)*1).'s' : '' }}">
           <div class=" px-2 pt-2 bg-[var(--bg-2)]/80 flex justify-center rounded-3xl">
             <img src="{{ $member['photo'] ?? ('https://i.pravatar.cc/500?u=' . urlencode($member['name'])) }}"
               alt="{{ esc_attr($member['name']) }}"
@@ -318,8 +322,9 @@ $accreditedDevelopers = $accreditedDevelopers ?? ['bohol' => [], 'cebu' => []];
         </svg>
       </button>
       <div class="managers-strip" data-managers-strip>
-        @foreach ($cebuManagers as $member)
-        <div class="min-w-50">
+        @foreach ($cebuManagers as $i => $member)
+
+        <div class="min-w-50 reveal" style="{{ $i > 0 ? 'transition-delay:.'.(($i+1)*1).'s' : '' }}">
           <div class="px-2 pt-2 bg-[var(--bg-2)]/80 flex justify-center rounded-3xl">
             <img src="{{ $member['photo'] ?? ('https://i.pravatar.cc/500?u=' . urlencode($member['name'])) }}"
               alt="{{ esc_attr($member['name']) }}"
@@ -391,8 +396,9 @@ $accreditedDevelopers = $accreditedDevelopers ?? ['bohol' => [], 'cebu' => []];
         </svg>
       </button>
       <div class="managers-strip" data-managers-strip>
-        @foreach ($boholStaffs as $member)
-        <div class="min-w-50">
+        @foreach ($boholStaffs as $i => $member)
+
+        <div class="min-w-50 reveal" style="{{ $i > 0 ? 'transition-delay:.'.(($i+1)*1).'s' : '' }}">
           <div class="px-2 pt-2 bg-[var(--bg-2)]/80 flex justify-center rounded-3xl">
             <img src="{{ $member['photo'] ?? ('https://i.pravatar.cc/500?u=' . urlencode($member['name'])) }}"
               alt="{{ esc_attr($member['name']) }}"
@@ -427,8 +433,8 @@ $accreditedDevelopers = $accreditedDevelopers ?? ['bohol' => [], 'cebu' => []];
         </svg>
       </button>
       <div class="managers-strip" data-managers-strip>
-        @foreach ($cebuStaffs as $member)
-        <div class="min-w-50">
+        @foreach ($cebuStaffs as $i => $member)
+        <div class="min-w-50 reveal" style="{{ $i > 0 ? 'transition-delay:.'.(($i+1)*1).'s' : '' }}">
           <div class="px-2 pt-2 bg-[var(--bg-2)]/80 flex justify-center rounded-3xl">
             <img src="{{ $member['photo'] ?? ('https://i.pravatar.cc/500?u=' . urlencode($member['name'])) }}"
               alt="{{ esc_attr($member['name']) }}"
