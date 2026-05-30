@@ -81,13 +81,13 @@
         </h2>
       </div>
     </div>
-    <div class="flex flex-wrap gap-6 items-center justify-center" style="margin-top:36px">
+    <div class="flex flex-wrap gap-6 items-center justify-center stagger-children" style="margin-top:36px">
       @foreach ($aboutBoard as $member)
-      <div class="team-card team-card--featured max-w-xs md:w-1/2 lg:w-1/3">
+      <div class="team-card team-card--featured max-w-xs md:w-1/2 lg:w-1/3 reveal">
         <div class="media">
           <img src="{{ $member['photo'] }}"
-               alt="{{ esc_attr($member['name']) }}"
-               loading="lazy">
+            alt="{{ esc_attr($member['name']) }}"
+            loading="lazy">
         </div>
         <div class="body flex flex-col relative items-center justify-center">
           <div class="name font-bold text-xl tracking-wide">{{ $member['name'] }}</div>
@@ -162,7 +162,7 @@
     <div class="section-head-col">
       <div class="reveal text-center">
         @if ($aboutOffice['eyebrow'])
-        <span class="eyebrow">{{ $aboutOffice['eyebrow'] }}</span>
+        <span class="eyebrow reveal">{{ $aboutOffice['eyebrow'] }}</span>
         @endif
         @if ($aboutOffice['headline'])
         <h2 class="h2" style="margin-top:14px">{{ $aboutOffice['headline'] }}</h2>
@@ -176,16 +176,16 @@
 
 {{-- Closing quote --}}
 <section class="section" style="background:var(--bg-2);border-top:1px solid var(--line)">
-  <div class="container" style="text-align:center">
-    <div class="banner-quote">{!! $aboutClosing['quote'] !!}</div>
+  <div class="container stagger-children" style="text-align:center">
+    <div class="banner-quote reveal">{!! $aboutClosing['quote'] !!}</div>
     @if ($aboutClosing['attribution'])
-    <div style="margin-top:16px;font-family:var(--font-mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3)">
+    <div class="reveal" style="margin-top:16px;font-family:var(--font-mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3)">
       {{ $aboutClosing['attribution'] }}
     </div>
     @endif
-    <div style="display:flex;justify-content:center;margin-top:36px;gap:12px;flex-wrap:wrap">
+    <div class=" reveal stagger-children" style="display:flex;justify-content:center;margin-top:36px;gap:12px;flex-wrap:wrap">
       @if ($aboutClosing['primaryLabel'])
-      <a href="{{ $aboutClosing['primaryUrl'] }}" class="btn btn-primary">
+      <a href="{{ $aboutClosing['primaryUrl'] }}" class="btn btn-primary  reveal">
         {{ $aboutClosing['primaryLabel'] }}
         <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
           <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
@@ -193,7 +193,7 @@
       </a>
       @endif
       @if ($aboutClosing['secondaryLabel'])
-      <a href="{{ $aboutClosing['secondaryUrl'] }}" class="btn">
+      <a href="{{ $aboutClosing['secondaryUrl'] }}" class="btn  reveal">
         {{ $aboutClosing['secondaryLabel'] }}
         <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
           <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />

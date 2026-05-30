@@ -34,6 +34,7 @@ $contactHeroImage = 'https://images.unsplash.com/photo-1507525428034-b723cf961d3
   </div>
 </section>
 
+
 <section class="section" style="padding-top:24px">
   <div class="container">
     <div style="display:grid;grid-template-columns:1fr 1.2fr;gap:60px" class="contact-grid">
@@ -208,16 +209,9 @@ $contactHeroImage = 'https://images.unsplash.com/photo-1507525428034-b723cf961d3
     </div>
 
     <div style="border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--bg-2);aspect-ratio:16/7;min-height:360px">
-      <iframe
-        src="https://www.google.com/maps?q=9.6500419,123.853422&output=embed"
-        title="Map showing Jaz-M Bldg., Tagbilaran City, Bohol"
-        width="100%"
-        height="100%"
-        style="border:0;display:block"
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade"
-        allowfullscreen>
-      </iframe>
+
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d867.2313810006589!2d123.85299659679596!3d9.650150520001345!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33aa4c4d46953b65%3A0x2505987c8ce7172c!2sJaz-M%20Bldg.!5e0!3m2!1sen!2sph!4v1779539068766!5m2!1sen!2sph" width="100%"
+        height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
     </div>
   </div>
 </section>

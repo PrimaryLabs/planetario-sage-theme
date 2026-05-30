@@ -1,7 +1,7 @@
 @props(['photos' => [], 'eyebrow' => '', 'headline' => ''])
 
 @if (!empty($photos))
-<div class="og" data-og>
+<div class="og reveal" data-og>
 
   {{-- Main preview --}}
   <div class="og__stage">
@@ -9,8 +9,7 @@
       class="og__main"
       src="{{ $photos[0]['url'] }}"
       alt="{{ $photos[0]['alt'] }}"
-      loading="eager"
-    >
+      loading="eager">
   </div>
 
   {{-- Thumbnail rail — only shown when there is more than one photo --}}
@@ -25,8 +24,7 @@
       data-og-alt="{{ $photo['alt'] }}"
       aria-label="{{ $photo['alt'] ?: 'Photo ' . ($index + 1) }}"
       aria-pressed="{{ $loop->first ? 'true' : 'false' }}"
-      role="listitem"
-    >
+      role="listitem">
       <img src="{{ $photo['url'] }}" alt="" aria-hidden="true" loading="lazy">
     </button>
     @endforeach

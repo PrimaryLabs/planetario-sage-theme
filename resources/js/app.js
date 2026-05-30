@@ -431,7 +431,8 @@ function initDevFilter() {
 				btn.setAttribute("aria-selected", "true");
 
 				items.forEach((item) => {
-					const show = filter === "all" || item.dataset.devRegion === filter;
+					const show =
+						filter === "all" || item.dataset.devRegion === filter;
 					item.style.display = show ? "" : "none";
 				});
 			});
@@ -446,7 +447,7 @@ function initContentTabs() {
 			const section = tablist.closest("section");
 			if (!section) return;
 
-			const tabs   = tablist.querySelectorAll("[data-content-tab]");
+			const tabs = tablist.querySelectorAll("[data-content-tab]");
 			const panels = section.querySelectorAll("[data-content-panel]");
 
 			tabs.forEach((tab) => {
@@ -549,11 +550,11 @@ function initOfficeGallery() {
 			thumbs[index].classList.add("is-active");
 			thumbs[index].setAttribute("aria-pressed", "true");
 
-			thumbs[index].scrollIntoView({
-				block: "nearest",
-				inline: "nearest",
-				behavior: "smooth",
-			});
+			// thumbs[index].scrollIntoView({
+			// 	block: "nearest",
+			// 	inline: "nearest",
+			// 	behavior: "smooth",
+			// });
 
 			current = index;
 		}
@@ -655,12 +656,12 @@ function initBlogReader() {
 	const posts = window.__blogPosts || [];
 	if (!posts.length) return;
 
-	const elImg       = document.getElementById("blog-detail-img");
-	const elMeta      = document.getElementById("blog-detail-meta");
-	const elTitle     = document.getElementById("blog-detail-title");
+	const elImg = document.getElementById("blog-detail-img");
+	const elMeta = document.getElementById("blog-detail-meta");
+	const elTitle = document.getElementById("blog-detail-title");
 	const elTitleLink = document.getElementById("blog-detail-title-link");
-	const elBody      = document.getElementById("blog-detail-body");
-	const elLink      = document.getElementById("blog-detail-link");
+	const elBody = document.getElementById("blog-detail-body");
+	const elLink = document.getElementById("blog-detail-link");
 
 	function showPost(id) {
 		const post = posts.find((p) => p.id === id);
@@ -680,7 +681,10 @@ function initBlogReader() {
 		if (elMeta) {
 			const sep = '<span class="blog-detail__sep">·</span>';
 			const cats = post.categories
-				.map((c) => `<a href="${c.url}" class="blog-detail__cat">${c.name}</a>`)
+				.map(
+					(c) =>
+						`<a href="${c.url}" class="blog-detail__cat">${c.name}</a>`,
+				)
 				.join(sep);
 			elMeta.innerHTML =
 				(cats ? cats + sep : "") +
