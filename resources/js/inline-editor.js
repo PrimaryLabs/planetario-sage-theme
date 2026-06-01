@@ -173,7 +173,10 @@ function init() {
     const type   = el.dataset.editType || 'text';
     const label  = el.dataset.editLabel || el.dataset.editField || 'Edit field';
     const isHtml = type === 'wysiwyg';
-    const current = isHtml ? el.innerHTML.trim() : el.textContent.trim();
+    const isNl2br = type === 'nl2br';
+    const current = isHtml    ? el.innerHTML.trim()
+                  : isNl2br  ? (el.innerText ?? el.textContent).trim()
+                  : el.textContent.trim();
 
     labelEl.textContent = label;
     hintEl.hidden = !isHtml;
@@ -181,7 +184,7 @@ function init() {
     statusEl.textContent = '';
     statusEl.className = 'ple-status';
 
-    if (type === 'textarea' || isHtml) {
+    if (type === 'textarea' || type === 'nl2br' || isHtml) {
       const ta = document.createElement('textarea');
       ta.id = 'ple-field';
       ta.className = 'ple-textarea';

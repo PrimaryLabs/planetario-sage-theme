@@ -29,7 +29,8 @@ class InlineEditorApi
         $value = match ($field_type) {
             'wysiwyg'  => \wp_kses_post($raw),
             'url'      => \esc_url_raw($raw),
-            'textarea' => \sanitize_textarea_field($raw),
+            'textarea',
+            'nl2br'    => \sanitize_textarea_field($raw),
             default    => \sanitize_text_field($raw),
         };
 

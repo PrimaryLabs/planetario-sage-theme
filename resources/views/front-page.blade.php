@@ -20,13 +20,28 @@ $accreditedDevelopers = $accreditedDevelopers ?? ['bohol' => [], 'cebu' => []];
 
   <div class="container hero-inner">
     @if ($hero['eyebrow'])
-    <span class="eyebrow">{{ $hero['eyebrow'] }}</span>
+    <span class="eyebrow"
+      data-edit-field="hero_eyebrow"
+      data-edit-type="text"
+      data-edit-label="Hero Eyebrow">{{ $hero['eyebrow'] }}</span>
     @endif
     <h1 class="display hero-headline">
-      {{ $hero['headlineLead'] }} @if ($hero['headlineEm'])<em>{{ $hero['headlineEm'] }}</em>@endif
+      <span
+        data-edit-field="hero_headline_lead"
+        data-edit-type="text"
+        data-edit-label="Hero Headline Lead">{{ $hero['headlineLead'] }}</span>
+      @if ($hero['headlineEm'])
+      <em
+        data-edit-field="hero_headline_emphasis"
+        data-edit-type="text"
+        data-edit-label="Hero Headline Emphasis">{{ $hero['headlineEm'] }}</em>
+      @endif
     </h1>
     @if ($hero['sub'])
-    <p class="hero-sub">{!! nl2br(e($hero['sub'])) !!}</p>
+    <p class="hero-sub"
+      data-edit-field="hero_sub"
+      data-edit-type="nl2br"
+      data-edit-label="Hero Subtitle">{!! nl2br(e($hero['sub'])) !!}</p>
     @endif
     <div class="hero-actions">
       @if ($hero['primaryCta']['label'])
@@ -69,16 +84,35 @@ $accreditedDevelopers = $accreditedDevelopers ?? ['bohol' => [], 'cebu' => []];
     <div class="section-head-col">
       <div class="reveal flex flex-col items-center">
         @if ($vm['eyebrow'])
-        <span class="eyebrow">{{ $vm['eyebrow'] }}</span>
+        <span class="eyebrow"
+          data-edit-field="vm_eyebrow"
+          data-edit-type="text"
+          data-edit-label="VM Eyebrow">{{ $vm['eyebrow'] }}</span>
         @endif
         <h2 class="h2" style="margin-top:14px">
-          {{ $vm['headlineLead'] }}
-          @if ($vm['headlineEm']) <em>{{ $vm['headlineEm'] }}</em>@endif
-          @if ($vm['headlineTrail']) {{ $vm['headlineTrail'] }}@endif
+          <span
+            data-edit-field="vm_headline_lead"
+            data-edit-type="text"
+            data-edit-label="VM Headline Lead">{{ $vm['headlineLead'] }}</span>
+          @if ($vm['headlineEm'])
+          <em
+            data-edit-field="vm_headline_emphasis"
+            data-edit-type="text"
+            data-edit-label="VM Headline Emphasis">{{ $vm['headlineEm'] }}</em>
+          @endif
+          @if ($vm['headlineTrail'])
+          <span
+            data-edit-field="vm_headline_trail"
+            data-edit-type="text"
+            data-edit-label="VM Headline Trail">{{ $vm['headlineTrail'] }}</span>
+          @endif
         </h2>
       </div>
       @if ($vm['intro'])
-      <p class="lead reveal text-center" style="transition-delay:.1s">{{ $vm['intro'] }}</p>
+      <p class="lead reveal text-center" style="transition-delay:.1s"
+        data-edit-field="vm_intro"
+        data-edit-type="textarea"
+        data-edit-label="VM Intro">{{ $vm['intro'] }}</p>
       @endif
     </div>
 
@@ -88,7 +122,10 @@ $accreditedDevelopers = $accreditedDevelopers ?? ['bohol' => [], 'cebu' => []];
         <div class="vm-card__inner">
           <span class="vm-card__eyebrow">Our</span>
           <h3 class="vm-card__title">Vision</h3>
-          <div class="vm-card__body">
+          <div class="vm-card__body"
+            data-edit-field="vm_vision"
+            data-edit-type="wysiwyg"
+            data-edit-label="Vision">
             {!! $vm['vision'] !!}
           </div>
         </div>
@@ -104,7 +141,10 @@ $accreditedDevelopers = $accreditedDevelopers ?? ['bohol' => [], 'cebu' => []];
         <div class="vm-card__inner">
           <span class="vm-card__eyebrow">Our</span>
           <h3 class="vm-card__title">Mission</h3>
-          <div class="vm-card__body">
+          <div class="vm-card__body"
+            data-edit-field="vm_mission"
+            data-edit-type="wysiwyg"
+            data-edit-label="Mission">
             {!! $vm['mission'] !!}
           </div>
         </div>
@@ -139,20 +179,42 @@ $accreditedDevelopers = $accreditedDevelopers ?? ['bohol' => [], 'cebu' => []];
     <div style="display:grid;grid-template-columns:1fr 1.4fr;gap:60px;align-items:center" class="home-intro-grid">
       <div class="reveal reveal-left">
         @if ($commitment['eyebrow'])
-        <span class="eyebrow">{{ $commitment['eyebrow'] }}</span>
+        <span class="eyebrow"
+          data-edit-field="commitment_eyebrow"
+          data-edit-type="text"
+          data-edit-label="Commitment Eyebrow">{{ $commitment['eyebrow'] }}</span>
         @endif
         <h2 class="h2 mb-20" style="margin-top:14px">
-          {{ $commitment['headlineLead'] }}
-          @if ($commitment['headlineEm'])<em>{{ $commitment['headlineEm'] }}</em>@endif
-          @if ($commitment['headlineTrail']) {{ $commitment['headlineTrail'] }}@endif
+          <span
+            data-edit-field="commitment_headline_lead"
+            data-edit-type="text"
+            data-edit-label="Commitment Headline Lead">{{ $commitment['headlineLead'] }}</span>
+          @if ($commitment['headlineEm'])
+          <em
+            data-edit-field="commitment_headline_emphasis"
+            data-edit-type="text"
+            data-edit-label="Commitment Headline Emphasis">{{ $commitment['headlineEm'] }}</em>
+          @endif
+          @if ($commitment['headlineTrail'])
+          <span
+            data-edit-field="commitment_headline_trail"
+            data-edit-type="text"
+            data-edit-label="Commitment Headline Trail">{{ $commitment['headlineTrail'] }}</span>
+          @endif
         </h2>
       </div>
       <div class="reveal reveal-right pt-20" style="transition-delay:.12s">
         @if ($commitment['paragraph1'])
-        <p class="lead">{{ $commitment['paragraph1'] }}</p>
+        <p class="lead"
+          data-edit-field="commitment_paragraph_1"
+          data-edit-type="textarea"
+          data-edit-label="Commitment Paragraph 1">{{ $commitment['paragraph1'] }}</p>
         @endif
         @if ($commitment['paragraph2'])
-        <p class="lead" style="margin-top:18px">{{ $commitment['paragraph2'] }}</p>
+        <p class="lead" style="margin-top:18px"
+          data-edit-field="commitment_paragraph_2"
+          data-edit-type="textarea"
+          data-edit-label="Commitment Paragraph 2">{{ $commitment['paragraph2'] }}</p>
         @endif
         @if ($commitment['cta']['label'])
         <div style="margin-top:28px">
@@ -807,17 +869,29 @@ $accreditedDevelopers = $accreditedDevelopers ?? ['bohol' => [], 'cebu' => []];
     <div class="section-head-col">
       <div class="reveal flex flex-col items-center">
         @if ($locations['eyebrow'])
-        <span class="eyebrow">{{ $locations['eyebrow'] }}</span>
+        <span class="eyebrow"
+          data-edit-field="locations_eyebrow"
+          data-edit-type="text"
+          data-edit-label="Locations Eyebrow">{{ $locations['eyebrow'] }}</span>
         @endif
         <h2 class="h2" style="margin-top:14px">
-          {{ $locations['headlineLead'] }}
+          <span
+            data-edit-field="locations_headline_lead"
+            data-edit-type="text"
+            data-edit-label="Locations Headline Lead">{{ $locations['headlineLead'] }}</span>
           @if ($locations['headlineEm'])
-          <em>{{ $locations['headlineEm'] }}</em>
+          <em
+            data-edit-field="locations_headline_emphasis"
+            data-edit-type="text"
+            data-edit-label="Locations Headline Emphasis">{{ $locations['headlineEm'] }}</em>
           @endif
         </h2>
       </div>
       @if ($locations['intro'])
-      <p class="lead reveal text-center" style="transition-delay:.1s">{{ $locations['intro'] }}</p>
+      <p class="lead reveal text-center" style="transition-delay:.1s"
+        data-edit-field="locations_intro"
+        data-edit-type="textarea"
+        data-edit-label="Locations Intro">{{ $locations['intro'] }}</p>
       @endif
     </div>
     @if (! empty($locations['items']))
@@ -1055,9 +1129,23 @@ $cebuDevs = $accreditedDevelopers['cebu'] ?? [];
   <div class="container" style="position:relative;text-align:center">
     <x-orbit-deco style="right:auto;left:-180px;top:-50px;width:380px;height:380px;opacity:.25" />
     <p class="banner-quote">
-      {{ $ctaBanner['quoteLead'] }}
-      @if ($ctaBanner['quoteEm']) <em>{{ $ctaBanner['quoteEm'] }}</em>@endif
-      @if ($ctaBanner['quoteTrail'])<br>{{ $ctaBanner['quoteTrail'] }}@endif
+      <span
+        data-edit-field="cta_quote_lead"
+        data-edit-type="text"
+        data-edit-label="CTA Quote Lead">{{ $ctaBanner['quoteLead'] }}</span>
+      @if ($ctaBanner['quoteEm'])
+      <em
+        data-edit-field="cta_quote_emphasis"
+        data-edit-type="text"
+        data-edit-label="CTA Quote Emphasis">{{ $ctaBanner['quoteEm'] }}</em>
+      @endif
+      @if ($ctaBanner['quoteTrail'])
+      <br>
+      <span
+        data-edit-field="cta_quote_trail"
+        data-edit-type="text"
+        data-edit-label="CTA Quote Trail">{{ $ctaBanner['quoteTrail'] }}</span>
+      @endif
     </p>
     <div style="display:flex;gap:12px;justify-content:center;margin-top:36px;flex-wrap:wrap">
       @if ($ctaBanner['primary']['label'])
