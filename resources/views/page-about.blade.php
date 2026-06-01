@@ -14,19 +14,34 @@
 
   <div class="container page-hero__inner">
     @if ($aboutIntro['eyebrow'])
-    <span class="eyebrow-center">{{ $aboutIntro['eyebrow'] }}</span>
+    <span class="eyebrow-center"
+      data-edit-field="about_intro_eyebrow"
+      data-edit-type="text"
+      data-edit-label="Intro Eyebrow">{{ $aboutIntro['eyebrow'] }}</span>
     @endif
     <h1 class="display" style="margin-top:18px;max-width:18ch">
-      {{ $aboutIntro['headlineLead'] }}
+      <span
+        data-edit-field="about_intro_headline_lead"
+        data-edit-type="text"
+        data-edit-label="Headline Lead">{{ $aboutIntro['headlineLead'] }}</span>
       @if ($aboutIntro['headlineEm'])
-      <em>{{ $aboutIntro['headlineEm'] }}</em>
+      <em
+        data-edit-field="about_intro_headline_emphasis"
+        data-edit-type="text"
+        data-edit-label="Headline Emphasis">{{ $aboutIntro['headlineEm'] }}</em>
       @endif
       @if ($aboutIntro['headlineTrail'])
-      {{ $aboutIntro['headlineTrail'] }}
+      <span
+        data-edit-field="about_intro_headline_trail"
+        data-edit-type="text"
+        data-edit-label="Headline Trailing">{{ $aboutIntro['headlineTrail'] }}</span>
       @endif
     </h1>
     @if ($aboutIntro['lead'])
-    <p class="lead" style="margin-top:28px;max-width:60ch">{{ $aboutIntro['lead'] }}</p>
+    <p class="lead" style="margin-top:28px;max-width:60ch"
+      data-edit-field="about_intro_lead"
+      data-edit-type="textarea"
+      data-edit-label="Intro Lead">{{ $aboutIntro['lead'] }}</p>
     @endif
   </div>
 </section>
@@ -40,7 +55,10 @@
         <div class="vm-card__inner">
           <span class="vm-card__eyebrow">Our</span>
           <h3 class="vm-card__title">Vision</h3>
-          <div class="vm-card__body">
+          <div class="vm-card__body"
+            data-edit-field="about_vm_vision"
+            data-edit-type="wysiwyg"
+            data-edit-label="Vision">
             {!! $aboutVm['vision'] !!}
           </div>
         </div>
@@ -54,7 +72,10 @@
         <div class="vm-card__inner">
           <span class="vm-card__eyebrow">Our</span>
           <h3 class="vm-card__title">Mission</h3>
-          <div class="vm-card__body">
+          <div class="vm-card__body"
+            data-edit-field="about_vm_mission"
+            data-edit-type="wysiwyg"
+            data-edit-label="Mission">
             {!! $aboutVm['mission'] !!}
           </div>
         </div>
@@ -109,14 +130,24 @@
   <div class="container">
     <div class="section-head">
       <div class="reveal">
-        @if ($aboutValues['eyebrow'])<span class="eyebrow">{{ $aboutValues['eyebrow'] }}</span>@endif
+        @if ($aboutValues['eyebrow'])
+        <span class="eyebrow"
+          data-edit-field="about_values_eyebrow"
+          data-edit-type="text"
+          data-edit-label="Values Eyebrow">{{ $aboutValues['eyebrow'] }}</span>
+        @endif
         <h2 class="h2" style="margin-top:14px">
           {{ $aboutValues['headlineLead'] }}
-          @if ($aboutValues['headlineEm']) <em>{{ $aboutValues['headlineEm'] }}</em>@endif
+          @if ($aboutValues['headlineEm'])
+          <em>{{ $aboutValues['headlineEm'] }}</em>
+          @endif
         </h2>
       </div>
       @if ($aboutValues['intro'])
-      <p class="lead reveal" style="transition-delay:.1s">{{ $aboutValues['intro'] }}</p>
+      <p class="lead reveal" style="transition-delay:.1s"
+        data-edit-field="about_values_intro"
+        data-edit-type="textarea"
+        data-edit-label="Values Intro">{{ $aboutValues['intro'] }}</p>
       @endif
     </div>
     <div class="stagger-children value-list">
@@ -136,10 +167,17 @@
   <div class="container">
     <div class="section-head-col">
       <div class="reveal text-center">
-        @if ($aboutWhy['eyebrow'])<span class="eyebrow">{{ $aboutWhy['eyebrow'] }}</span>@endif
+        @if ($aboutWhy['eyebrow'])
+        <span class="eyebrow"
+          data-edit-field="about_why_eyebrow"
+          data-edit-type="text"
+          data-edit-label="Why Choose Us Eyebrow">{{ $aboutWhy['eyebrow'] }}</span>
+        @endif
         <h2 class="h2" style="margin-top:14px">
           {{ $aboutWhy['headlineLead'] }}
-          @if ($aboutWhy['headlineEm']) <br /><em>{{ $aboutWhy['headlineEm'] }}</em>@endif
+          @if ($aboutWhy['headlineEm'])
+          <br /><em>{{ $aboutWhy['headlineEm'] }}</em>
+          @endif
         </h2>
       </div>
     </div>
@@ -177,9 +215,15 @@
 {{-- Closing quote --}}
 <section class="section" style="background:var(--bg-2);border-top:1px solid var(--line)">
   <div class="container stagger-children" style="text-align:center">
-    <div class="banner-quote reveal">{!! $aboutClosing['quote'] !!}</div>
+    <div class="banner-quote reveal"
+      data-edit-field="about_closing_quote"
+      data-edit-type="wysiwyg"
+      data-edit-label="Closing Quote">{!! $aboutClosing['quote'] !!}</div>
     @if ($aboutClosing['attribution'])
-    <div class="reveal" style="margin-top:16px;font-family:var(--font-mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3)">
+    <div class="reveal" style="margin-top:16px;font-family:var(--font-mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3)"
+      data-edit-field="about_closing_attribution"
+      data-edit-type="text"
+      data-edit-label="Closing Attribution">
       {{ $aboutClosing['attribution'] }}
     </div>
     @endif

@@ -25,6 +25,7 @@ export default defineConfig({
 				"resources/js/app.js",
 				"resources/css/editor.css",
 				"resources/js/editor.js",
+				"resources/js/inline-editor.js",
 			],
 			refresh: true,
 			assets: ["resources/images/**", "resources/fonts/**"],

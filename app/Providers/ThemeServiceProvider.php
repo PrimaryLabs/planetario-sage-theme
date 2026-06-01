@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Admin\AcfMetaboxUi;
+use App\Admin\InlineEditorApi;
 use App\Admin\SiteIdentityPage;
 use App\Admin\TeamImportPage;
 use App\Admin\ThemeColorsPage;
@@ -69,6 +70,8 @@ class ThemeServiceProvider extends SageServiceProvider
         \add_action('admin_init', [AcfMetaboxUi::class, 'register']);
         \add_action('admin_init', [CompanyEventPostType::class, 'seed']);
         \add_action('admin_init', [BlogPostType::class, 'seed']);
+
+        \add_action('rest_api_init', [InlineEditorApi::class, 'register']);
 
         SiteIdentityPage::register();
         SiteIdentitySync::register();

@@ -288,6 +288,25 @@ add_action('widgets_init', function () {
 });
 
 /**
+ * Load inline editor for admin users browsing the front-end.
+ * Gated by #wpadminbar in JS, but we also skip loading for non-editors server-side.
+ */
+add_action('wp_head', function () {
+    if (! \is_user_logged_in() || ! \current_user_can('edit_posts') || \is_admin()) {
+        return;
+    }
+
+    $data = \wp_json_encode([
+        'apiUrl' => \rest_url('planetario/v1/acf-update'),
+        'nonce'  => \wp_create_nonce('wp_rest'),
+        'postId' => \get_queried_object_id(),
+    ]);
+
+    echo "<script>window.planetarioEditor = {$data};</script>\n";
+    echo Vite::withEntryPoints(['resources/js/inline-editor.js'])->toHtml();
+}, 20);
+
+/**
  * Rename "Posts" → "Blog Posts" in wp-admin via DOM text replacement.
  */
 add_action('admin_enqueue_scripts', function () {
