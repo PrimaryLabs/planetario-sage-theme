@@ -13,21 +13,38 @@ usort($all, fn($a, $b) => ($b['price'] ?? 0) <=> ($a['price'] ?? 0));
     <x-orbit-deco style="right:-220px;top:-40px;opacity:.22" />
     <div class="container">
       @if ($pageIntro['eyebrow'])
-      <span class="eyebrow">{{ $pageIntro['eyebrow'] }} · {{ count($all) }} listings</span>
+      <span class="eyebrow">
+        <span
+          data-edit-field="page_intro_eyebrow"
+          data-edit-type="text"
+          data-edit-label="Intro Eyebrow">{{ $pageIntro['eyebrow'] }}</span> · {{ count($all) }} listings
+      </span>
       @endif
 
       <h1 class="display" style="margin-top:18px;max-width:18ch">
-        {{ $pageIntro['headlineLead'] }}
+        <span
+          data-edit-field="page_intro_headline_lead"
+          data-edit-type="text"
+          data-edit-label="Intro Headline Lead">{{ $pageIntro['headlineLead'] }}</span>
         @if ($pageIntro['headlineEm'])
-        <em>{{ $pageIntro['headlineEm'] }}</em>
+        <em
+          data-edit-field="page_intro_headline_emphasis"
+          data-edit-type="text"
+          data-edit-label="Intro Headline Emphasis">{{ $pageIntro['headlineEm'] }}</em>
         @endif
         @if ($pageIntro['headlineTrail'])
-        {{ $pageIntro['headlineTrail'] }}
+        <span
+          data-edit-field="page_intro_headline_trail"
+          data-edit-type="text"
+          data-edit-label="Intro Headline Trail">{{ $pageIntro['headlineTrail'] }}</span>
         @endif
       </h1>
 
       @if ($pageIntro['lead'])
-      <p class="lead" style="margin-top:22px;max-width:62ch">{{ $pageIntro['lead'] }}</p>
+      <p class="lead" style="margin-top:22px;max-width:62ch"
+        data-edit-field="page_intro_lead"
+        data-edit-type="textarea"
+        data-edit-label="Intro Lead">{{ $pageIntro['lead'] }}</p>
       @endif
     </div>
   </section>
@@ -122,18 +139,30 @@ usort($all, fn($a, $b) => ($b['price'] ?? 0) <=> ($a['price'] ?? 0));
     <div class="container" style="display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center" class="private-grid">
       <div class="reveal">
         @if ($pageClosing['eyebrow'])
-        <span class="eyebrow">{{ $pageClosing['eyebrow'] }}</span>
+        <span class="eyebrow"
+          data-edit-field="page_closing_eyebrow"
+          data-edit-type="text"
+          data-edit-label="Closing Eyebrow">{{ $pageClosing['eyebrow'] }}</span>
         @endif
         <h2 class="h2" style="margin-top:14px">
-          {{ $pageClosing['headlineLead'] }}
+          <span
+            data-edit-field="page_closing_headline_lead"
+            data-edit-type="text"
+            data-edit-label="Closing Headline Lead">{{ $pageClosing['headlineLead'] }}</span>
           @if ($pageClosing['headlineEm'])
-          <em>{{ $pageClosing['headlineEm'] }}</em>
+          <em
+            data-edit-field="page_closing_headline_emphasis"
+            data-edit-type="text"
+            data-edit-label="Closing Headline Emphasis">{{ $pageClosing['headlineEm'] }}</em>
           @endif
         </h2>
       </div>
       <div class="reveal" style="transition-delay:.1s">
         @if ($pageClosing['body'])
-        <p class="lead">{{ $pageClosing['body'] }}</p>
+        <p class="lead"
+          data-edit-field="page_closing_body"
+          data-edit-type="textarea"
+          data-edit-label="Closing Body">{{ $pageClosing['body'] }}</p>
         @endif
         @if ($pageClosing['primaryLabel'])
         <div style="margin-top:22px">

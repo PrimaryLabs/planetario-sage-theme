@@ -297,9 +297,10 @@ add_action('wp_head', function () {
     }
 
     $data = \wp_json_encode([
-        'apiUrl' => \rest_url('planetario/v1/acf-update'),
-        'nonce'  => \wp_create_nonce('wp_rest'),
-        'postId' => \get_queried_object_id(),
+        'apiUrl'   => \rest_url('planetario/v1/acf-update'),
+        'nonce'    => \wp_create_nonce('wp_rest'),
+        'postId'   => \get_queried_object_id(),
+        'adminUrl' => \admin_url(),
     ]);
 
     echo "<script>window.planetarioEditor = {$data};</script>\n";

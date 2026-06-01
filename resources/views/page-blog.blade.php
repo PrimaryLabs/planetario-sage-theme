@@ -7,21 +7,36 @@
   <x-orbit-deco style="right:-220px;top:-40px;opacity:.22" />
   <div class="container flex flex-col items-center justify-center text-center">
     @if ($pageIntro['eyebrow'])
-    <span class="eyebrow-center">{{ $pageIntro['eyebrow'] }}</span>
+    <span class="eyebrow-center"
+      data-edit-field="page_intro_eyebrow"
+      data-edit-type="text"
+      data-edit-label="Intro Eyebrow">{{ $pageIntro['eyebrow'] }}</span>
     @endif
 
     <h1 class="display" style="margin-top:18px;max-width:22ch">
-      {{ $pageIntro['headlineLead'] }}
+      <span
+        data-edit-field="page_intro_headline_lead"
+        data-edit-type="text"
+        data-edit-label="Intro Headline Lead">{{ $pageIntro['headlineLead'] }}</span>
       @if ($pageIntro['headlineEm'])
-      <em>{{ $pageIntro['headlineEm'] }}</em>
+      <em
+        data-edit-field="page_intro_headline_emphasis"
+        data-edit-type="text"
+        data-edit-label="Intro Headline Emphasis">{{ $pageIntro['headlineEm'] }}</em>
       @endif
       @if ($pageIntro['headlineTrail'])
-      {{ $pageIntro['headlineTrail'] }}
+      <span
+        data-edit-field="page_intro_headline_trail"
+        data-edit-type="text"
+        data-edit-label="Intro Headline Trail">{{ $pageIntro['headlineTrail'] }}</span>
       @endif
     </h1>
 
     @if ($pageIntro['lead'])
-    <p class="lead" style="margin-top:22px;max-width:62ch">{{ $pageIntro['lead'] }}</p>
+    <p class="lead" style="margin-top:22px;max-width:62ch"
+      data-edit-field="page_intro_lead"
+      data-edit-type="textarea"
+      data-edit-label="Intro Lead">{{ $pageIntro['lead'] }}</p>
     @endif
   </div>
 </section>
@@ -146,12 +161,21 @@
 <section class="section" style="background:var(--bg-2);border-top:1px solid var(--line)">
   <div class="container" style="text-align:center">
     <p class="banner-quote">
-      {{ $pageClosing['headlineLead'] }}
+      <span
+        data-edit-field="page_closing_headline_lead"
+        data-edit-type="text"
+        data-edit-label="Closing Quote Lead">{{ $pageClosing['headlineLead'] }}</span>
       @if ($pageClosing['headlineEm'])
-      <em>{{ $pageClosing['headlineEm'] }}</em>
+      <em
+        data-edit-field="page_closing_headline_emphasis"
+        data-edit-type="text"
+        data-edit-label="Closing Quote Emphasis">{{ $pageClosing['headlineEm'] }}</em>
       @endif
       @if ($pageClosing['body'])
-      {{ $pageClosing['body'] }}
+      <span
+        data-edit-field="page_closing_body"
+        data-edit-type="text"
+        data-edit-label="Closing Quote Body">{{ $pageClosing['body'] }}</span>
       @endif
     </p>
     <div style="display:flex;gap:12px;justify-content:center;margin-top:32px;flex-wrap:wrap">
