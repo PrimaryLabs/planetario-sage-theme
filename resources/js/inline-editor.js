@@ -13,6 +13,23 @@ const PLE_CSS = `
   outline-offset: 4px;
   border-radius: 2px;
 }
+.ple-select {
+  width: 100%;
+  border: 1.5px solid #d1d5db;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font: 400 14px/1.6 system-ui, sans-serif;
+  color: #111;
+  outline: none;
+  box-sizing: border-box;
+  background: #fff;
+  cursor: pointer;
+  transition: border-color .15s, box-shadow .15s;
+}
+.ple-select:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59,130,246,.15);
+}
 .ple-chip {
   position: fixed;
   bottom: 72px;
@@ -265,7 +282,21 @@ function init() {
 		statusEl.textContent = "";
 		statusEl.className = "ple-status";
 
-		if (isHtml) {
+		if (type === "select") {
+			const choices = JSON.parse(el.dataset.editChoices || "{}");
+			const currentVal = el.dataset.editValue || current;
+			const sel = document.createElement("select");
+			sel.id = "ple-field";
+			sel.className = "ple-select";
+			Object.entries(choices).forEach(([val, lbl]) => {
+				const opt = document.createElement("option");
+				opt.value = val;
+				opt.textContent = lbl;
+				opt.selected = val === currentVal;
+				sel.appendChild(opt);
+			});
+			fieldWrap.appendChild(sel);
+		} else if (isHtml) {
 			// Rich text editor: toolbar + contenteditable div
 			const wrap = document.createElement("div");
 			wrap.className = "ple-rte-wrap";
@@ -375,14 +406,38 @@ function init() {
 			const json = await res.json();
 
 			if (json.success) {
-				if (fieldType === "wysiwyg") {
+				document.dispatchEvent(
+					new CustomEvent("ple:saved", {
+						detail: { field: fieldName, value: json.value },
+					}),
+				);
+
+				if (fieldType === "select") {
+					const choices = JSON.parse(
+						activeEl.dataset.editChoices || "{}",
+					);
+					activeEl.dataset.editValue = json.value;
+					const labelSpan = activeEl.querySelector(
+						".hero-admin-btn-label",
+					);
+					if (labelSpan) {
+						labelSpan.textContent =
+							choices[json.value] || json.value;
+					}
+					statusEl.textContent = "Saved!";
+					statusEl.className = "ple-status ok";
+					setTimeout(closeModal, 800);
+				} else if (fieldType === "wysiwyg") {
 					activeEl.innerHTML = json.value ?? value;
+					statusEl.textContent = "Saved!";
+					statusEl.className = "ple-status ok";
+					setTimeout(closeModal, 800);
 				} else {
 					activeEl.textContent = json.value ?? value;
+					statusEl.textContent = "Saved!";
+					statusEl.className = "ple-status ok";
+					setTimeout(closeModal, 800);
 				}
-				statusEl.textContent = "Saved!";
-				statusEl.className = "ple-status ok";
-				setTimeout(closeModal, 800);
 			} else {
 				throw new Error(json.message || "Save failed.");
 			}

@@ -512,10 +512,53 @@ function initParallax() {
 	);
 }
 
+function initHeroSlideshow() {
+	const slides = [...document.querySelectorAll(".hero-slide")];
+	if (slides.length < 2) return;
+
+	let current = 0;
+	const INTERVAL = 5000;
+	const TRANSITION = 1200;
+
+	function resetKenburns(slide) {
+		const img = slide.querySelector("img");
+		if (!img) return;
+		img.style.animation = "none";
+		img.offsetHeight; // force reflow so animation restarts
+		img.style.animation = "kenburns 18s ease-out forwards";
+	}
+
+	function advance() {
+		const prev = current;
+		current = (current + 1) % slides.length;
+
+		slides[current].style.zIndex = "3";
+		slides[current].classList.add("is-active");
+		resetKenburns(slides[current]);
+		slides[prev].classList.add("is-exiting");
+
+		setTimeout(() => {
+			slides[prev].classList.remove("is-active", "is-exiting");
+			slides[prev].style.zIndex = "";
+			slides[current].style.zIndex = "";
+		}, TRANSITION);
+	}
+
+	resetKenburns(slides[0]);
+
+	if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+		setInterval(advance, INTERVAL);
+	}
+}
+
 if (document.readyState === "loading") {
-	document.addEventListener("DOMContentLoaded", initParallax);
+	document.addEventListener("DOMContentLoaded", () => {
+		initParallax();
+		initHeroSlideshow();
+	});
 } else {
 	initParallax();
+	initHeroSlideshow();
 }
 
 // Office gallery — main preview + thumbnail rail

@@ -292,20 +292,13 @@ class FrontPage extends Composer
     public function hero(): array
     {
         $pageId = (int) \get_option('page_on_front');
-        $image  = $this->field('hero_background_image', $pageId);
 
         return [
             'eyebrow'        => $this->field('hero_eyebrow', $pageId, 'Bohol · Cebu · Visayas'),
             'headlineLead'   => $this->field('hero_headline_lead', $pageId, 'A home is the long answer to a'),
             'headlineEm'     => $this->field('hero_headline_emphasis', $pageId, 'short prayer.'),
             'sub'            => $this->field('hero_sub', $pageId, "Planetario Realty & Brokerage Services Inc. has guided Boholano families, OFW investors, and first-time buyers across the Visayas for nearly a decade with patience, with paperwork done right, and with the kind of honesty that keeps clients coming back."),
-            'image'          => is_array($image) ? [
-                'url' => $image['url'] ?? '',
-                'alt' => $image['alt'] ?? '',
-            ] : [
-                'url' => 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&h=1080&fit=crop&q=80',
-                'alt' => '',
-            ],
+            'images'         => $this->heroImages($pageId),
             'primaryCta'   => [
                 'label' => $this->field('hero_primary_cta_label', $pageId, 'Browse properties'),
                 'url'   => $this->field('hero_primary_cta_url', $pageId, \home_url('/properties')),
@@ -316,6 +309,36 @@ class FrontPage extends Composer
             ],
             'stats'        => $this->stats($pageId),
         ];
+    }
+
+    private function heroImages(int $pageId): array
+    {
+        $defaults = [
+            ['id' => 0, 'url' => 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&h=1080&fit=crop&q=80', 'alt' => '', 'transition' => 'crossfade'],
+            ['id' => 0, 'url' => 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1920&h=1080&fit=crop&q=80', 'alt' => '', 'transition' => 'slide'],
+            ['id' => 0, 'url' => 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1920&h=1080&fit=crop&q=80', 'alt' => '', 'transition' => 'zoom'],
+        ];
+
+        // Read up to 5 fixed slide slots (accordion-based, ACF Free compatible)
+        $slides = [];
+        for ($n = 1; $n <= 5; $n++) {
+            $img = \get_field("hero_slide_{$n}_image", $pageId);
+            if (! is_array($img) || empty($img['url'])) {
+                continue;
+            }
+            $slides[] = [
+                'id'         => (int) ($img['ID'] ?? 0),
+                'url'        => $img['url'],
+                'alt'        => $img['alt'] ?? '',
+                'transition' => \get_field("hero_slide_{$n}_transition", $pageId) ?: 'crossfade',
+            ];
+        }
+
+        if (! empty($slides)) {
+            return $slides;
+        }
+
+        return $defaults;
     }
 
     public function commitment(): array

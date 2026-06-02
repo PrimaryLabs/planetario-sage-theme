@@ -307,6 +307,12 @@ add_action('wp_head', function () {
     echo Vite::withEntryPoints(['resources/js/inline-editor.js'])->toHtml();
 }, 20);
 
+add_action('wp_enqueue_scripts', function () {
+    if (\is_user_logged_in() && \current_user_can('edit_posts')) {
+        \wp_enqueue_media();
+    }
+});
+
 /**
  * Rename "Posts" → "Blog Posts" in wp-admin via DOM text replacement.
  */

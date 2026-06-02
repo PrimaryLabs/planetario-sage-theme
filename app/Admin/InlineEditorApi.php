@@ -26,6 +26,10 @@ class InlineEditorApi
         $field_type = $request->get_param('field_type');
         $raw        = $request->get_param('value');
 
+        if (! \function_exists('update_field')) {
+            return new \WP_REST_Response(['success' => false, 'message' => 'ACF not active'], 500);
+        }
+
         $value = match ($field_type) {
             'wysiwyg'  => \wp_kses_post($raw),
             'url'      => \esc_url_raw($raw),
@@ -33,10 +37,6 @@ class InlineEditorApi
             'nl2br'    => \sanitize_textarea_field($raw),
             default    => \sanitize_text_field($raw),
         };
-
-        if (! \function_exists('update_field')) {
-            return new \WP_REST_Response(['success' => false, 'message' => 'ACF not active'], 500);
-        }
 
         \update_field($field_name, $value, $post_id);
 

@@ -13,10 +13,32 @@ $accreditedDevelopers = $accreditedDevelopers ?? ['bohol' => [], 'cebu' => []];
 {{-- Hero --}}
 <section class="hero">
   <div class="hero-bg">
-    <img src="{{ $hero['image']['url'] }}" alt="{{ $hero['image']['alt'] }}" aria-hidden="true">
+    @foreach ($hero['images'] as $i => $img)
+    <div
+      class="hero-slide{{ $i === 0 ? ' is-active' : '' }}"
+      data-transition="{{ $img['transition'] }}"
+      aria-hidden="true"
+    >
+      <img src="{{ $img['url'] }}" alt="{{ $img['alt'] }}">
+    </div>
+    @endforeach
   </div>
   <div class="hero-overlay"></div>
   <x-orbit-deco />
+
+  @if (\is_user_logged_in() && \current_user_can('edit_posts'))
+  <div class="hero-admin-bar">
+    <a
+      class="hero-admin-btn"
+      href="{{ \admin_url('post.php?post=' . \get_option('page_on_front') . '&action=edit') }}"
+      target="_blank"
+      rel="noopener"
+    >
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+      Edit Hero Images
+    </a>
+  </div>
+  @endif
 
   <div class="container hero-inner">
     @if ($hero['eyebrow'])
