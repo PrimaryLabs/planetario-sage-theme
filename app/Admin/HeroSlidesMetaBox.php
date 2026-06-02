@@ -64,8 +64,8 @@ class HeroSlidesMetaBox
                 'url'        => $url,
                 'alt'        => \sanitize_text_field($s['alt'] ?? ''),
                 'transition' => in_array($s['transition'] ?? '', ['crossfade', 'slide', 'zoom'], true)
-                                    ? $s['transition']
-                                    : 'crossfade',
+                    ? $s['transition']
+                    : 'crossfade',
             ];
         }, $slides)));
 

@@ -329,6 +329,23 @@ add_action('admin_enqueue_scripts', function ($hook) {
 });
 
 /**
+ * Disable Gutenberg block editor for all Pages.
+ */
+add_filter('use_block_editor_for_post_type', function (bool $use, string $postType): bool {
+    if ($postType === 'page') {
+        return false;
+    }
+    return $use;
+}, 10, 2);
+
+/**
+ * Remove classic editor (TinyMCE) metabox from all Pages.
+ */
+add_action('init', function () {
+    \remove_post_type_support('page', 'editor');
+}, 20);
+
+/**
  * Fix Sage local development CORS errors
  */
 add_action('init', function () {

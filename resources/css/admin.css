@@ -1,2 +1,18 @@
 /* Global wp-admin styles for Planetario theme */
 
+.acf-rf-actions:not(td) {
+	/* display: flex; */
+	gap: 12px;
+}
+
+.acf-rf-actions button {
+	margin: 0px 5px !important;
+	border: none !important;
+	box-shadow: 0 0 1px 0.5px;
+	border-radius: 4px;
+}
+
+.acf-rf-table th,
+.acf-rf-table td {
+	vertical-align: middle !important;
+}
