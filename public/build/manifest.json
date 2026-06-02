@@ -32,5 +32,11 @@
     "name": "editor",
     "src": "resources/js/editor.js",
     "isEntry": true
+  },
+  "resources/js/inline-editor.js": {
+    "file": "assets/inline-editor-BA6Unpal.js",
+    "name": "inline-editor",
+    "src": "resources/js/inline-editor.js",
+    "isEntry": true
   }
 }
