@@ -316,9 +316,14 @@ add_action('wp_enqueue_scripts', function () {
 /**
  * Rename "Posts" → "Blog Posts" in wp-admin via DOM text replacement.
  */
-add_action('admin_enqueue_scripts', function () {
+add_action('admin_enqueue_scripts', function ($hook) {
     $asset = \get_theme_file_uri('resources/js/admin.js');
     \wp_enqueue_script('planetario-admin', $asset, [], null, true);
+
+    if ($hook === 'post.php' || $hook === 'post-new.php') {
+        $slides_asset = \get_theme_file_uri('resources/js/hero-slides-admin.js');
+        \wp_enqueue_script('planetario-hero-slides', $slides_asset, [], null, true);
+    }
 });
 
 /**

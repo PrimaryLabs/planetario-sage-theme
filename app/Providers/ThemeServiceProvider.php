@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Admin\AcfMetaboxUi;
+use App\Admin\HeroSlidesMetaBox;
 use App\Admin\InlineEditorApi;
 use App\Admin\SiteIdentityPage;
 use App\Admin\TeamImportPage;
@@ -67,6 +68,8 @@ class ThemeServiceProvider extends SageServiceProvider
         \add_action('acf/init', [AboutPage::class, 'register']);
         \add_action('acf/init', [PageIntros::class, 'register']);
         \add_action('acf/init', [PageAdminLinks::class, 'register']);
+        \add_action('add_meta_boxes', [HeroSlidesMetaBox::class, 'register']);
+        \add_action('save_post',      [HeroSlidesMetaBox::class, 'save'], 10, 2);
         \add_action('admin_init', [AcfMetaboxUi::class, 'register']);
         \add_action('admin_init', [CompanyEventPostType::class, 'seed']);
         \add_action('admin_init', [BlogPostType::class, 'seed']);

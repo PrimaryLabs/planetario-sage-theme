@@ -319,22 +319,10 @@ class FrontPage extends Composer
             ['id' => 0, 'url' => 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1920&h=1080&fit=crop&q=80', 'alt' => '', 'transition' => 'zoom'],
         ];
 
-        // Read up to 5 fixed slide slots (accordion-based, ACF Free compatible)
-        $slides = [];
-        for ($n = 1; $n <= 5; $n++) {
-            $img = \get_field("hero_slide_{$n}_image", $pageId);
-            if (! is_array($img) || empty($img['url'])) {
-                continue;
-            }
-            $slides[] = [
-                'id'         => (int) ($img['ID'] ?? 0),
-                'url'        => $img['url'],
-                'alt'        => $img['alt'] ?? '',
-                'transition' => \get_field("hero_slide_{$n}_transition", $pageId) ?: 'crossfade',
-            ];
-        }
+        $raw    = \get_post_meta($pageId, \App\Admin\HeroSlidesMetaBox::META_KEY, true);
+        $slides = json_decode($raw ?: '[]', true);
 
-        if (! empty($slides)) {
+        if (! empty($slides) && is_array($slides)) {
             return $slides;
         }
 

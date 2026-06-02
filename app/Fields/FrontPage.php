@@ -343,44 +343,7 @@ class FrontPage
 
     private static function heroBaseFields(): array
     {
-        $slideFields = [];
-        for ($n = 1; $n <= 5; $n++) {
-            $slideFields[] = [
-                'key'          => "field_fp_hero_slide_{$n}_acc",
-                'label'        => "Slide {$n}",
-                'name'         => '',
-                'type'         => 'accordion',
-                'open'         => $n === 1 ? 1 : 0,
-                'multi_expand' => 1,
-                'endpoint'     => 0,
-            ];
-            $slideFields[] = [
-                'key'           => "field_fp_hero_slide_{$n}_image",
-                'label'         => $n === 1 ? 'Image (required)' : 'Image (optional — leave blank to skip slide)',
-                'name'          => "hero_slide_{$n}_image",
-                'type'          => 'image',
-                'return_format' => 'array',
-                'preview_size'  => 'medium',
-                'required'      => $n === 1 ? 1 : 0,
-                'wrapper'       => ['width' => '60'],
-            ];
-            $slideFields[] = [
-                'key'           => "field_fp_hero_slide_{$n}_transition",
-                'label'         => 'Transition into this slide',
-                'name'          => "hero_slide_{$n}_transition",
-                'type'          => 'select',
-                'choices'       => [
-                    'crossfade' => 'Crossfade',
-                    'slide'     => 'Slide',
-                    'zoom'      => 'Zoom',
-                ],
-                'default_value' => 'crossfade',
-                'return_format' => 'value',
-                'wrapper'       => ['width' => '40'],
-            ];
-        }
-
-        return array_merge([
+        return [
             [
                 'key'           => 'field_fp_hero_eyebrow',
                 'label'         => 'Eyebrow',
@@ -414,14 +377,6 @@ class FrontPage
                 'new_lines'     => '',
                 'default_value' => "Planetario Realty & Brokerage Services Inc. has guided Boholano families, OFW investors, and first-time buyers across the Visayas for nearly a decade with patience, with paperwork done right, and with the kind of honesty that keeps clients coming back.",
             ],
-        ], $slideFields, [
-            [
-                'key'      => 'field_fp_hero_slides_end',
-                'label'    => '',
-                'name'     => '',
-                'type'     => 'accordion',
-                'endpoint' => 1,
-            ],
             [
                 'key'           => 'field_fp_hero_primary_cta_label',
                 'label'         => 'Primary CTA — label',
@@ -454,7 +409,7 @@ class FrontPage
                 'default_value' => '/contact',
                 'wrapper'       => ['width' => '50'],
             ],
-        ]);
+        ];
     }
 
     private static function statGroup(int $i, array $defaults): array
