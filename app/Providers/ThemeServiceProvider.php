@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Admin\AcfMetaboxUi;
 use App\Admin\HeroSlidesMetaBox;
 use App\Admin\InlineEditorApi;
+use App\Admin\MetaboxSettingsPage;
 use App\Admin\SiteIdentityPage;
 use App\Admin\TeamImportPage;
 use App\Admin\ThemeColorsPage;
@@ -58,18 +59,35 @@ class ThemeServiceProvider extends SageServiceProvider
         \add_action('init', [StoryPostType::class, 'register']);
         \add_action('init', [CompanyEventPostType::class, 'register']);
         \add_action('acf/init', [SiteSettings::class, 'register']);
-        \add_action('acf/init', [FrontPage::class, 'register']);
         \add_action('acf/init', [PropertyFields::class, 'register']);
         \add_action('acf/init', [TestimonialFields::class, 'register']);
         \add_action('acf/init', [TeamMemberFields::class, 'register']);
         \add_action('acf/init', [DeveloperFields::class, 'register']);
         \add_action('acf/init', [StoryFields::class, 'register']);
         \add_action('acf/init', [CompanyEventFields::class, 'register']);
-        \add_action('acf/init', [AboutPage::class, 'register']);
-        \add_action('acf/init', [PageIntros::class, 'register']);
-        \add_action('acf/init', [PageAdminLinks::class, 'register']);
-        \add_action('add_meta_boxes', [HeroSlidesMetaBox::class, 'register']);
-        \add_action('save_post',      [HeroSlidesMetaBox::class, 'save'], 10, 2);
+
+        \add_action('acf/init', function () {
+            if (MetaboxSettingsPage::isEnabled('front_page_acf')) {
+                FrontPage::register();
+            }
+
+            if (MetaboxSettingsPage::isEnabled('about_page_acf')) {
+                AboutPage::register();
+            }
+
+            if (MetaboxSettingsPage::isEnabled('page_intros_acf')) {
+                PageIntros::register();
+            }
+
+            if (MetaboxSettingsPage::isEnabled('page_admin_links')) {
+                PageAdminLinks::register();
+            }
+        });
+
+        if (MetaboxSettingsPage::isEnabled('hero_slides')) {
+            \add_action('add_meta_boxes', [HeroSlidesMetaBox::class, 'register']);
+            \add_action('save_post',      [HeroSlidesMetaBox::class, 'save'], 10, 2);
+        }
         \add_action('admin_init', [AcfMetaboxUi::class, 'register']);
         \add_action('admin_init', [CompanyEventPostType::class, 'seed']);
         \add_action('admin_init', [BlogPostType::class, 'seed']);
@@ -80,5 +98,6 @@ class ThemeServiceProvider extends SageServiceProvider
         SiteIdentitySync::register();
         ThemeColorsPage::register();
         TeamImportPage::register();
+        MetaboxSettingsPage::register();
     }
 }

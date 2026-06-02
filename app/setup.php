@@ -320,6 +320,8 @@ add_action('admin_enqueue_scripts', function ($hook) {
     $asset = \get_theme_file_uri('resources/js/admin.js');
     \wp_enqueue_script('planetario-admin', $asset, [], null, true);
 
+    echo Vite::withEntryPoints(['resources/css/admin.css'])->toHtml();
+
     if ($hook === 'post.php' || $hook === 'post-new.php') {
         $slides_asset = \get_theme_file_uri('resources/js/hero-slides-admin.js');
         \wp_enqueue_script('planetario-hero-slides', $slides_asset, [], null, true);
