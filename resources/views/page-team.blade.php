@@ -44,7 +44,9 @@
 @if (! empty($boardOfDirectors))
 <section class="section" style="padding-top:88px">
   <div class="container" style="text-align:center">
-    <div class="section-head-col">
+    <div class="section-head-col"
+      data-edit-admin="edit.php?post_type=team_member"
+      title="Click to manage team members in WP Admin">
       <div class="reveal flex flex-col items-center">
         <span class="eyebrow">Leadership</span>
         <h2 class="h2" style="margin-top:14px">
@@ -79,7 +81,9 @@
 @if (! empty($brokers))
 <section class="section" style="background:var(--bg-2)">
   <div class="container" style="text-align:center">
-    <div class="section-head-col">
+    <div class="section-head-col"
+      data-edit-admin="edit.php?post_type=team_member"
+      title="Click to manage team members in WP Admin">
       <div class="reveal flex flex-col items-center">
         <span class="eyebrow">Salesfloor</span>
         <h2 class="h2" style="margin-top:14px">
@@ -114,7 +118,9 @@
 @if (! empty($boholManagers))
 <section class="section">
   <div class="container" style="text-align:center">
-    <div class="section-head-col">
+    <div class="section-head-col"
+      data-edit-admin="edit.php?post_type=team_member"
+      title="Click to manage team members in WP Admin">
       <div class="reveal flex flex-col items-center">
         <span class="eyebrow">Bohol</span>
         <h2 class="h2" style="margin-top:14px">
@@ -149,7 +155,9 @@
 @if (! empty($cebuManagers))
 <section class="section" style="background:var(--bg-2)">
   <div class="container" style="text-align:center">
-    <div class="section-head-col">
+    <div class="section-head-col"
+      data-edit-admin="edit.php?post_type=team_member"
+      title="Click to manage team members in WP Admin">
       <div class="reveal flex flex-col items-center">
         <span class="eyebrow">Cebu</span>
         <h2 class="h2" style="margin-top:14px">
@@ -184,7 +192,9 @@
 @if (! empty($boholStaffs))
 <section class="section">
   <div class="container" style="text-align:center">
-    <div class="section-head-col">
+    <div class="section-head-col"
+      data-edit-admin="edit.php?post_type=team_member"
+      title="Click to manage team members in WP Admin">
       <div class="reveal flex flex-col items-center">
         <span class="eyebrow">Bohol</span>
         <h2 class="h2" style="margin-top:14px">
@@ -219,7 +229,9 @@
 @if (! empty($cebuStaffs))
 <section class="section" style="background:var(--bg-2)">
   <div class="container" style="text-align:center">
-    <div class="section-head-col">
+    <div class="section-head-col"
+      data-edit-admin="edit.php?post_type=team_member"
+      title="Click to manage team members in WP Admin">
       <div class="reveal flex flex-col items-center">
         <span class="eyebrow">Cebu</span>
         <h2 class="h2" style="margin-top:14px">

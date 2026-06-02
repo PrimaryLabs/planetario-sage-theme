@@ -45,7 +45,9 @@ $stories = $stories ?? StaticData::stories();
   </div>
 </section>
 
-<section class="section" style="padding-top:88px">
+<section class="section" style="padding-top:88px"
+  data-edit-admin="edit.php?post_type=story"
+  title="Click to manage stories in WP Admin">
   <div class="container">
     @foreach ($stories as $i => $s)
     <article class="story reveal {{ $i % 2 === 0 ? 'reveal-left' : 'reveal-right' }}" style="transition-delay:{{ $i * 0.08 }}s">
@@ -118,7 +120,9 @@ $stories = $stories ?? StaticData::stories();
 @if (! empty($companyEvents))
 <section class="section" id="company-events" style="padding-top:48px;border-top:1px solid var(--line)">
   <div class="container">
-    <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:36px">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:36px"
+      data-edit-admin="edit.php?post_type=company_event"
+      title="Click to manage company events in WP Admin">
       <div>
         <span class="eyebrow">Company Events</span>
         <h2 class="h2" style="margin-top:14px;max-width:22ch">

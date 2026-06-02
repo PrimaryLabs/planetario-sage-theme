@@ -46,7 +46,9 @@
 <section class="section" style="padding-top:88px">
   <div class="container">
     <div class="section-head">
-      <div class="reveal">
+      <div class="reveal"
+        data-edit-admin="edit.php?post_type=company_event"
+        title="Click to manage events in WP Admin">
         <span class="eyebrow">Featured</span>
         <h2 class="h2" style="margin-top:14px">Moments worth <em>marking.</em></h2>
       </div>
@@ -129,7 +131,9 @@
 <section class="section" style="background:var(--bg-2);border-top:1px solid var(--line)">
   <div class="container">
     <div class="section-head">
-      <div class="reveal">
+      <div class="reveal"
+        data-edit-admin="edit.php?post_type=company_event"
+        title="Click to manage events in WP Admin">
         <span class="eyebrow">All events</span>
         <h2 class="h2" style="margin-top:14px">The full <em>calendar.</em></h2>
       </div>

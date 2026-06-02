@@ -42,7 +42,9 @@
 </section>
 
 {{-- Blog reader: detail + list --}}
-<section class="section" style="padding-top:88px">
+<section class="section" style="padding-top:88px"
+  data-edit-admin="edit.php"
+  title="Click to manage blog posts in WP Admin">
   <div class="container">
 
     @if (empty($blogPosts))

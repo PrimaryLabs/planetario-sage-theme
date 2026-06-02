@@ -42,7 +42,9 @@
   </div>
 </section>
 
-<section class="section" style="padding-top:24px">
+<section class="section" style="padding-top:24px"
+  data-edit-admin="edit.php?post_type=testimonial"
+  title="Click to manage testimonials in WP Admin">
   <div class="container">
     <div class="stagger-children testi-grid"
       style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px">

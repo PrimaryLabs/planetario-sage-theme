@@ -44,7 +44,9 @@
 
 <section class="section" style="padding-top:64px">
   <div class="container">
-    <div class="managers-tabs" role="tablist" aria-label="Filter by region" style="margin-bottom:36px" data-dev-filter-bar>
+    <div class="managers-tabs" role="tablist" aria-label="Filter by region" style="margin-bottom:36px" data-dev-filter-bar
+      data-edit-admin="edit.php?post_type=developer"
+      title="Click to manage developers in WP Admin">
       <button class="managers-tab is-active" role="tab" aria-selected="true" data-dev-filter="all">
         All
       </button>

@@ -97,7 +97,9 @@ usort($all, fn($a, $b) => ($b['price'] ?? 0) <=> ($a['price'] ?? 0));
   {{-- Listings grid --}}
   <section class="section" style="padding-top:36px">
     <div class="container">
-      <div class="tag-row" style="margin-bottom:28px" id="prop-count-row">
+      <div class="tag-row" style="margin-bottom:28px" id="prop-count-row"
+        data-edit-admin="edit.php?post_type=property"
+        title="Click to manage properties in WP Admin">
         <span id="prop-count">{{ count($all) }} of {{ count($all) }} listings</span>
         <span class="sep">·</span>
         <span>Updated this week</span>
