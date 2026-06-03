@@ -44,17 +44,27 @@
 @if (! empty($boardOfDirectors))
 <section class="section" style="padding-top:88px">
   <div class="container" style="text-align:center">
-    <div class="section-head-col"
-      data-edit-admin="edit.php?post_type=team_member"
-      title="Click to manage team members in WP Admin">
+    <div class="section-head-col">
       <div class="reveal flex flex-col items-center">
-        <span class="eyebrow">Leadership</span>
+        <span class="eyebrow"
+          data-edit-field="team_board_eyebrow"
+          data-edit-type="text"
+          data-edit-label="Board — Eyebrow">{{ $sectionLabels['board']['eyebrow'] }}</span>
         <h2 class="h2" style="margin-top:14px">
-          Board of <em>Directors.</em>
+          <span
+            data-edit-field="team_board_headline_lead"
+            data-edit-type="text"
+            data-edit-label="Board — Headline Lead">{{ $sectionLabels['board']['lead'] }}</span>
+          <em
+            data-edit-field="team_board_headline_em"
+            data-edit-type="text"
+            data-edit-label="Board — Headline Emphasis">{{ $sectionLabels['board']['em'] }}</em>
         </h2>
       </div>
     </div>
-    <div class="flex flex-wrap gap-6 items-center justify-center" style="margin-top:36px">
+    <div class="flex flex-wrap gap-6 items-center justify-center" style="margin-top:36px"
+      data-edit-admin="edit.php?post_type=team_member"
+      title="Click to manage team members in WP Admin">
       @foreach ($boardOfDirectors as $i => $member)
       <div class="team-card team-card--featured max-w-xs md:w-1/2 lg:w-1/3 reveal" style="{{ $i > 0 ? 'transition-delay:.'.(($i+1)*1).'s' : '' }}">
         <div class="media">
@@ -81,17 +91,23 @@
 @if (! empty($brokers))
 <section class="section" style="background:var(--bg-2)">
   <div class="container" style="text-align:center">
-    <div class="section-head-col"
-      data-edit-admin="edit.php?post_type=team_member"
-      title="Click to manage team members in WP Admin">
+    <div class="section-head-col">
       <div class="reveal flex flex-col items-center">
-        <span class="eyebrow">Salesfloor</span>
+        <span class="eyebrow"
+          data-edit-field="team_brokers_eyebrow"
+          data-edit-type="text"
+          data-edit-label="Brokers — Eyebrow">{{ $sectionLabels['brokers']['eyebrow'] }}</span>
         <h2 class="h2" style="margin-top:14px">
-          <em>Brokers.</em>
+          <em
+            data-edit-field="team_brokers_headline_em"
+            data-edit-type="text"
+            data-edit-label="Brokers — Headline Emphasis">{{ $sectionLabels['brokers']['em'] }}</em>
         </h2>
       </div>
     </div>
-    <div class="flex flex-wrap gap-6 items-center justify-center" style="margin-top:36px">
+    <div class="flex flex-wrap gap-6 items-center justify-center" style="margin-top:36px"
+      data-edit-admin="edit.php?post_type=team_member"
+      title="Click to manage team members in WP Admin">
       @foreach ($brokers as $i => $member)
       <div class="team-card team-card--featured max-w-xs md:w-1/2 lg:w-1/3 reveal" style="{{ $i > 0 ? 'transition-delay:.'.(($i+1)*1).'s' : '' }}">
         <div class="media">
@@ -118,17 +134,27 @@
 @if (! empty($boholManagers))
 <section class="section">
   <div class="container" style="text-align:center">
-    <div class="section-head-col"
-      data-edit-admin="edit.php?post_type=team_member"
-      title="Click to manage team members in WP Admin">
+    <div class="section-head-col">
       <div class="reveal flex flex-col items-center">
-        <span class="eyebrow">Bohol</span>
+        <span class="eyebrow"
+          data-edit-field="team_bohol_mgr_eyebrow"
+          data-edit-type="text"
+          data-edit-label="Bohol Managers — Eyebrow">{{ $sectionLabels['boholMgr']['eyebrow'] }}</span>
         <h2 class="h2" style="margin-top:14px">
-          Bohol <em>Managers.</em>
+          <span
+            data-edit-field="team_bohol_mgr_lead"
+            data-edit-type="text"
+            data-edit-label="Bohol Managers — Headline Lead">{{ $sectionLabels['boholMgr']['lead'] }}</span>
+          <em
+            data-edit-field="team_bohol_mgr_headline_em"
+            data-edit-type="text"
+            data-edit-label="Bohol Managers — Headline Emphasis">{{ $sectionLabels['boholMgr']['em'] }}</em>
         </h2>
       </div>
     </div>
-    <div class="flex flex-wrap gap-6 items-center justify-center" style="margin-top:36px">
+    <div class="flex flex-wrap gap-6 items-center justify-center" style="margin-top:36px"
+      data-edit-admin="edit.php?post_type=team_member"
+      title="Click to manage team members in WP Admin">
       @foreach ($boholManagers as $i => $member)
       <div class="team-card team-card--featured max-w-xs md:w-1/2 lg:w-1/3 reveal">
         <div class="media">
@@ -155,17 +181,27 @@
 @if (! empty($cebuManagers))
 <section class="section" style="background:var(--bg-2)">
   <div class="container" style="text-align:center">
-    <div class="section-head-col"
-      data-edit-admin="edit.php?post_type=team_member"
-      title="Click to manage team members in WP Admin">
+    <div class="section-head-col">
       <div class="reveal flex flex-col items-center">
-        <span class="eyebrow">Cebu</span>
+        <span class="eyebrow"
+          data-edit-field="team_cebu_mgr_eyebrow"
+          data-edit-type="text"
+          data-edit-label="Cebu Managers — Eyebrow">{{ $sectionLabels['cebuMgr']['eyebrow'] }}</span>
         <h2 class="h2" style="margin-top:14px">
-          Cebu <em>Managers.</em>
+          <span
+            data-edit-field="team_cebu_mgr_lead"
+            data-edit-type="text"
+            data-edit-label="Cebu Managers — Headline Lead">{{ $sectionLabels['cebuMgr']['lead'] }}</span>
+          <em
+            data-edit-field="team_cebu_mgr_headline_em"
+            data-edit-type="text"
+            data-edit-label="Cebu Managers — Headline Emphasis">{{ $sectionLabels['cebuMgr']['em'] }}</em>
         </h2>
       </div>
     </div>
-    <div class="flex flex-wrap gap-6 items-center justify-center" style="margin-top:36px">
+    <div class="flex flex-wrap gap-6 items-center justify-center" style="margin-top:36px"
+      data-edit-admin="edit.php?post_type=team_member"
+      title="Click to manage team members in WP Admin">
       @foreach ($cebuManagers as $i => $member)
       <div class="team-card team-card--featured max-w-xs md:w-1/2 lg:w-1/3 reveal">
         <div class="media">
@@ -192,17 +228,27 @@
 @if (! empty($boholStaffs))
 <section class="section">
   <div class="container" style="text-align:center">
-    <div class="section-head-col"
-      data-edit-admin="edit.php?post_type=team_member"
-      title="Click to manage team members in WP Admin">
+    <div class="section-head-col">
       <div class="reveal flex flex-col items-center">
-        <span class="eyebrow">Bohol</span>
+        <span class="eyebrow"
+          data-edit-field="team_bohol_staff_eyebrow"
+          data-edit-type="text"
+          data-edit-label="Bohol Staff — Eyebrow">{{ $sectionLabels['boholStaff']['eyebrow'] }}</span>
         <h2 class="h2" style="margin-top:14px">
-          Bohol <em>Staff.</em>
+          <span
+            data-edit-field="team_bohol_staff_lead"
+            data-edit-type="text"
+            data-edit-label="Bohol Staff — Headline Lead">{{ $sectionLabels['boholStaff']['lead'] }}</span>
+          <em
+            data-edit-field="team_bohol_staff_headline_em"
+            data-edit-type="text"
+            data-edit-label="Bohol Staff — Headline Emphasis">{{ $sectionLabels['boholStaff']['em'] }}</em>
         </h2>
       </div>
     </div>
-    <div class="flex flex-wrap gap-6 items-center justify-center" style="margin-top:36px">
+    <div class="flex flex-wrap gap-6 items-center justify-center" style="margin-top:36px"
+      data-edit-admin="edit.php?post_type=team_member"
+      title="Click to manage team members in WP Admin">
       @foreach ($boholStaffs as $member)
       <div class="team-card team-card--featured max-w-xs md:w-1/2 lg:w-1/3 reveal">
         <div class="media">
@@ -229,17 +275,27 @@
 @if (! empty($cebuStaffs))
 <section class="section" style="background:var(--bg-2)">
   <div class="container" style="text-align:center">
-    <div class="section-head-col"
-      data-edit-admin="edit.php?post_type=team_member"
-      title="Click to manage team members in WP Admin">
+    <div class="section-head-col">
       <div class="reveal flex flex-col items-center">
-        <span class="eyebrow">Cebu</span>
+        <span class="eyebrow"
+          data-edit-field="team_cebu_staff_eyebrow"
+          data-edit-type="text"
+          data-edit-label="Cebu Staff — Eyebrow">{{ $sectionLabels['cebuStaff']['eyebrow'] }}</span>
         <h2 class="h2" style="margin-top:14px">
-          Cebu <em>Staff.</em>
+          <span
+            data-edit-field="team_cebu_staff_lead"
+            data-edit-type="text"
+            data-edit-label="Cebu Staff — Headline Lead">{{ $sectionLabels['cebuStaff']['lead'] }}</span>
+          <em
+            data-edit-field="team_cebu_staff_headline_em"
+            data-edit-type="text"
+            data-edit-label="Cebu Staff — Headline Emphasis">{{ $sectionLabels['cebuStaff']['em'] }}</em>
         </h2>
       </div>
     </div>
-    <div class="flex flex-wrap gap-6 items-center justify-center" style="margin-top:36px">
+    <div class="flex flex-wrap gap-6 items-center justify-center" style="margin-top:36px"
+      data-edit-admin="edit.php?post_type=team_member"
+      title="Click to manage team members in WP Admin">
       @foreach ($cebuStaffs as $member)
       <div class="team-card team-card--featured max-w-xs md:w-1/2 lg:w-1/3 reveal">
         <div class="media">

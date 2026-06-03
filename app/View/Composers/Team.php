@@ -28,6 +28,46 @@ class Team extends Composer
             'cebuManagers'     => $this->sortByManagerOrder($byTier['Cebu Managers']  ?? []),
             'boholStaffs'      => $this->sortByStaffOrder($byTier['Bohol Staff']      ?? []),
             'cebuStaffs'       => $this->sortByStaffOrder($byTier['Cebu Staff']        ?? []),
+            'sectionLabels'    => $this->sectionLabels(),
+        ];
+    }
+
+    private function sectionLabels(): array
+    {
+        $pid = \get_queried_object_id();
+        $g   = fn (string $field, string $default): string =>
+            (string) (\get_field($field, $pid) ?: $default);
+
+        return [
+            'board'      => [
+                'eyebrow' => $g('team_board_eyebrow',       'Leadership'),
+                'lead'    => $g('team_board_headline_lead', 'Board of'),
+                'em'      => $g('team_board_headline_em',   'Directors.'),
+            ],
+            'brokers'    => [
+                'eyebrow' => $g('team_brokers_eyebrow',      'Salesfloor'),
+                'em'      => $g('team_brokers_headline_em',  'Brokers.'),
+            ],
+            'boholMgr'   => [
+                'eyebrow' => $g('team_bohol_mgr_eyebrow',     'Bohol'),
+                'lead'    => $g('team_bohol_mgr_lead',        'Bohol'),
+                'em'      => $g('team_bohol_mgr_headline_em', 'Managers.'),
+            ],
+            'cebuMgr'    => [
+                'eyebrow' => $g('team_cebu_mgr_eyebrow',     'Cebu'),
+                'lead'    => $g('team_cebu_mgr_lead',        'Cebu'),
+                'em'      => $g('team_cebu_mgr_headline_em', 'Managers.'),
+            ],
+            'boholStaff' => [
+                'eyebrow' => $g('team_bohol_staff_eyebrow',     'Bohol'),
+                'lead'    => $g('team_bohol_staff_lead',        'Bohol'),
+                'em'      => $g('team_bohol_staff_headline_em', 'Staff.'),
+            ],
+            'cebuStaff'  => [
+                'eyebrow' => $g('team_cebu_staff_eyebrow',     'Cebu'),
+                'lead'    => $g('team_cebu_staff_lead',        'Cebu'),
+                'em'      => $g('team_cebu_staff_headline_em', 'Staff.'),
+            ],
         ];
     }
 

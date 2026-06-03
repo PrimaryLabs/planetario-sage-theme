@@ -19,6 +19,7 @@ use App\Fields\Property as PropertyFields;
 use App\Fields\SiteSettings;
 use App\Fields\Story as StoryFields;
 use App\Fields\TeamMember as TeamMemberFields;
+use App\Fields\TeamPage;
 use App\Fields\Testimonial as TestimonialFields;
 use App\PostTypes\BlogPost as BlogPostType;
 use App\PostTypes\CompanyEvent as CompanyEventPostType;
@@ -81,6 +82,10 @@ class ThemeServiceProvider extends SageServiceProvider
 
             if (MetaboxSettingsPage::isEnabled('page_admin_links')) {
                 PageAdminLinks::register();
+            }
+
+            if (MetaboxSettingsPage::isEnabled('team_page_acf')) {
+                TeamPage::register();
             }
         });
 

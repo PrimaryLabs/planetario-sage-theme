@@ -139,19 +139,11 @@ class Property
                 'key'          => 'field_prop_features',
                 'label'        => 'Features',
                 'name'         => 'property_features',
-                'type'         => 'repeater_field',
-                'min'          => 0,
-                'layout'       => 'table',
-                'button_label' => 'Add feature',
-                'sub_fields'   => [
-                    [
-                        'key'      => 'field_prop_feature_item',
-                        'label'    => 'Feature',
-                        'name'     => 'feature',
-                        'type'     => 'text',
-                        'required' => 1,
-                    ],
-                ],
+                'type'            => 'repeater_field',
+                'rf_min'          => 0,
+                'rf_layout'       => 'table',
+                'rf_button_label' => 'Add feature',
+                'rf_sub_fields'   => "feature | Feature | text",
             ],
         ];
     }
