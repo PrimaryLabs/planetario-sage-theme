@@ -111,23 +111,23 @@
       <h2 class="h2" style="margin-top:14px">More from the blog</h2>
     </div>
 
-    <div class="related-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:48px">
+    <div class="related-list" style="display:flex;flex-direction:column;gap:16px;margin-top:48px">
       @foreach ($relatedPosts as $rel)
       <a href="{{ $rel['permalink'] }}"
         class="related-card"
-        style="background:var(--bg-2);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;text-decoration:none">
+        style="background:var(--bg-2);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:grid;grid-template-columns:200px 1fr;text-decoration:none;align-items:stretch">
 
         @if ($rel['thumbnail'])
-        <div style="aspect-ratio:16/9;overflow:hidden;background:var(--bg-3);flex-shrink:0">
+        <div style="overflow:hidden;background:var(--bg-3);flex-shrink:0">
           <img src="{{ $rel['thumbnail'] }}" alt="{{ esc_attr($rel['title']) }}"
             style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease"
             loading="lazy">
         </div>
         @else
-        <div style="aspect-ratio:16/9;background:var(--bg-3);flex-shrink:0"></div>
+        <div style="background:var(--bg-3);flex-shrink:0"></div>
         @endif
 
-        <div style="padding:22px;flex:1;display:flex;flex-direction:column;gap:10px">
+        <div style="padding:22px 28px;display:flex;flex-direction:column;gap:8px;justify-content:center">
           <div class="blog-detail__meta">
             @foreach ($rel['categories'] as $cat)
             <a href="{{ $cat['url'] }}" class="blog-detail__cat">{{ $cat['name'] }}</a>
@@ -141,13 +141,21 @@
             @endif
 
             <time datetime="{{ $rel['date'] }}">{{ $rel['dateFormatted'] }}</time>
+            <span class="blog-detail__sep">·</span>
+            <span>{{ $rel['readTime'] }} min read</span>
           </div>
 
-          <h3 style="font-family:var(--font-display);font-size:16px;font-weight:700;line-height:1.35;color:var(--ink);margin:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">
+          <h3 style="font-family:var(--font-display);font-size:18px;font-weight:700;line-height:1.35;color:var(--ink);margin:0">
             {{ $rel['title'] }}
           </h3>
 
-          <span class="btn btn-ghost" style="margin-top:auto;padding-left:0;font-size:13px">
+          @if ($rel['excerpt'])
+          <p style="font-size:14px;color:var(--ink-3);line-height:1.6;margin:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">
+            {{ $rel['excerpt'] }}
+          </p>
+          @endif
+
+          <span class="btn btn-ghost" style="margin-top:4px;padding-left:0;font-size:13px;align-self:flex-start">
             Read article
             <svg class="arr" width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true">
               <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
@@ -247,14 +255,15 @@
       position: static;
       order: -1;
     }
-    .related-grid {
-      grid-template-columns: repeat(2, 1fr) !important;
+    .related-card {
+      grid-template-columns: 160px 1fr !important;
     }
   }
 
   @media (max-width: 540px) {
-    .related-grid {
+    .related-card {
       grid-template-columns: 1fr !important;
+      grid-template-rows: 180px 1fr;
     }
   }
 </style>

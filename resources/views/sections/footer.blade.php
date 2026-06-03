@@ -1,6 +1,7 @@
 @php
 
 $logo = get_custom_logo();
+$isAdmin = \is_user_logged_in() && \current_user_can('edit_posts');
 
 $brandName = $site['brand']['name'];
 $brandInitial = mb_substr($brandName, 0, 1);
@@ -19,7 +20,11 @@ $sigilRight = $site['footer']['sigilRight'];
       {{-- Brand column --}}
       <div>
         <div class="flex items-center gap-4">
-          <div class="brand-mark">
+          <div class="brand-mark"
+            @if ($isAdmin)
+            data-edit-admin="admin.php?page=planetario-site-identity"
+            data-edit-label="Update Logo"
+            @endif>
             @if ($logo)
             {!! $logo !!}
             @else
@@ -27,17 +32,46 @@ $sigilRight = $site['footer']['sigilRight'];
             @endif
           </div>
           <a href="{{ home_url('/') }}" class="brand-text">
-            <span class="name uppercase tracking-widest">{{ $brandFirstName }}</span>
-            <span class="sub">Realty &amp; Brokerage</span>
+            <span class="name uppercase tracking-widest"
+              @if ($isAdmin)
+              data-edit-field="brand_name"
+              data-edit-post="option"
+              data-edit-type="text"
+              data-edit-label="Brand Name (full)"
+              @endif>
+              {{ $brandFirstName }}
+            </span>
+            <span class="sub"
+              @if ($isAdmin)
+              data-edit-field="brand_legal"
+              data-edit-post="option"
+              data-edit-type="text"
+              data-edit-label="Brand Sub-title"
+              @endif>
+              {{ $site['brand']['legal'] }}
+            </span>
           </a>
         </div>
         @if ($site['brand']['short'])
-        <p class="muted" style="margin-top:22px;max-width:38ch;font-size:14px;line-height:1.65">
+        <p class="muted" style="margin-top:22px;max-width:38ch;font-size:14px;line-height:1.65"
+          @if ($isAdmin)
+          data-edit-field="brand_short"
+          data-edit-post="option"
+          data-edit-type="textarea"
+          data-edit-label="Brand Short Description"
+          @endif>
           {{ $site['brand']['short'] }}
         </p>
         @endif
         @if ($site['brand']['tagline'])
-        <p class="tagline-mark" style="margin-top:18px">"{{ $site['brand']['tagline'] }}"</p>
+        <p class="tagline-mark" style="margin-top:18px">"<span
+          @if ($isAdmin)
+          data-edit-field="brand_tagline"
+          data-edit-post="option"
+          data-edit-type="text"
+          data-edit-label="Brand Tagline / Quote"
+          @endif
+        >{{ $site['brand']['tagline'] }}</span>"</p>
         @endif
         @if (! empty($site['socials']))
         <div style="margin-top:22px;display:flex;gap:12px">

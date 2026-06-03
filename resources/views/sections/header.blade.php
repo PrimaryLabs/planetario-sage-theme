@@ -1,22 +1,23 @@
 @php
 $logo = get_custom_logo();
+$isAdmin = \is_user_logged_in() && \current_user_can('edit_posts');
 
 $navLinksBefore = [
-    ['label' => 'Home',       'url' => home_url('/'),           'class' => 'nav-link' . (is_front_page() ? ' active' : '')],
-    ['label' => 'Properties', 'url' => home_url('/properties'), 'class' => 'nav-link' . (is_page('properties') ? ' active' : '')],
-    ['label' => 'About',      'url' => home_url('/about'),      'class' => 'nav-link' . (is_page('about') ? ' active' : '')],
-    ['label' => 'Team',       'url' => home_url('/team'),       'class' => 'nav-link' . (is_page('team') ? ' active' : '')],
-    ['label' => 'Developers', 'url' => home_url('/developers'), 'class' => 'nav-link' . (is_page('developers') ? ' active' : '')],
+['label' => 'Home', 'url' => home_url('/'), 'class' => 'nav-link' . (is_front_page() ? ' active' : '')],
+['label' => 'Properties', 'url' => home_url('/properties'), 'class' => 'nav-link' . (is_page('properties') ? ' active' : '')],
+['label' => 'About', 'url' => home_url('/about'), 'class' => 'nav-link' . (is_page('about') ? ' active' : '')],
+['label' => 'Team', 'url' => home_url('/team'), 'class' => 'nav-link' . (is_page('team') ? ' active' : '')],
+['label' => 'Developers', 'url' => home_url('/developers'), 'class' => 'nav-link' . (is_page('developers') ? ' active' : '')],
 ];
 
 $navLinksAfter = [
-    ['label' => 'Testimonials', 'url' => home_url('/testimonials'), 'class' => 'nav-link' . (is_page('testimonials') ? ' active' : '')],
+['label' => 'Testimonials', 'url' => home_url('/testimonials'), 'class' => 'nav-link' . (is_page('testimonials') ? ' active' : '')],
 ];
 
 $storiesDropdown = [
-    ['label' => 'Stories', 'url' => home_url('/stories'), 'active' => is_page('stories')],
-    ['label' => 'Events',  'url' => home_url('/events'),  'active' => is_page('events')],
-    ['label' => 'Blog',    'url' => home_url('/blog'),    'active' => is_page('blog')],
+['label' => 'Stories', 'url' => home_url('/stories'), 'active' => is_page('stories')],
+['label' => 'Events', 'url' => home_url('/events'), 'active' => is_page('events')],
+['label' => 'Blog', 'url' => home_url('/blog'), 'active' => is_page('blog')],
 ];
 
 $storiesActive = is_page('stories') || is_page('events') || is_page('blog');
@@ -26,7 +27,11 @@ $storiesActive = is_page('stories') || is_page('events') || is_page('blog');
   <div class="container nav-inner">
 
     <div class="brand" aria-label="{{ get_bloginfo('name') }} home">
-      <div class="brand-mark">
+      <div class="brand-mark"
+        @if ($isAdmin)
+        data-edit-admin="admin.php?page=planetario-site-identity"
+        data-edit-label="Update Logo"
+        @endif>
         @if ($logo)
         {!! $logo !!}
         @else
@@ -34,8 +39,24 @@ $storiesActive = is_page('stories') || is_page('events') || is_page('blog');
         @endif
       </div>
       <a href="{{ home_url('/') }}" class="brand-text">
-        <span class="name uppercase text-base tracking-widest">Planetario</span>
-        <span class="sub tracking-wide">Realty &amp; Brokerage</span>
+        <span class="name uppercase text-base tracking-wider"
+          @if ($isAdmin)
+          data-edit-field="brand_name"
+          data-edit-post="option"
+          data-edit-type="text"
+          data-edit-label="Brand Name"
+          @endif>
+          {{ $site['brand']['name'] }}
+        </span>
+        <span class="sub tracking-widest"
+          @if ($isAdmin)
+          data-edit-field="brand_legal"
+          data-edit-post="option"
+          data-edit-type="text"
+          data-edit-label="Brand Sub-title"
+          @endif>
+          {{ $site['brand']['legal'] }}
+        </span>
       </a>
     </div>
 
@@ -50,8 +71,7 @@ $storiesActive = is_page('stories') || is_page('events') || is_page('blog');
         <button
           class="nav-link nav-link--has-dropdown{{ $storiesActive ? ' active' : '' }}"
           aria-haspopup="true"
-          aria-expanded="false"
-        >
+          aria-expanded="false">
           Stories
           <svg class="dd-chevron" width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
             <path d="M2 3.5l3 3 3-3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
@@ -62,8 +82,7 @@ $storiesActive = is_page('stories') || is_page('events') || is_page('blog');
           <a
             href="{{ $item['url'] }}"
             class="nav-dropdown__item{{ $item['active'] ? ' active' : '' }}"
-            role="menuitem"
-          >
+            role="menuitem">
             {{ $item['label'] }}
           </a>
           @endforeach
