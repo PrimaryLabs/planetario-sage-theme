@@ -174,10 +174,20 @@ class PageContent extends Composer
 
         $pageId = $this->pageId($slug);
 
-        return [
+        $data = [
             'pageIntro'   => $this->intro($pageId, $defaults['intro'] ?? []),
             'pageClosing' => $this->closing($pageId, $defaults['closing'] ?? []),
         ];
+
+        if ($slug === 'developers') {
+            $data['howWeWork'] = $this->howWeWork($pageId);
+        }
+
+        if ($slug === 'events') {
+            $data['eventsSections'] = $this->eventsSections($pageId);
+        }
+
+        return $data;
     }
 
     private function currentSlug(): string
@@ -225,6 +235,51 @@ class PageContent extends Composer
         if (! $pageId || ! function_exists('get_field')) return $fallback;
         $value = \get_field($name, $pageId);
         return ($value === null || $value === '' || $value === false) ? $fallback : $value;
+    }
+
+    private function eventsSections(int $pageId): array
+    {
+        return [
+            'featured' => [
+                'eyebrow'    => (string) $this->field('events_featured_eyebrow', $pageId, 'Featured'),
+                'headingLead' => (string) $this->field('events_featured_heading_lead', $pageId, 'Moments worth'),
+                'headingEm'  => (string) $this->field('events_featured_heading_em', $pageId, 'marking.'),
+            ],
+            'all' => [
+                'eyebrow'    => (string) $this->field('events_all_eyebrow', $pageId, 'All events'),
+                'headingLead' => (string) $this->field('events_all_heading_lead', $pageId, 'The full'),
+                'headingEm'  => (string) $this->field('events_all_heading_em', $pageId, 'calendar.'),
+            ],
+        ];
+    }
+
+    private function howWeWork(int $pageId): array
+    {
+        $rows = is_array($raw = $this->field('devs_how_items', $pageId, false)) ? $raw : [];
+
+        return [
+            'eyebrow'      => (string) $this->field('devs_how_eyebrow', $pageId, 'How we work with developers'),
+            'headlineLead' => (string) $this->field('devs_how_headline_lead', $pageId, 'A small list.'),
+            'headlineEm'   => (string) $this->field('devs_how_headline_em', $pageId, 'Carefully kept.'),
+            'lead'         => (string) $this->field('devs_how_lead', $pageId, 'Our partnership is a stake on both sides. Here is what working with Planetario typically looks like — for the builder, and for the buyer.'),
+            'items'        => empty($rows) ? self::defaultHowWeWorkItems() : array_map(static fn ($r) => [
+                'num'   => (string) ($r['num'] ?? ''),
+                'title' => (string) ($r['title'] ?? ''),
+                'desc'  => (string) ($r['desc'] ?? ''),
+            ], $rows),
+        ];
+    }
+
+    private static function defaultHowWeWorkItems(): array
+    {
+        return [
+            ['num' => '01', 'title' => 'Site visit & build audit', 'desc' => 'Before any unit reaches our listings, our senior brokers walk the site and inspect at least three completed projects from that developer.'],
+            ['num' => '02', 'title' => 'Pricing benchmark', 'desc' => 'We benchmark every developer offering against comparable open-market inventory so our buyers see fair, current numbers.'],
+            ['num' => '03', 'title' => 'Exclusive corridors', 'desc' => 'For several partners we hold first-look or exclusive selling rights in specific towns — Panglao, Anda, Carmen, and parts of Mactan.'],
+            ['num' => '04', 'title' => 'Co-launch marketing', 'desc' => 'We co-fund the launch campaign, photography, and qualified-buyer events for selected developer phases.'],
+            ['num' => '05', 'title' => 'Buyer protection', 'desc' => "We never market a phase whose pre-selling pricing or turnover dates we don't believe the developer can honor."],
+            ['num' => '06', 'title' => 'Long view', 'desc' => 'Our partnerships are measured in decades, not units. Every developer here has been with us for at least three years.'],
+        ];
     }
 
     private function ensureUrl(string $url): string

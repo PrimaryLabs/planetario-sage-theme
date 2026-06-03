@@ -46,15 +46,30 @@
 <section class="section" style="padding-top:88px">
   <div class="container">
     <div class="section-head">
-      <div class="reveal"
-        data-edit-admin="edit.php?post_type=company_event"
-        title="Click to manage events in WP Admin">
-        <span class="eyebrow">Featured</span>
-        <h2 class="h2" style="margin-top:14px">Moments worth <em>marking.</em></h2>
+      <div class="reveal">
+        <span class="eyebrow"
+          data-edit-field="events_featured_eyebrow"
+          data-edit-type="text"
+          data-edit-label="Featured — Eyebrow">{{ $eventsSections['featured']['eyebrow'] }}</span>
+        <h2 class="h2" style="margin-top:14px">
+          <span
+            data-edit-field="events_featured_heading_lead"
+            data-edit-type="text"
+            data-edit-label="Featured — Heading Lead">{{ $eventsSections['featured']['headingLead'] }}</span>
+          @if ($eventsSections['featured']['headingEm'])
+          <em
+            data-edit-field="events_featured_heading_em"
+            data-edit-type="text"
+            data-edit-label="Featured — Heading Emphasis">{{ $eventsSections['featured']['headingEm'] }}</em>
+          @endif
+        </h2>
       </div>
     </div>
 
-    <div class="ev-featured stagger-children" style="display:grid;grid-template-columns:1.4fr 1fr;gap:24px;margin-top:48px">
+    <div class="ev-featured stagger-children"
+      data-edit-admin="edit.php?post_type=company_event"
+      title="Click to manage events in WP Admin"
+      style="display:grid;grid-template-columns:1.4fr 1fr;gap:24px;margin-top:48px">
 
       {{-- Primary featured — full-bleed loc-style card --}}
       @php($primary = $featuredEvents[0])
@@ -131,15 +146,30 @@
 <section class="section" style="background:var(--bg-2);border-top:1px solid var(--line)">
   <div class="container">
     <div class="section-head">
-      <div class="reveal"
-        data-edit-admin="edit.php?post_type=company_event"
-        title="Click to manage events in WP Admin">
-        <span class="eyebrow">All events</span>
-        <h2 class="h2" style="margin-top:14px">The full <em>calendar.</em></h2>
+      <div class="reveal">
+        <span class="eyebrow"
+          data-edit-field="events_all_eyebrow"
+          data-edit-type="text"
+          data-edit-label="All Events — Eyebrow">{{ $eventsSections['all']['eyebrow'] }}</span>
+        <h2 class="h2" style="margin-top:14px">
+          <span
+            data-edit-field="events_all_heading_lead"
+            data-edit-type="text"
+            data-edit-label="All Events — Heading Lead">{{ $eventsSections['all']['headingLead'] }}</span>
+          @if ($eventsSections['all']['headingEm'])
+          <em
+            data-edit-field="events_all_heading_em"
+            data-edit-type="text"
+            data-edit-label="All Events — Heading Emphasis">{{ $eventsSections['all']['headingEm'] }}</em>
+          @endif
+        </h2>
       </div>
     </div>
 
-    <div class="ev-grid stagger-children" style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:48px">
+    <div class="ev-grid stagger-children"
+      data-edit-admin="edit.php?post_type=company_event"
+      title="Click to manage events in WP Admin"
+      style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:48px">
       @foreach ($allEvents as $ev)
       <a href="{{ $ev['permalink'] }}"
         class="ev-card reveal"

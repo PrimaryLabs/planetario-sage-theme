@@ -39,6 +39,8 @@ class AboutPage
         return array_merge(
             [['key' => 'field_about_tab_intro', 'label' => 'Intro', 'type' => 'tab']],
             self::introFields(),
+            [['key' => 'field_about_tab_board', 'label' => 'Board of Directors', 'type' => 'tab']],
+            self::boardFields(),
             [['key' => 'field_about_tab_vm', 'label' => 'Vision & Mission', 'type' => 'tab']],
             self::vmFields(),
             [['key' => 'field_about_tab_values', 'label' => 'Core Values', 'type' => 'tab']],
@@ -100,6 +102,33 @@ class AboutPage
                 'return_format' => 'array',
                 'preview_size'  => 'medium',
                 'instructions'  => 'Wide hero shown below the intro. Leave blank to use the default.',
+            ],
+        ];
+    }
+
+    private static function boardFields(): array
+    {
+        return [
+            [
+                'key'           => 'field_about_board_eyebrow',
+                'label'         => 'Eyebrow',
+                'name'          => 'about_board_eyebrow',
+                'type'          => 'text',
+                'default_value' => 'Leadership',
+            ],
+            [
+                'key'           => 'field_about_board_headline_lead',
+                'label'         => 'Headline — lead',
+                'name'          => 'about_board_headline_lead',
+                'type'          => 'text',
+                'default_value' => 'Board of',
+            ],
+            [
+                'key'           => 'field_about_board_headline_em',
+                'label'         => 'Headline — emphasis',
+                'name'          => 'about_board_headline_em',
+                'type'          => 'text',
+                'default_value' => 'Directors.',
             ],
         ];
     }

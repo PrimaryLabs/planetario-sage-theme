@@ -346,10 +346,12 @@ class FrontPage extends Composer
             'primaryCta'   => [
                 'label' => $this->field('hero_primary_cta_label', $pageId, 'Browse properties'),
                 'url'   => $this->field('hero_primary_cta_url', $pageId, \home_url('/properties')),
+                'icon'  => $this->field('hero_primary_cta_icon', $pageId, 'arrow'),
             ],
             'secondaryCta' => [
                 'label' => $this->field('hero_secondary_cta_label', $pageId, 'Talk to a broker'),
                 'url'   => $this->field('hero_secondary_cta_url', $pageId, \home_url('/contact')),
+                'icon'  => $this->field('hero_secondary_cta_icon', $pageId, 'arrow'),
             ],
             'stats'        => $this->stats($pageId),
         ];
@@ -387,6 +389,7 @@ class FrontPage extends Composer
             'cta'          => [
                 'label' => $this->field('commitment_cta_label', $pageId, 'Read our story'),
                 'url'   => $this->field('commitment_cta_url', $pageId, \home_url('/about')),
+                'icon'  => $this->field('commitment_cta_icon', $pageId, 'arrow'),
             ],
         ];
     }
@@ -406,6 +409,7 @@ class FrontPage extends Composer
             'cta'           => [
                 'label' => $this->field('vm_cta_label', $pageId, 'Read the full story'),
                 'url'   => $this->field('vm_cta_url', $pageId, \home_url('/about')),
+                'icon'  => $this->field('vm_cta_icon', $pageId, 'arrow'),
             ],
         ];
     }
@@ -472,10 +476,12 @@ class FrontPage extends Composer
             'primary'    => [
                 'label' => $this->field('cta_primary_label', $pageId, 'Book a tripping'),
                 'url'   => $this->field('cta_primary_url', $pageId, \home_url('/contact')),
+                'icon'  => $this->field('cta_primary_icon', $pageId, 'arrow'),
             ],
             'secondary'  => [
                 'label' => $this->field('cta_secondary_label', $pageId, 'Browse listings'),
                 'url'   => $this->field('cta_secondary_url', $pageId, \home_url('/properties')),
+                'icon'  => $this->field('cta_secondary_icon', $pageId, 'arrow'),
             ],
         ];
     }

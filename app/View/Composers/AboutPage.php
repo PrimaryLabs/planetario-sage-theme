@@ -19,13 +19,15 @@ class AboutPage extends Composer
         $pageId = $this->pageId();
 
         return [
-            'aboutIntro'   => $this->intro($pageId),
-            'aboutVm'      => $this->visionMission($pageId),
-            'aboutBoard'   => $this->boardOfDirectors(),
-            'aboutValues'  => $this->values($pageId),
-            'aboutWhy'     => $this->why($pageId),
-            'aboutOffice'  => $this->officePhotos($pageId),
-            'aboutClosing' => $this->closing($pageId),
+            'aboutIntro'        => $this->intro($pageId),
+            'aboutVm'           => $this->visionMission($pageId),
+            'aboutBoard'        => $this->boardOfDirectors(),
+            'aboutBoardLabels'  => $this->boardLabels($pageId),
+            'aboutValues'       => $this->values($pageId),
+            'aboutWhy'          => $this->why($pageId),
+            'aboutOffice'       => $this->officePhotos($pageId),
+            'aboutClosing'      => $this->closing($pageId),
+            'aboutPageId'       => $pageId,
         ];
     }
 
@@ -56,6 +58,15 @@ class AboutPage extends Composer
         return [
             'vision'  => (string) $this->field('about_vm_vision', $pageId, '<p>To be a <em>world-class</em> real-estate company delivering exceptional service to clients, salespeople, business partners, and team members transforming lives by creating opportunities for growth, empowering communities, and fostering progress, all while contributing to a sustainable future for our planet.</p>'),
             'mission' => (string) $this->field('about_vm_mission', $pageId, "<p>To deliver <em>world-class</em> services in the realty industry ensuring our clients' happiness and complete satisfaction. We continuously enhance our competitive edge through innovation, motivation, and training, while fostering long-term relationships built on trust and excellence.</p>"),
+        ];
+    }
+
+    private function boardLabels(int $pageId): array
+    {
+        return [
+            'eyebrow' => (string) $this->field('about_board_eyebrow', $pageId, 'Leadership'),
+            'lead'    => (string) $this->field('about_board_headline_lead', $pageId, 'Board of'),
+            'em'      => (string) $this->field('about_board_headline_em', $pageId, 'Directors.'),
         ];
     }
 

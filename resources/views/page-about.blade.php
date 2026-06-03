@@ -96,13 +96,25 @@
   <div class="container" style="text-align:center">
     <div class="section-head-col">
       <div class="reveal flex flex-col items-center">
-        <span class="eyebrow">Leadership</span>
+        <span class="eyebrow"
+          data-edit-field="about_board_eyebrow"
+          data-edit-type="text"
+          data-edit-label="Board — Eyebrow">{{ $aboutBoardLabels['eyebrow'] }}</span>
         <h2 class="h2" style="margin-top:14px">
-          Board of <em>Directors.</em>
+          <span
+            data-edit-field="about_board_headline_lead"
+            data-edit-type="text"
+            data-edit-label="Board — Headline Lead">{{ $aboutBoardLabels['lead'] }}</span>
+          <em
+            data-edit-field="about_board_headline_em"
+            data-edit-type="text"
+            data-edit-label="Board — Headline Emphasis">{{ $aboutBoardLabels['em'] }}</em>
         </h2>
       </div>
     </div>
-    <div class="flex flex-wrap gap-6 items-center justify-center stagger-children" style="margin-top:36px">
+    <div class="flex flex-wrap gap-6 items-center justify-center stagger-children" style="margin-top:36px"
+      data-edit-admin="edit.php?post_type=team_member"
+      title="Click to manage Board of Directors in WP Admin">
       @foreach ($aboutBoard as $member)
       <div class="team-card team-card--featured max-w-xs md:w-1/2 lg:w-1/3 reveal">
         <div class="media">
@@ -137,9 +149,15 @@
           data-edit-label="Values Eyebrow">{{ $aboutValues['eyebrow'] }}</span>
         @endif
         <h2 class="h2" style="margin-top:14px">
-          {{ $aboutValues['headlineLead'] }}
+          <span
+            data-edit-field="about_values_headline_lead"
+            data-edit-type="text"
+            data-edit-label="Values Headline Lead">{{ $aboutValues['headlineLead'] }}</span>
           @if ($aboutValues['headlineEm'])
-          <em>{{ $aboutValues['headlineEm'] }}</em>
+          <em
+            data-edit-field="about_values_headline_emphasis"
+            data-edit-type="text"
+            data-edit-label="Values Headline Emphasis">{{ $aboutValues['headlineEm'] }}</em>
           @endif
         </h2>
       </div>
@@ -150,7 +168,9 @@
         data-edit-label="Values Intro">{{ $aboutValues['intro'] }}</p>
       @endif
     </div>
-    <div class="stagger-children value-list">
+    <div class="stagger-children value-list"
+      data-edit-admin="post.php?post={{ $aboutPageId }}&action=edit"
+      title="Click to edit Core Values in WP Admin">
       @foreach ($aboutValues['items'] as $v)
       <div class="value-row">
         <div class="num">{{ $v['number'] }}</div>
@@ -174,14 +194,22 @@
           data-edit-label="Why Choose Us Eyebrow">{{ $aboutWhy['eyebrow'] }}</span>
         @endif
         <h2 class="h2" style="margin-top:14px">
-          {{ $aboutWhy['headlineLead'] }}
+          <span
+            data-edit-field="about_why_headline_lead"
+            data-edit-type="text"
+            data-edit-label="Why Choose Us Headline Lead">{{ $aboutWhy['headlineLead'] }}</span>
           @if ($aboutWhy['headlineEm'])
-          <br /><em>{{ $aboutWhy['headlineEm'] }}</em>
+          <br /><em
+            data-edit-field="about_why_headline_emphasis"
+            data-edit-type="text"
+            data-edit-label="Why Choose Us Headline Emphasis">{{ $aboutWhy['headlineEm'] }}</em>
           @endif
         </h2>
       </div>
     </div>
-    <div class="stagger-children feature-grid">
+    <div class="stagger-children feature-grid"
+      data-edit-admin="post.php?post={{ $aboutPageId }}&action=edit"
+      title="Click to edit Why Choose Us items in WP Admin">
       @foreach ($aboutWhy['items'] as $s)
       <div class="feature">
         <div class="num">{{ $s['number'] }}</div>
@@ -200,10 +228,16 @@
     <div class="section-head-col">
       <div class="reveal text-center">
         @if ($aboutOffice['eyebrow'])
-        <span class="eyebrow reveal">{{ $aboutOffice['eyebrow'] }}</span>
+        <span class="eyebrow reveal"
+          data-edit-field="about_office_eyebrow"
+          data-edit-type="text"
+          data-edit-label="Office Photos Eyebrow">{{ $aboutOffice['eyebrow'] }}</span>
         @endif
         @if ($aboutOffice['headline'])
-        <h2 class="h2" style="margin-top:14px">{{ $aboutOffice['headline'] }}</h2>
+        <h2 class="h2" style="margin-top:14px"
+          data-edit-field="about_office_headline"
+          data-edit-type="text"
+          data-edit-label="Office Photos Headline">{{ $aboutOffice['headline'] }}</h2>
         @endif
       </div>
     </div>
@@ -229,16 +263,28 @@
     @endif
     <div class=" reveal stagger-children" style="display:flex;justify-content:center;margin-top:36px;gap:12px;flex-wrap:wrap">
       @if ($aboutClosing['primaryLabel'])
-      <a href="{{ $aboutClosing['primaryUrl'] }}" class="btn btn-primary  reveal">
-        {{ $aboutClosing['primaryLabel'] }}
+      <a href="{{ $aboutClosing['primaryUrl'] }}" class="btn btn-primary  reveal"
+        data-edit-field="about_closing_primary_url"
+        data-edit-type="url"
+        data-edit-label="Primary CTA — URL">
+        <span
+          data-edit-field="about_closing_primary_label"
+          data-edit-type="text"
+          data-edit-label="Primary CTA — Label">{{ $aboutClosing['primaryLabel'] }}</span>
         <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
           <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
       </a>
       @endif
       @if ($aboutClosing['secondaryLabel'])
-      <a href="{{ $aboutClosing['secondaryUrl'] }}" class="btn  reveal">
-        {{ $aboutClosing['secondaryLabel'] }}
+      <a href="{{ $aboutClosing['secondaryUrl'] }}" class="btn  reveal"
+        data-edit-field="about_closing_secondary_url"
+        data-edit-type="url"
+        data-edit-label="Secondary CTA — URL">
+        <span
+          data-edit-field="about_closing_secondary_label"
+          data-edit-type="text"
+          data-edit-label="Secondary CTA — Label">{{ $aboutClosing['secondaryLabel'] }}</span>
         <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
           <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
         </svg>

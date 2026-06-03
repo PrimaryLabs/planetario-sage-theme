@@ -67,19 +67,29 @@ $accreditedDevelopers = $accreditedDevelopers ?? ['bohol' => [], 'cebu' => []];
     @endif
     <div class="hero-actions">
       @if ($hero['primaryCta']['label'])
-      <a href="{{ $hero['primaryCta']['url'] }}" class="btn btn-primary">
-        {{ $hero['primaryCta']['label'] }}
-        <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-          <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
+      <a href="{{ $hero['primaryCta']['url'] }}"
+         class="btn btn-primary"
+         data-edit-type="button"
+         data-edit-label="Hero Primary Button"
+         data-edit-label-field="hero_primary_cta_label"
+         data-edit-url-field="hero_primary_cta_url"
+         data-edit-icon-field="hero_primary_cta_icon"
+         data-edit-icon-value="{{ $hero['primaryCta']['icon'] }}">
+        <span class="btn-text">{{ $hero['primaryCta']['label'] }}</span>
+        @include('partials.btn-icon', ['icon' => $hero['primaryCta']['icon']])
       </a>
       @endif
       @if ($hero['secondaryCta']['label'])
-      <a href="{{ $hero['secondaryCta']['url'] }}" class="btn">
-        {{ $hero['secondaryCta']['label'] }}
-        <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-          <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
+      <a href="{{ $hero['secondaryCta']['url'] }}"
+         class="btn"
+         data-edit-type="button"
+         data-edit-label="Hero Secondary Button"
+         data-edit-label-field="hero_secondary_cta_label"
+         data-edit-url-field="hero_secondary_cta_url"
+         data-edit-icon-field="hero_secondary_cta_icon"
+         data-edit-icon-value="{{ $hero['secondaryCta']['icon'] }}">
+        <span class="btn-text">{{ $hero['secondaryCta']['label'] }}</span>
+        @include('partials.btn-icon', ['icon' => $hero['secondaryCta']['icon']])
       </a>
       @endif
     </div>
@@ -183,11 +193,16 @@ $accreditedDevelopers = $accreditedDevelopers ?? ['bohol' => [], 'cebu' => []];
 
     @if ($vm['cta']['label'])
     <div style="margin-top:48px" class="w-full items-center justify-center flex">
-      <a href="{{ $vm['cta']['url'] }}" class="btn">
-        {{ $vm['cta']['label'] }}
-        <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-          <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
+      <a href="{{ $vm['cta']['url'] }}"
+         class="btn"
+         data-edit-type="button"
+         data-edit-label="Vision/Mission Button"
+         data-edit-label-field="vm_cta_label"
+         data-edit-url-field="vm_cta_url"
+         data-edit-icon-field="vm_cta_icon"
+         data-edit-icon-value="{{ $vm['cta']['icon'] }}">
+        <span class="btn-text">{{ $vm['cta']['label'] }}</span>
+        @include('partials.btn-icon', ['icon' => $vm['cta']['icon']])
       </a>
     </div>
     @endif
@@ -240,11 +255,16 @@ $accreditedDevelopers = $accreditedDevelopers ?? ['bohol' => [], 'cebu' => []];
         @endif
         @if ($commitment['cta']['label'])
         <div style="margin-top:28px">
-          <a href="{{ $commitment['cta']['url'] }}" class="btn">
-            {{ $commitment['cta']['label'] }}
-            <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-              <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
+          <a href="{{ $commitment['cta']['url'] }}"
+             class="btn"
+             data-edit-type="button"
+             data-edit-label="Commitment Button"
+             data-edit-label-field="commitment_cta_label"
+             data-edit-url-field="commitment_cta_url"
+             data-edit-icon-field="commitment_cta_icon"
+             data-edit-icon-value="{{ $commitment['cta']['icon'] }}">
+            <span class="btn-text">{{ $commitment['cta']['label'] }}</span>
+            @include('partials.btn-icon', ['icon' => $commitment['cta']['icon']])
           </a>
         </div>
         @endif
@@ -1134,19 +1154,29 @@ $cebuDevs = $accreditedDevelopers['cebu'] ?? [];
     </p>
     <div style="display:flex;gap:12px;justify-content:center;margin-top:36px;flex-wrap:wrap">
       @if ($ctaBanner['primary']['label'])
-      <a href="{{ $ctaBanner['primary']['url'] }}" class="btn btn-primary">
-        {{ $ctaBanner['primary']['label'] }}
-        <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-          <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
+      <a href="{{ $ctaBanner['primary']['url'] }}"
+         class="btn btn-primary"
+         data-edit-type="button"
+         data-edit-label="CTA Banner Primary Button"
+         data-edit-label-field="cta_primary_label"
+         data-edit-url-field="cta_primary_url"
+         data-edit-icon-field="cta_primary_icon"
+         data-edit-icon-value="{{ $ctaBanner['primary']['icon'] }}">
+        <span class="btn-text">{{ $ctaBanner['primary']['label'] }}</span>
+        @include('partials.btn-icon', ['icon' => $ctaBanner['primary']['icon']])
       </a>
       @endif
       @if ($ctaBanner['secondary']['label'])
-      <a href="{{ $ctaBanner['secondary']['url'] }}" class="btn">
-        {{ $ctaBanner['secondary']['label'] }}
-        <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-          <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
+      <a href="{{ $ctaBanner['secondary']['url'] }}"
+         class="btn"
+         data-edit-type="button"
+         data-edit-label="CTA Banner Secondary Button"
+         data-edit-label-field="cta_secondary_label"
+         data-edit-url-field="cta_secondary_url"
+         data-edit-icon-field="cta_secondary_icon"
+         data-edit-icon-value="{{ $ctaBanner['secondary']['icon'] }}">
+        <span class="btn-text">{{ $ctaBanner['secondary']['label'] }}</span>
+        @include('partials.btn-icon', ['icon' => $ctaBanner['secondary']['icon']])
       </a>
       @endif
     </div>

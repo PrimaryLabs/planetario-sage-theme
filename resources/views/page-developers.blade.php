@@ -44,9 +44,7 @@
 
 <section class="section" style="padding-top:64px">
   <div class="container">
-    <div class="managers-tabs" role="tablist" aria-label="Filter by region" style="margin-bottom:36px" data-dev-filter-bar
-      data-edit-admin="edit.php?post_type=developer"
-      title="Click to manage developers in WP Admin">
+    <div class="managers-tabs" role="tablist" aria-label="Filter by region" style="margin-bottom:36px" data-dev-filter-bar>
       <button class="managers-tab is-active" role="tab" aria-selected="true" data-dev-filter="all">
         All
       </button>
@@ -58,7 +56,9 @@
       </button>
     </div>
 
-    <div class="stagger-children dev-logo-wall">
+    <div class="stagger-children dev-logo-wall"
+      data-edit-admin="edit.php?post_type=developer"
+      title="Click to manage developers in WP Admin">
       @foreach ($devs as $d)
       @php
         $region = str_contains(strtolower($d['region'] ?? ''), 'cebu') ? 'cebu' : 'bohol';
@@ -92,24 +92,34 @@
   <div class="container">
     <div class="section-head">
       <div class="reveal">
-        <span class="eyebrow">How we work with developers</span>
-        <h2 class="h2" style="margin-top:14px">A small list. <em>Carefully kept.</em></h2>
+        <span class="eyebrow"
+          data-edit-field="devs_how_eyebrow"
+          data-edit-type="text"
+          data-edit-label="How We Work — Eyebrow">{{ $howWeWork['eyebrow'] }}</span>
+        <h2 class="h2" style="margin-top:14px">
+          <span
+            data-edit-field="devs_how_headline_lead"
+            data-edit-type="text"
+            data-edit-label="How We Work — Headline Lead">{{ $howWeWork['headlineLead'] }}</span>
+          @if ($howWeWork['headlineEm'])
+          <em
+            data-edit-field="devs_how_headline_em"
+            data-edit-type="text"
+            data-edit-label="How We Work — Headline Em">{{ $howWeWork['headlineEm'] }}</em>
+          @endif
+        </h2>
       </div>
-      <p class="lead reveal" style="transition-delay:.1s">
-        Our partnership is a stake on both sides. Here is what working with Planetario
-        typically looks like — for the builder, and for the buyer.
-      </p>
+      <p class="lead reveal" style="transition-delay:.1s"
+        data-edit-field="devs_how_lead"
+        data-edit-type="textarea"
+        data-edit-label="How We Work — Lead">{{ $howWeWork['lead'] }}</p>
     </div>
 
-    <div class="stagger-children feature-grid">
-      @foreach ([
-      ['num' => '01', 'title' => 'Site visit & build audit', 'desc' => 'Before any unit reaches our listings, our senior brokers walk the site and inspect at least three completed projects from that developer.'],
-      ['num' => '02', 'title' => 'Pricing benchmark', 'desc' => 'We benchmark every developer offering against comparable open-market inventory so our buyers see fair, current numbers.'],
-      ['num' => '03', 'title' => 'Exclusive corridors', 'desc' => 'For several partners we hold first-look or exclusive selling rights in specific towns — Panglao, Anda, Carmen, and parts of Mactan.'],
-      ['num' => '04', 'title' => 'Co-launch marketing', 'desc' => 'We co-fund the launch campaign, photography, and qualified-buyer events for selected developer phases.'],
-      ['num' => '05', 'title' => 'Buyer protection', 'desc' => 'We never market a phase whose pre-selling pricing or turnover dates we don\'t believe the developer can honor.'],
-      ['num' => '06', 'title' => 'Long view', 'desc' => 'Our partnerships are measured in decades, not units. Every developer here has been with us for at least three years.'],
-      ] as $s)
+    @php $devPageId = \url_to_postid(\home_url('/developers')); @endphp
+    <div class="stagger-children feature-grid"
+      data-edit-admin="post.php?post={{ $devPageId }}&action=edit"
+      title="Click to edit feature cards in WP Admin">
+      @foreach ($howWeWork['items'] as $s)
       <div class="feature">
         <div class="num">{{ $s['num'] }}</div>
         <div class="ttl">{{ $s['title'] }}</div>

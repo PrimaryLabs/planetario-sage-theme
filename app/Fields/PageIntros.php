@@ -87,6 +87,44 @@ class PageIntros
                 'new_lines' => '',
             ],
 
+            ['key' => 'field_pc_tab_events_sections', 'label' => 'Events Sections', 'type' => 'tab'],
+            [
+                'key'   => 'field_pc_events_featured_eyebrow',
+                'label' => 'Featured — Eyebrow',
+                'name'  => 'events_featured_eyebrow',
+                'type'  => 'text',
+            ],
+            [
+                'key'   => 'field_pc_events_featured_heading_lead',
+                'label' => 'Featured — Heading lead',
+                'name'  => 'events_featured_heading_lead',
+                'type'  => 'text',
+            ],
+            [
+                'key'   => 'field_pc_events_featured_heading_em',
+                'label' => 'Featured — Heading emphasis',
+                'name'  => 'events_featured_heading_em',
+                'type'  => 'text',
+            ],
+            [
+                'key'   => 'field_pc_events_all_eyebrow',
+                'label' => 'All Events — Eyebrow',
+                'name'  => 'events_all_eyebrow',
+                'type'  => 'text',
+            ],
+            [
+                'key'   => 'field_pc_events_all_heading_lead',
+                'label' => 'All Events — Heading lead',
+                'name'  => 'events_all_heading_lead',
+                'type'  => 'text',
+            ],
+            [
+                'key'   => 'field_pc_events_all_heading_em',
+                'label' => 'All Events — Heading emphasis',
+                'name'  => 'events_all_heading_em',
+                'type'  => 'text',
+            ],
+
             ['key' => 'field_pc_tab_closing', 'label' => 'Closing CTA', 'type' => 'tab'],
             [
                 'key'   => 'field_pc_closing_eyebrow',

@@ -15,6 +15,7 @@ class MetaboxSettingsPage
         'hero_slides'      => ['Hero Background Slides',               'Custom PHP meta box — front page slide backgrounds.',       'planetario_hero_slides'],
         'front_page_acf'   => ['Front Page Fields (ACF)',              'ACF group bound to the static front page.',                 'acf-group_front_page'],
         'about_page_acf'   => ['About Page Fields (ACF)',              'ACF group bound to the page with slug "about".',            'acf-group_about_page'],
+        'contact_page_acf' => ['Contact Page Fields (ACF)',           'ACF group for sidebar eyebrow and map section labels.',     'acf-group_contact_page'],
         'page_intros_acf'  => ['Page Intros / Section Content (ACF)', 'ACF group for blog, contact, developers, events, etc.',     'acf-group_page_content'],
         'page_admin_links' => ['Page Admin Links (ACF)',               'ACF group that adds quick-edit links to page sidebars.',    null],
         'team_page_acf'    => ['Team Page Section Labels (ACF)',       'ACF group for team member section eyebrows and headings.',  'acf-group_team_page'],

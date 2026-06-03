@@ -11,7 +11,12 @@ class InlineEditorApi
             'callback'            => [self::class, 'handle'],
             'permission_callback' => fn () => \current_user_can('edit_posts'),
             'args'                => [
-                'post_id'    => ['required' => true,  'type' => 'integer', 'minimum' => 1],
+                'post_id'    => [
+                    'required'          => true,
+                    'type'              => 'string',
+                    'sanitize_callback' => static fn ($v) => $v === 'option' ? 'option' : (string) (int) $v,
+                    'validate_callback' => static fn ($v) => $v === 'option' || (is_numeric($v) && (int) $v > 0),
+                ],
                 'field_name' => ['required' => true,  'type' => 'string',  'sanitize_callback' => 'sanitize_key'],
                 'field_type' => ['required' => false, 'type' => 'string',  'default' => 'text'],
                 'value'      => ['required' => true,  'type' => 'string'],
@@ -21,7 +26,8 @@ class InlineEditorApi
 
     public static function handle(\WP_REST_Request $request): \WP_REST_Response
     {
-        $post_id    = (int) $request->get_param('post_id');
+        $raw_id     = $request->get_param('post_id');
+        $post_id    = $raw_id === 'option' ? 'option' : (int) $raw_id;
         $field_name = $request->get_param('field_name');
         $field_type = $request->get_param('field_type');
         $raw        = $request->get_param('value');

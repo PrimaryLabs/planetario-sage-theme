@@ -3,8 +3,17 @@
     "file": "assets/editor.deps-DxpY22xl.json",
     "src": "editor.deps.json"
   },
+  "resources/css/admin.css": {
+    "file": "assets/admin-BtFwvG71.css",
+    "name": "admin",
+    "names": [
+      "admin.css"
+    ],
+    "src": "resources/css/admin.css",
+    "isEntry": true
+  },
   "resources/css/app.css": {
-    "file": "assets/app-Hv0V1xz6.css",
+    "file": "assets/app-jPiV1LHn.css",
     "name": "app",
     "names": [
       "app.css"
@@ -22,7 +31,7 @@
     "isEntry": true
   },
   "resources/js/app.js": {
-    "file": "assets/app-JVtfUkwY.js",
+    "file": "assets/app-R_Rpa4Vv.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true
@@ -34,7 +43,7 @@
     "isEntry": true
   },
   "resources/js/inline-editor.js": {
-    "file": "assets/inline-editor-BA6Unpal.js",
+    "file": "assets/inline-editor-DxKKVWOu.js",
     "name": "inline-editor",
     "src": "resources/js/inline-editor.js",
     "isEntry": true

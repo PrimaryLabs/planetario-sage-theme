@@ -5,10 +5,12 @@
  */
 
 const PLE_CSS = `
-[data-edit-field] {
+[data-edit-field],
+[data-edit-type="button"] {
   cursor: pointer;
 }
-[data-edit-field]:hover {
+[data-edit-field]:hover,
+[data-edit-type="button"]:hover {
   outline: 2px dashed #3b82f6;
   outline-offset: 4px;
   border-radius: 2px;
@@ -210,6 +212,23 @@ const PLE_CSS = `
 }
 `;
 
+const ICON_CHOICES = {
+	"": "None",
+	arrow: "Arrow →",
+	phone: "Phone",
+	mail: "Email",
+	"map-pin": "Map pin",
+	external: "External link",
+};
+
+const ICON_SVGS = {
+	arrow: `<svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+	phone: `<svg class="arr" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16.92z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+	mail: `<svg class="arr" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><polyline points="22,6 12,13 2,6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+	"map-pin": `<svg class="arr" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="10" r="3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+	external: `<svg class="arr" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><polyline points="15,3 21,3 21,9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><line x1="10" y1="14" x2="21" y2="3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+};
+
 let activeEl = null;
 
 function init() {
@@ -282,7 +301,55 @@ function init() {
 		statusEl.textContent = "";
 		statusEl.className = "ple-status";
 
-		if (type === "select") {
+		if (type === "button") {
+			const btnLabel =
+				el.querySelector(".btn-text")?.textContent.trim() ?? "";
+			const btnUrl = el.getAttribute("href") ?? "";
+			const btnIcon = el.dataset.editIconValue ?? "";
+
+			const row = (id, labelText, inputEl) => {
+				const lbl = document.createElement("label");
+				lbl.htmlFor = id;
+				lbl.className = "ple-modal-label";
+				lbl.style.display = "block";
+				lbl.style.marginBottom = "4px";
+				lbl.textContent = labelText;
+				const wrap = document.createElement("div");
+				wrap.style.marginBottom = "10px";
+				wrap.appendChild(lbl);
+				wrap.appendChild(inputEl);
+				return wrap;
+			};
+
+			const txtInp = document.createElement("input");
+			txtInp.id = "ple-btn-label";
+			txtInp.className = "ple-input";
+			txtInp.type = "text";
+			txtInp.value = btnLabel;
+
+			const urlInp = document.createElement("input");
+			urlInp.id = "ple-btn-url";
+			urlInp.className = "ple-input";
+			urlInp.type = "url";
+			urlInp.value = btnUrl;
+
+			const iconSel = document.createElement("select");
+			iconSel.id = "ple-btn-icon";
+			iconSel.className = "ple-select";
+			Object.entries(ICON_CHOICES).forEach(([val, lbl]) => {
+				const opt = document.createElement("option");
+				opt.value = val;
+				opt.textContent = lbl;
+				opt.selected = val === btnIcon;
+				iconSel.appendChild(opt);
+			});
+
+			fieldWrap.appendChild(row("ple-btn-label", "Button text", txtInp));
+			fieldWrap.appendChild(row("ple-btn-url", "URL", urlInp));
+			fieldWrap.appendChild(
+				row("ple-btn-icon", "Icon (optional)", iconSel),
+			);
+		} else if (type === "select") {
 			const choices = JSON.parse(el.dataset.editChoices || "{}");
 			const currentVal = el.dataset.editValue || current;
 			const sel = document.createElement("select");
@@ -356,31 +423,44 @@ function init() {
 		}
 
 		backdrop.classList.add("open");
-		requestAnimationFrame(() =>
-			document.getElementById("ple-field")?.focus(),
-		);
+		requestAnimationFrame(() => {
+			const focus =
+				type === "button"
+					? document.getElementById("ple-btn-label")
+					: document.getElementById("ple-field");
+			focus?.focus();
+		});
+	}
+
+	async function saveField(postId, fieldName, fieldType, value) {
+		const res = await fetch(window.planetarioEditor.apiUrl, {
+			method: "POST",
+			credentials: "same-origin",
+			headers: {
+				"Content-Type": "application/json",
+				"X-WP-Nonce": window.planetarioEditor.nonce,
+			},
+			body: JSON.stringify({
+				post_id: postId,
+				field_name: fieldName,
+				field_type: fieldType,
+				value,
+			}),
+		});
+		const json = await res.json();
+		if (!json.success) throw new Error(json.message || "Save failed.");
+		return json.value ?? value;
 	}
 
 	async function save() {
 		if (!activeEl) return;
 
-		const fieldEl = document.getElementById("ple-field");
-		const fieldName = activeEl.dataset.editField;
 		const fieldType = activeEl.dataset.editType || "text";
-		const postId = parseInt(
-			activeEl.dataset.editPost || window.planetarioEditor?.postId || "0",
-			10,
-		);
-		const value =
-			fieldEl.contentEditable === "true"
-				? fieldEl.innerHTML
-				: fieldEl.value;
-
-		if (!postId || !fieldName) {
-			statusEl.textContent = "Missing field or post ID.";
-			statusEl.className = "ple-status error";
-			return;
-		}
+		const postIdRaw =
+			activeEl.dataset.editPost ||
+			String(window.planetarioEditor?.postId || "0");
+		const postId =
+			postIdRaw === "option" ? "option" : parseInt(postIdRaw, 10);
 
 		saveBtn.disabled = true;
 		cancelBtn.disabled = true;
@@ -388,58 +468,96 @@ function init() {
 		statusEl.className = "ple-status";
 
 		try {
-			const res = await fetch(window.planetarioEditor.apiUrl, {
-				method: "POST",
-				credentials: "same-origin",
-				headers: {
-					"Content-Type": "application/json",
-					"X-WP-Nonce": window.planetarioEditor.nonce,
-				},
-				body: JSON.stringify({
-					post_id: postId,
-					field_name: fieldName,
-					field_type: fieldType,
-					value,
-				}),
-			});
+			if (fieldType === "button") {
+				const newLabel =
+					document.getElementById("ple-btn-label")?.value ?? "";
+				const newUrl =
+					document.getElementById("ple-btn-url")?.value ?? "";
+				const newIcon =
+					document.getElementById("ple-btn-icon")?.value ?? "";
 
-			const json = await res.json();
+				const labelField = activeEl.dataset.editLabelField;
+				const urlField = activeEl.dataset.editUrlField;
+				const iconField = activeEl.dataset.editIconField;
 
-			if (json.success) {
+				if ((!postId && postId !== "option") || !labelField) {
+					throw new Error("Missing field or post ID.");
+				}
+
+				await saveField(postId, labelField, "text", newLabel);
+				await saveField(postId, urlField, "url", newUrl);
+				await saveField(postId, iconField, "select", newIcon);
+
+				const textSpan = activeEl.querySelector(".btn-text");
+				if (textSpan) textSpan.textContent = newLabel;
+				activeEl.href = newUrl;
+				activeEl.dataset.editIconValue = newIcon;
+				const oldSvg = activeEl.querySelector("svg.arr");
+				if (oldSvg) oldSvg.remove();
+				if (ICON_SVGS[newIcon]) {
+					activeEl.insertAdjacentHTML(
+						"beforeend",
+						ICON_SVGS[newIcon],
+					);
+				}
+
 				document.dispatchEvent(
 					new CustomEvent("ple:saved", {
-						detail: { field: fieldName, value: json.value },
+						detail: { field: labelField, value: newLabel },
 					}),
 				);
+				statusEl.textContent = "Saved!";
+				statusEl.className = "ple-status ok";
+				setTimeout(closeModal, 800);
+				return;
+			}
 
-				if (fieldType === "select") {
-					const choices = JSON.parse(
-						activeEl.dataset.editChoices || "{}",
-					);
-					activeEl.dataset.editValue = json.value;
-					const labelSpan = activeEl.querySelector(
-						".hero-admin-btn-label",
-					);
-					if (labelSpan) {
-						labelSpan.textContent =
-							choices[json.value] || json.value;
-					}
-					statusEl.textContent = "Saved!";
-					statusEl.className = "ple-status ok";
-					setTimeout(closeModal, 800);
-				} else if (fieldType === "wysiwyg") {
-					activeEl.innerHTML = json.value ?? value;
-					statusEl.textContent = "Saved!";
-					statusEl.className = "ple-status ok";
-					setTimeout(closeModal, 800);
-				} else {
-					activeEl.textContent = json.value ?? value;
-					statusEl.textContent = "Saved!";
-					statusEl.className = "ple-status ok";
-					setTimeout(closeModal, 800);
+			const fieldEl = document.getElementById("ple-field");
+			const fieldName = activeEl.dataset.editField;
+			const value =
+				fieldEl.contentEditable === "true"
+					? fieldEl.innerHTML
+					: fieldEl.value;
+
+			if ((!postId && postId !== "option") || !fieldName) {
+				throw new Error("Missing field or post ID.");
+			}
+
+			const saved = await saveField(postId, fieldName, fieldType, value);
+
+			document.dispatchEvent(
+				new CustomEvent("ple:saved", {
+					detail: { field: fieldName, value: saved },
+				}),
+			);
+
+			if (fieldType === "select") {
+				const choices = JSON.parse(
+					activeEl.dataset.editChoices || "{}",
+				);
+				activeEl.dataset.editValue = saved;
+				const labelSpan = activeEl.querySelector(
+					".hero-admin-btn-label",
+				);
+				if (labelSpan) {
+					labelSpan.textContent = choices[saved] || saved;
 				}
+				statusEl.textContent = "Saved!";
+				statusEl.className = "ple-status ok";
+				setTimeout(closeModal, 800);
+			} else if (fieldType === "wysiwyg") {
+				activeEl.innerHTML = saved;
+				statusEl.textContent = "Saved!";
+				statusEl.className = "ple-status ok";
+				setTimeout(closeModal, 800);
 			} else {
-				throw new Error(json.message || "Save failed.");
+				if (activeEl.dataset.editHrefPrefix !== undefined) {
+					activeEl.href = activeEl.dataset.editHrefPrefix + saved;
+				}
+				activeEl.textContent = saved;
+				statusEl.textContent = "Saved!";
+				statusEl.className = "ple-status ok";
+				setTimeout(closeModal, 800);
 			}
 		} catch (err) {
 			statusEl.textContent = err.message || "An error occurred.";
@@ -467,6 +585,16 @@ function init() {
 	document.querySelectorAll("[data-edit-field]").forEach((el) => {
 		el.addEventListener("click", (e) => {
 			e.stopPropagation();
+			e.preventDefault();
+			openModal(el);
+		});
+	});
+
+	// Wire up button edit elements (prevent navigation, open multi-field modal)
+	document.querySelectorAll("[data-edit-type='button']").forEach((el) => {
+		el.addEventListener("click", (e) => {
+			e.preventDefault();
+			e.stopPropagation();
 			openModal(el);
 		});
 	});
@@ -475,6 +603,7 @@ function init() {
 	document.querySelectorAll("[data-edit-admin]").forEach((el) => {
 		el.addEventListener("click", (e) => {
 			e.stopPropagation();
+			e.preventDefault();
 			const path = el.dataset.editAdmin;
 			const base = window.planetarioEditor?.adminUrl || "/wp-admin/";
 			window.open(base + path, "_blank");

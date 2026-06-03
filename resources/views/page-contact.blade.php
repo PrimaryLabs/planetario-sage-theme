@@ -15,21 +15,36 @@ $contactHeroImage = 'https://images.unsplash.com/photo-1507525428034-b723cf961d3
 
   <div class="container page-hero__inner">
     @if ($pageIntro['eyebrow'])
-    <span class="eyebrow">{{ $pageIntro['eyebrow'] }}</span>
+    <span class="eyebrow"
+      data-edit-field="page_intro_eyebrow"
+      data-edit-type="text"
+      data-edit-label="Hero Eyebrow">{{ $pageIntro['eyebrow'] }}</span>
     @endif
 
     <h1 class="display" style="margin-top:18px;max-width:18ch">
-      {{ $pageIntro['headlineLead'] }}
+      <span
+        data-edit-field="page_intro_headline_lead"
+        data-edit-type="text"
+        data-edit-label="Headline Lead">{{ $pageIntro['headlineLead'] }}</span>
       @if ($pageIntro['headlineEm'])
-      <em>{{ $pageIntro['headlineEm'] }}</em>
+      <em
+        data-edit-field="page_intro_headline_emphasis"
+        data-edit-type="text"
+        data-edit-label="Headline Emphasis">{{ $pageIntro['headlineEm'] }}</em>
       @endif
       @if ($pageIntro['headlineTrail'])
-      {{ $pageIntro['headlineTrail'] }}
+      <span
+        data-edit-field="page_intro_headline_trail"
+        data-edit-type="text"
+        data-edit-label="Headline Trail">{{ $pageIntro['headlineTrail'] }}</span>
       @endif
     </h1>
 
     @if ($pageIntro['lead'])
-    <p class="lead" style="margin-top:22px;max-width:60ch">{{ $pageIntro['lead'] }}</p>
+    <p class="lead" style="margin-top:22px;max-width:60ch"
+      data-edit-field="page_intro_lead"
+      data-edit-type="textarea"
+      data-edit-label="Hero Lead">{{ $pageIntro['lead'] }}</p>
     @endif
   </div>
 </section>
@@ -41,15 +56,27 @@ $contactHeroImage = 'https://images.unsplash.com/photo-1507525428034-b723cf961d3
 
       {{-- Contact info sidebar --}}
       <aside style="background:var(--bg-2);border:1px solid var(--line);border-radius:14px;padding:36px;position:relative;overflow:hidden">
-        <span class="eyebrow">Reach us directly</span>
+        <span class="eyebrow"
+          data-edit-field="contact_sidebar_eyebrow"
+          data-edit-type="text"
+          data-edit-label="Sidebar Eyebrow">{{ $contactSections['sidebarEyebrow'] }}</span>
 
         @if ($site['contact']['addressLine1'] || $site['contact']['addressLine2'])
         <div style="margin-top:32px">
           <div style="font-family:var(--font-mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3)">Office</div>
           <div style="font-family:var(--font-display);font-size:20px;margin-top:6px;line-height:1.35">
-            {{ $site['contact']['addressLine1'] }}
+            <span
+              data-edit-field="contact_address_line_1"
+              data-edit-type="text"
+              data-edit-post="option"
+              data-edit-label="Address Line 1">{{ $site['contact']['addressLine1'] }}</span>
             @if ($site['contact']['addressLine2'])
-            <br>{{ $site['contact']['addressLine2'] }}
+            <br>
+            <span
+              data-edit-field="contact_address_line_2"
+              data-edit-type="text"
+              data-edit-post="option"
+              data-edit-label="Address Line 2">{{ $site['contact']['addressLine2'] }}</span>
             @endif
           </div>
         </div>
@@ -59,8 +86,23 @@ $contactHeroImage = 'https://images.unsplash.com/photo-1507525428034-b723cf961d3
         <div style="margin-top:28px">
           <div style="font-family:var(--font-mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3)">Phone</div>
           <a href="tel:{{ $site['contact']['phoneLink'] }}" style="font-family:var(--font-display);font-size:22px;margin-top:6px;display:inline-block;color:var(--accent)">
-            {{ $site['contact']['phone'] }}
+            <span
+              data-edit-field="contact_phone"
+              data-edit-type="text"
+              data-edit-post="option"
+              data-edit-label="Phone (display text)">{{ $site['contact']['phone'] }}</span>
           </a>
+          @php $isAdmin = function_exists('is_user_logged_in') && \is_user_logged_in() && \current_user_can('edit_posts'); @endphp
+          @if ($isAdmin)
+          <div style="margin-top:4px;font-size:11px;color:var(--ink-3)">
+            Tel: link:&nbsp;<span
+              data-edit-field="contact_phone_link"
+              data-edit-type="text"
+              data-edit-post="option"
+              data-edit-label="Phone tel: link (digits only, no spaces)"
+              style="font-family:var(--font-mono)">{{ $site['contact']['phoneLink'] }}</span>
+          </div>
+          @endif
         </div>
         @endif
 
@@ -68,9 +110,12 @@ $contactHeroImage = 'https://images.unsplash.com/photo-1507525428034-b723cf961d3
         <div style="margin-top:28px">
           <div style="font-family:var(--font-mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3)">Email</div>
           <a href="mailto:{{ $site['contact']['email'] }}"
-            style="font-family:var(--font-display);font-size:16px;margin-top:6px;display:inline-block;color:var(--accent);word-break:break-all">
-            {{ $site['contact']['email'] }}
-          </a>
+            data-edit-field="contact_email"
+            data-edit-type="text"
+            data-edit-post="option"
+            data-edit-href-prefix="mailto:"
+            data-edit-label="Email address"
+            style="font-family:var(--font-display);font-size:16px;margin-top:6px;display:inline-block;color:var(--accent);word-break:break-all">{{ $site['contact']['email'] }}</a>
         </div>
         @endif
 
@@ -78,11 +123,19 @@ $contactHeroImage = 'https://images.unsplash.com/photo-1507525428034-b723cf961d3
         <div style="margin-top:28px">
           <div style="font-family:var(--font-mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3)">Office hours</div>
           <div style="margin-top:6px;color:var(--ink-2);font-size:14.5px;line-height:1.7">
-            {{ $site['contact']['hoursWeekday'] }}
+            <span
+              data-edit-field="contact_hours_weekday"
+              data-edit-type="text"
+              data-edit-post="option"
+              data-edit-label="Office Hours — Weekday">{{ $site['contact']['hoursWeekday'] }}</span>
             @if ($site['contact']['hoursWeekday'] && $site['contact']['hoursWeekend'])
             <br>
             @endif
-            {{ $site['contact']['hoursWeekend'] }}
+            <span
+              data-edit-field="contact_hours_weekend"
+              data-edit-type="text"
+              data-edit-post="option"
+              data-edit-label="Office Hours — Weekend">{{ $site['contact']['hoursWeekend'] }}</span>
           </div>
         </div>
         @endif
@@ -90,7 +143,11 @@ $contactHeroImage = 'https://images.unsplash.com/photo-1507525428034-b723cf961d3
         <div class="hr-orbit"><span class="dot"></span></div>
 
         @if ($site['contact']['note'])
-        <p class="muted" style="font-size:13.5px;line-height:1.6">{{ $site['contact']['note'] }}</p>
+        <p class="muted" style="font-size:13.5px;line-height:1.6"
+          data-edit-field="contact_note"
+          data-edit-type="textarea"
+          data-edit-post="option"
+          data-edit-label="Sidebar Note">{{ $site['contact']['note'] }}</p>
         @endif
       </aside>
 
@@ -195,9 +252,23 @@ $contactHeroImage = 'https://images.unsplash.com/photo-1507525428034-b723cf961d3
   <div class="container">
     <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:24px">
       <div>
-        <span class="eyebrow">Find us on the map</span>
+        <span class="eyebrow"
+          data-edit-field="contact_map_eyebrow"
+          data-edit-type="text"
+          data-edit-label="Map Eyebrow">{{ $contactSections['map']['eyebrow'] }}</span>
         <h2 class="h2" style="margin-top:14px;max-width:22ch">
-          Visit the <em>Tagbilaran</em> office.
+          <span
+            data-edit-field="contact_map_heading_lead"
+            data-edit-type="text"
+            data-edit-label="Map Heading Lead">{{ $contactSections['map']['headingLead'] }}</span>
+          <em
+            data-edit-field="contact_map_heading_em"
+            data-edit-type="text"
+            data-edit-label="Map Heading Emphasis">{{ $contactSections['map']['headingEm'] }}</em>
+          <span
+            data-edit-field="contact_map_heading_trail"
+            data-edit-type="text"
+            data-edit-label="Map Heading Trail">{{ $contactSections['map']['headingTrail'] }}</span>
         </h2>
       </div>
       <a class="btn btn-ghost" href="https://www.google.com/maps/dir/?api=1&destination=9.6500419,123.853422" target="_blank" rel="noopener noreferrer" style="padding-left: 24px; padding-right: 24px;">

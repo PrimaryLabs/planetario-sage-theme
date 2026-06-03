@@ -10,7 +10,9 @@ use App\Admin\SiteIdentityPage;
 use App\Admin\TeamImportPage;
 use App\Admin\ThemeColorsPage;
 use App\Fields\AboutPage;
+use App\Fields\ContactPage;
 use App\Fields\CompanyEvent as CompanyEventFields;
+use App\Fields\DevelopersPage;
 use App\Fields\Developer as DeveloperFields;
 use App\Fields\FrontPage;
 use App\Fields\PageAdminLinks;
@@ -74,6 +76,14 @@ class ThemeServiceProvider extends SageServiceProvider
 
             if (MetaboxSettingsPage::isEnabled('about_page_acf')) {
                 AboutPage::register();
+            }
+
+            if (MetaboxSettingsPage::isEnabled('contact_page_acf')) {
+                ContactPage::register();
+            }
+
+            if (MetaboxSettingsPage::isEnabled('developers_page_acf')) {
+                DevelopersPage::register();
             }
 
             if (MetaboxSettingsPage::isEnabled('page_intros_acf')) {
