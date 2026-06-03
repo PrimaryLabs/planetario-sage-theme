@@ -90,7 +90,8 @@
 {{-- Story body: stats sidebar + summary --}}
 <section class="section" style="background:var(--bg-2);border-top:1px solid var(--line)">
   <div class="container">
-    <div class="st-body-grid" style="display:grid;grid-template-columns:240px 1fr;gap:56px;align-items:start">
+    @php($hasStats = ! empty($s['stats']))
+    <div class="st-body-grid" style="display:grid;grid-template-columns:{{ $hasStats ? '240px 1fr' : '1fr' }};gap:56px;align-items:start">
 
       {{-- Stats sidebar --}}
       @if (! empty($s['stats']))

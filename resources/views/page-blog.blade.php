@@ -53,7 +53,9 @@
     </div>
     @else
 
-    <script>window.__blogPosts = @json($blogPosts);</script>
+    <script>
+      window.__blogPosts = @json($blogPosts);
+    </script>
 
     <div class="blog-reader">
 
@@ -101,7 +103,7 @@
           {{ $first['bodyPreview'] ?: $first['excerpt'] }}
         </p>
 
-        <a id="blog-detail-link" href="{{ $first['permalink'] }}" class="btn btn-primary">
+        <a id="blog-detail-link" href="{{ $first['permalink'] }}" class="btn btn-primary px-5">
           Read full article
           <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
             <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
