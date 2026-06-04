@@ -24,10 +24,10 @@ class Team extends Composer
             'team'             => $members,
             'boardOfDirectors' => $byTier['Board of Directors'] ?? [],
             'brokers'          => $byTier['broker'] ?? [],
-            'boholManagers'    => $this->sortByManagerOrder($byTier['Bohol Managers'] ?? []),
-            'cebuManagers'     => $this->sortByManagerOrder($byTier['Cebu Managers']  ?? []),
-            'boholStaffs'      => $this->sortByStaffOrder($byTier['Bohol Staff']      ?? []),
-            'cebuStaffs'       => $this->sortByStaffOrder($byTier['Cebu Staff']        ?? []),
+            'boholManagers'    => $this->sortByMenuOrder($byTier['Bohol Managers'] ?? []),
+            'cebuManagers'     => $this->sortByMenuOrder($byTier['Cebu Managers']  ?? []),
+            'boholStaffs'      => $this->sortByMenuOrder($byTier['Bohol Staff']    ?? []),
+            'cebuStaffs'       => $this->sortByMenuOrder($byTier['Cebu Staff']     ?? []),
             'sectionLabels'    => $this->sectionLabels(),
         ];
     }
@@ -101,6 +101,8 @@ class Team extends Composer
         $tier  = is_array($terms) && ! empty($terms) ? (string) $terms[0]->name : '';
 
         return [
+            'id'               => $post->ID,
+            'menu_order'       => $post->menu_order,
             'name'             => $post->post_title,
             'role'             => (string) \get_field('team_title', $post->ID),
             'tier'             => $tier ?: 'staff',
@@ -125,47 +127,9 @@ class Team extends Composer
         }, StaticData::team());
     }
 
-    private function rankRole(string $role, array $map): int
+    private function sortByMenuOrder(array $members): array
     {
-        $lower = strtolower($role);
-        foreach ($map as $keyword => $rank) {
-            if (strpos($lower, $keyword) !== false) {
-                return $rank;
-            }
-        }
-        return 999;
-    }
-
-    private function sortByManagerOrder(array $members): array
-    {
-        $map = [
-            'senior division manager' => 1,
-            'division manager'        => 2,
-            'sales manager'           => 3,
-        ];
-        usort($members, fn($a, $b) =>
-            $this->rankRole($a['role'], $map) <=> $this->rankRole($b['role'], $map)
-        );
-        return $members;
-    }
-
-    private function sortByStaffOrder(array $members): array
-    {
-        $map = [
-            'general manager'   => 1,
-            'operation manager' => 2,
-            'accounting'        => 3,
-            'marketing head'    => 4,
-            'compliance head'   => 5,
-            'collection head'   => 6,
-            'collection team'   => 7,
-            'marketing officer' => 8,
-            'admin officer'     => 9,
-            'data analyst'      => 10,
-        ];
-        usort($members, fn($a, $b) =>
-            $this->rankRole($a['role'], $map) <=> $this->rankRole($b['role'], $map)
-        );
+        usort($members, fn ($a, $b) => $a['menu_order'] <=> $b['menu_order']);
         return $members;
     }
 

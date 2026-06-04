@@ -326,6 +326,11 @@ add_action('admin_enqueue_scripts', function ($hook) {
         $slides_asset = \get_theme_file_uri('resources/js/hero-slides-admin.js');
         \wp_enqueue_script('planetario-hero-slides', $slides_asset, [], null, true);
     }
+
+    if ($hook === 'team_member_page_planetario-team-reorder') {
+        $reorder_asset = \get_theme_file_uri('resources/js/team-reorder-admin.js');
+        \wp_enqueue_script('planetario-team-reorder', $reorder_asset, [], null, true);
+    }
 });
 
 /**

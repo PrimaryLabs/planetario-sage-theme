@@ -8,6 +8,8 @@ use App\Admin\InlineEditorApi;
 use App\Admin\MetaboxSettingsPage;
 use App\Admin\SiteIdentityPage;
 use App\Admin\TeamImportPage;
+use App\Admin\TeamReorderApi;
+use App\Admin\TeamReorderPage;
 use App\Admin\ThemeColorsPage;
 use App\Fields\AboutPage;
 use App\Fields\ContactPage;
@@ -108,11 +110,13 @@ class ThemeServiceProvider extends SageServiceProvider
         \add_action('admin_init', [BlogPostType::class, 'seed']);
 
         \add_action('rest_api_init', [InlineEditorApi::class, 'register']);
+        \add_action('rest_api_init', [TeamReorderApi::class, 'register']);
 
         SiteIdentityPage::register();
         SiteIdentitySync::register();
         ThemeColorsPage::register();
         TeamImportPage::register();
+        TeamReorderPage::register();
         MetaboxSettingsPage::register();
     }
 }
