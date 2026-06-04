@@ -43,7 +43,7 @@ class TeamReorderPage
             return;
         }
 
-        $url = \esc_url(\admin_url('edit.php?post_type=' . TeamMemberPostType::POST_TYPE . '&page=' . self::SLUG));
+        $url = \esc_url_raw(\admin_url('edit.php?post_type=' . TeamMemberPostType::POST_TYPE . '&page=' . self::SLUG));
         ?>
         <script>
         document.addEventListener('DOMContentLoaded', function () {

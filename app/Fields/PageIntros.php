@@ -16,6 +16,7 @@ class PageIntros
         'testimonials',
         'properties',
         'team',
+        'vlog',
     ];
 
     public static function register(): void

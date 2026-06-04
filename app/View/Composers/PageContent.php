@@ -15,6 +15,7 @@ class PageContent extends Composer
         'page-testimonials',
         'page-properties',
         'page-team',
+        'page-vlog',
     ];
 
     /**
@@ -144,6 +145,25 @@ class PageContent extends Composer
                 'primaryUrl'     => '/contact',
                 'secondaryLabel' => '',
                 'secondaryUrl'   => '',
+            ],
+        ],
+        'vlog' => [
+            'intro' => [
+                'eyebrow'      => 'From the field',
+                'headlineLead' => 'Videos from',
+                'headlineEm'   => 'Planetario.',
+                'headlineTrail'=> '',
+                'lead'         => 'Property walkthroughs, market updates, and moments from the Visayas — straight from our brokers on the ground.',
+            ],
+            'closing' => [
+                'eyebrow'        => 'See it in person',
+                'headlineLead'   => 'A video is a start.',
+                'headlineEm'     => 'A site visit',
+                'body'           => 'tells you everything the camera missed. Tell us which property caught your eye and we\'ll arrange a visit.',
+                'primaryLabel'   => 'Get in touch',
+                'primaryUrl'     => '/contact',
+                'secondaryLabel' => 'Browse listings',
+                'secondaryUrl'   => '/properties',
             ],
         ],
         'team' => [
