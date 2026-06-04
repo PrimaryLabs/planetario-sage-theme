@@ -54,35 +54,36 @@ $vlogs = $vlogs ?? [];
     @else
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:36px">
       @foreach ($vlogs as $v)
-      <article class="reveal" style="transition-delay:{{ $loop->index * 0.06 }}s;display:flex;flex-direction:column;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--bg)">
+      @php
+      $mediaType = $v['mediaType'] ?? 'image';
+      $cardThumb = $v['thumbnail'];
+      if (! $cardThumb && $mediaType === 'youtube' && ! empty($v['youtube']['embed'])) {
+          preg_match('#/embed/([A-Za-z0-9_-]+)#', $v['youtube']['embed'], $ytm);
+          $cardThumb = isset($ytm[1]) ? 'https://img.youtube.com/vi/' . $ytm[1] . '/hqdefault.jpg' : '';
+      }
+      $hasPlay = $mediaType === 'youtube' || $mediaType === 'video';
+      @endphp
+      <a href="{{ $v['permalink'] }}"
+        class="vlog-list-card reveal"
+        style="transition-delay:{{ $loop->index * 0.06 }}s;display:flex;flex-direction:column;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--bg);text-decoration:none;color:inherit">
 
-        {{-- Media block --}}
-        @php($mediaType = $v['mediaType'] ?? 'image')
-        @if ($mediaType === 'youtube' && ! empty($v['youtube']['embed']))
-        <div style="position:relative;width:100%;aspect-ratio:16/9;background:#000">
-          <iframe src="{{ $v['youtube']['embed'] }}"
-            title="{{ esc_attr($v['title']) }}"
-            loading="lazy"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen
-            style="position:absolute;inset:0;width:100%;height:100%;border:0"></iframe>
-        </div>
-        @elseif ($mediaType === 'video' && ! empty($v['video']['url']))
-        @php($poster = ! empty($v['thumbnail']) ? ' poster="' . esc_attr($v['thumbnail']) . '"' : '')
-        <div style="aspect-ratio:16/9;background:#000">
-          <video controls playsinline preload="metadata"{!! $poster !!}
-            style="width:100%;height:100%;object-fit:cover;display:block">
-            <source src="{{ $v['video']['url'] }}" type="{{ $v['video']['mime'] }}">
-          </video>
-        </div>
-        @elseif (! empty($v['thumbnail']))
-        <div style="aspect-ratio:16/9;overflow:hidden">
-          <img src="{{ $v['thumbnail'] }}"
+        {{-- Thumbnail with optional play overlay --}}
+        <div style="position:relative;aspect-ratio:16/9;overflow:hidden;background:var(--bg-3);flex-shrink:0">
+          @if ($cardThumb)
+          <img src="{{ $cardThumb }}"
             alt="{{ esc_attr($v['title']) }}"
             loading="lazy"
-            style="width:100%;height:100%;object-fit:cover;display:block">
+            style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease">
+          @endif
+          @if ($hasPlay)
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none">
+            <svg width="52" height="52" viewBox="0 0 52 52" fill="none" aria-hidden="true" style="filter:drop-shadow(0 2px 10px rgba(0,0,0,.55))">
+              <circle cx="26" cy="26" r="26" fill="rgba(0,0,0,.45)"/>
+              <path d="M21 17l16 9-16 9V17z" fill="#fff"/>
+            </svg>
+          </div>
+          @endif
         </div>
-        @endif
 
         {{-- Card body --}}
         <div style="padding:24px 24px 20px;display:flex;flex-direction:column;flex:1;gap:10px">
@@ -93,13 +94,13 @@ $vlogs = $vlogs ?? [];
           <h2 class="h3" style="margin:0;line-height:1.25">{{ $v['title'] }}</h2>
 
           @if ($v['description'])
-          <div class="prose" style="font-size:15px;color:var(--ink-2);line-height:1.65;flex:1">
+          <div style="font-size:15px;color:var(--ink-2);line-height:1.65;flex:1;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden">
             {!! wp_kses_post($v['description']) !!}
           </div>
           @endif
         </div>
 
-      </article>
+      </a>
       @endforeach
     </div>
     @endif
@@ -147,4 +148,8 @@ $vlogs = $vlogs ?? [];
     </div>
   </div>
 </section>
+<style>
+  .vlog-list-card:hover { border-color: var(--line-2) !important }
+  .vlog-list-card:hover img { transform: scale(1.04) }
+</style>
 @endsection
