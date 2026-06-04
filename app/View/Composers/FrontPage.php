@@ -28,6 +28,8 @@ class FrontPage extends Composer
             'officePhotos'         => $this->officePhotos(),
             'ctaBanner'            => $this->ctaBanner(),
             'accreditedDevelopers' => $this->accreditedDevelopersByRegion(),
+            'developersSection'    => $this->developersSection(),
+            'testimonialsSection'  => $this->testimonialsSection(),
             'team'             => $members,
             'boardOfDirectors' => $byTier['Board of Directors'] ?? [],
             'brokers'          => $byTier['broker'] ?? [],
@@ -327,10 +329,34 @@ class FrontPage extends Composer
         $logo = \get_field('developer_logo', $post->ID);
 
         return [
+            'postId'  => $post->ID,
             'name'    => $post->post_title,
             'region'  => (string) \get_field('developer_region', $post->ID),
             'website' => (string) \get_field('developer_website', $post->ID),
             'logo'    => is_array($logo) ? ($logo['url'] ?? '') : '',
+        ];
+    }
+
+    public function developersSection(): array
+    {
+        $pageId = (int) \get_option('page_on_front');
+
+        return [
+            'eyebrow'      => $this->field('developers_eyebrow', $pageId, 'Our partners'),
+            'headlineLead' => $this->field('developers_headline_lead', $pageId, 'Accredited'),
+            'headlineEm'   => $this->field('developers_headline_emphasis', $pageId, 'Developers.'),
+            'intro'        => $this->field('developers_intro', $pageId, 'A short list of builders we have walked with for years — vetted on title, build quality, and pricing before any unit reaches our floor.'),
+        ];
+    }
+
+    public function testimonialsSection(): array
+    {
+        $pageId = (int) \get_option('page_on_front');
+
+        return [
+            'eyebrow'      => $this->field('testimonials_eyebrow', $pageId, 'Testimonials'),
+            'headlineLead' => $this->field('testimonials_headline_lead', $pageId, 'In our'),
+            'headlineEm'   => $this->field('testimonials_headline_emphasis', $pageId, "clients' words."),
         ];
     }
     public function hero(): array

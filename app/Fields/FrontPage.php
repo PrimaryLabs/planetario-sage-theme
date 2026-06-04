@@ -45,6 +45,10 @@ class FrontPage
             self::locationsFields(),
             [['key' => 'field_fp_tab_cta', 'label' => 'CTA Banner', 'type' => 'tab']],
             self::ctaBannerFields(),
+            [['key' => 'field_fp_tab_developers', 'label' => 'Developers Section', 'type' => 'tab']],
+            self::developersSectionFields(),
+            [['key' => 'field_fp_tab_testimonials', 'label' => 'Testimonials Section', 'type' => 'tab']],
+            self::testimonialsSectionFields(),
         );
     }
 
@@ -364,6 +368,69 @@ class FrontPage
                 ],
                 'default_value' => 'arrow',
                 'wrapper'       => ['width' => '50'],
+            ],
+        ];
+    }
+
+    private static function developersSectionFields(): array
+    {
+        return [
+            [
+                'key'           => 'field_fp_dev_eyebrow',
+                'label'         => 'Eyebrow',
+                'name'          => 'developers_eyebrow',
+                'type'          => 'text',
+                'default_value' => 'Our partners',
+            ],
+            [
+                'key'           => 'field_fp_dev_headline_lead',
+                'label'         => 'Headline — lead',
+                'name'          => 'developers_headline_lead',
+                'type'          => 'text',
+                'default_value' => 'Accredited',
+            ],
+            [
+                'key'           => 'field_fp_dev_headline_em',
+                'label'         => 'Headline — emphasis',
+                'name'          => 'developers_headline_emphasis',
+                'type'          => 'text',
+                'default_value' => 'Developers.',
+            ],
+            [
+                'key'           => 'field_fp_dev_intro',
+                'label'         => 'Intro',
+                'name'          => 'developers_intro',
+                'type'          => 'textarea',
+                'rows'          => 3,
+                'new_lines'     => '',
+                'default_value' => 'A short list of builders we have walked with for years — vetted on title, build quality, and pricing before any unit reaches our floor.',
+            ],
+        ];
+    }
+
+    private static function testimonialsSectionFields(): array
+    {
+        return [
+            [
+                'key'           => 'field_fp_testi_eyebrow',
+                'label'         => 'Eyebrow',
+                'name'          => 'testimonials_eyebrow',
+                'type'          => 'text',
+                'default_value' => 'Testimonials',
+            ],
+            [
+                'key'           => 'field_fp_testi_headline_lead',
+                'label'         => 'Headline — lead',
+                'name'          => 'testimonials_headline_lead',
+                'type'          => 'text',
+                'default_value' => 'In our',
+            ],
+            [
+                'key'           => 'field_fp_testi_headline_em',
+                'label'         => 'Headline — emphasis',
+                'name'          => 'testimonials_headline_emphasis',
+                'type'          => 'text',
+                'default_value' => "clients' words.",
             ],
         ];
     }

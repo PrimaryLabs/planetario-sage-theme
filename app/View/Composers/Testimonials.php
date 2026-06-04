@@ -62,6 +62,7 @@ class Testimonials extends Composer
 
         return [
             'id'        => $post->post_name,
+            'postId'    => $post->ID,
             'quote'     => (string) \get_field('testimonial_quote', $post->ID),
             'name'      => $name,
             'role'      => (string) \get_field('testimonial_role', $post->ID),

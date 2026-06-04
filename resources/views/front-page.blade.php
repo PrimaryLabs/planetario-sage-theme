@@ -813,14 +813,34 @@ $accreditedDevelopers = $accreditedDevelopers ?? ['bohol' => [], 'cebu' => []];
   <div class="container">
     <div class="section-head-col">
       <div class="reveal items-center justify-center flex flex-col">
-        @if (! empty($servicesData['eyebrow']))<span class="eyebrow">{{ $servicesData['eyebrow'] }}</span>@endif
+        @if (! empty($servicesData['eyebrow']))
+        <span class="eyebrow"
+          data-edit-field="services_eyebrow"
+          data-edit-type="text"
+          data-edit-label="Services Eyebrow"
+          data-edit-post="option">{{ $servicesData['eyebrow'] }}</span>
+        @endif
         <h2 class="h2" style="margin-top:14px">
-          {{ $servicesData['headlineLead'] ?? 'Six services.' }}
-          @if (! empty($servicesData['headlineEm'])) <em>{{ $servicesData['headlineEm'] }}</em>@endif
+          <span
+            data-edit-field="services_headline_lead"
+            data-edit-type="text"
+            data-edit-label="Services Headline Lead"
+            data-edit-post="option">{{ $servicesData['headlineLead'] ?? 'Six services.' }}</span>
+          @if (! empty($servicesData['headlineEm']))
+          <em
+            data-edit-field="services_headline_emphasis"
+            data-edit-type="text"
+            data-edit-label="Services Headline Emphasis"
+            data-edit-post="option">{{ $servicesData['headlineEm'] }}</em>
+          @endif
         </h2>
       </div>
       @if (! empty($servicesData['intro']))
-      <p class="lead reveal text-center" style="transition-delay:.1s">{{ $servicesData['intro'] }}</p>
+      <p class="lead reveal text-center" style="transition-delay:.1s"
+        data-edit-field="services_intro"
+        data-edit-type="textarea"
+        data-edit-label="Services Intro"
+        data-edit-post="option">{{ $servicesData['intro'] }}</p>
       @endif
     </div>
     @php
@@ -851,7 +871,9 @@ $accreditedDevelopers = $accreditedDevelopers ?? ['bohol' => [], 'cebu' => []];
     <circle cx="12" cy="10" r="3" />',
     ];
     @endphp
-    <div class="stagger-children feature-grid">
+    <div class="stagger-children feature-grid"
+      data-edit-admin="admin.php?page=acf-options-site-settings"
+      title="Click to manage service items in WP Admin">
       @foreach ($services as $s)
       <div class="feature">
         <svg class="bg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -992,14 +1014,25 @@ $cebuDevs = $accreditedDevelopers['cebu'] ?? [];
   <div class="container">
     <div class="section-head-col">
       <div class="reveal flex flex-col items-center">
-        <span class="eyebrow">Our partners</span>
+        <span class="eyebrow"
+          data-edit-field="developers_eyebrow"
+          data-edit-type="text"
+          data-edit-label="Developers Eyebrow">{{ $developersSection['eyebrow'] }}</span>
         <h2 class="h2" style="margin-top:14px">
-          Accredited <em>Developers.</em>
+          <span
+            data-edit-field="developers_headline_lead"
+            data-edit-type="text"
+            data-edit-label="Developers Headline Lead">{{ $developersSection['headlineLead'] }}</span>
+          <em
+            data-edit-field="developers_headline_emphasis"
+            data-edit-type="text"
+            data-edit-label="Developers Headline Emphasis">{{ $developersSection['headlineEm'] }}</em>
         </h2>
       </div>
-      <p class="lead reveal text-center" style="transition-delay:.1s">
-        A short list of builders we have walked with for years — vetted on title, build quality, and pricing before any unit reaches our floor.
-      </p>
+      <p class="lead reveal text-center" style="transition-delay:.1s"
+        data-edit-field="developers_intro"
+        data-edit-type="textarea"
+        data-edit-label="Developers Intro">{{ $developersSection['intro'] }}</p>
     </div>
 
     <div class="managers-tabs" role="tablist" aria-label="Filter developers by region" style="margin-top:28px" data-dev-filter-bar>
@@ -1023,7 +1056,11 @@ $cebuDevs = $accreditedDevelopers['cebu'] ?? [];
     <div class="container">
       <div class="stagger-children dev-logo-wall">
         @foreach ($boholDevs as $d)
-        <div class="dev-logo-item" data-dev-region="bohol">
+        <div class="dev-logo-item" data-dev-region="bohol"
+          @if (! empty($d['postId']))
+          data-edit-admin="post.php?post={{ $d['postId'] }}&action=edit"
+          title="Click to edit {{ esc_attr($d['name']) }} in WP Admin"
+          @endif>
           @if (! empty($d['logo']))
           <img src="{{ $d['logo'] }}" alt="{{ esc_attr($d['name']) }}" loading="lazy">
           @else
@@ -1032,7 +1069,11 @@ $cebuDevs = $accreditedDevelopers['cebu'] ?? [];
         </div>
         @endforeach
         @foreach ($cebuDevs as $d)
-        <div class="dev-logo-item" data-dev-region="cebu">
+        <div class="dev-logo-item" data-dev-region="cebu"
+          @if (! empty($d['postId']))
+          data-edit-admin="post.php?post={{ $d['postId'] }}&action=edit"
+          title="Click to edit {{ esc_attr($d['name']) }} in WP Admin"
+          @endif>
           @if (! empty($d['logo']))
           <img src="{{ $d['logo'] }}" alt="{{ esc_attr($d['name']) }}" loading="lazy">
           @else
@@ -1059,9 +1100,19 @@ $cebuDevs = $accreditedDevelopers['cebu'] ?? [];
 <section class="section" style="padding-top:88px">
   <div class="container">
     <div class="reveal flex flex-col items-center" style="margin-bottom:52px">
-      <span class="eyebrow-center">Testimonials</span>
+      <span class="eyebrow-center"
+        data-edit-field="testimonials_eyebrow"
+        data-edit-type="text"
+        data-edit-label="Testimonials Eyebrow">{{ $testimonialsSection['eyebrow'] }}</span>
       <h2 class="h2" style="margin-top:14px">
-        In our <em>clients' words.</em>
+        <span
+          data-edit-field="testimonials_headline_lead"
+          data-edit-type="text"
+          data-edit-label="Testimonials Headline Lead">{{ $testimonialsSection['headlineLead'] }}</span>
+        <em
+          data-edit-field="testimonials_headline_emphasis"
+          data-edit-type="text"
+          data-edit-label="Testimonials Headline Emphasis">{{ $testimonialsSection['headlineEm'] }}</em>
       </h2>
     </div>
 
@@ -1082,7 +1133,13 @@ $cebuDevs = $accreditedDevelopers['cebu'] ?? [];
           {!! $i !==0 ? 'aria-hidden="true"' : '' !!}>
           <div class="testi-quote-icon" aria-hidden="true">&ldquo;</div>
           <div class="testi-stars" aria-label="5 out of 5 stars" role="img">★ ★ ★ ★ ★</div>
-          <blockquote class="testi-quote">{{ $t['quote'] }}</blockquote>
+          <blockquote class="testi-quote"
+            @if (! empty($t['postId']))
+            data-edit-field="testimonial_quote"
+            data-edit-type="textarea"
+            data-edit-label="Testimonial Quote"
+            data-edit-post="{{ $t['postId'] }}"
+            @endif>{{ $t['quote'] }}</blockquote>
           <div class="testi-who">
             <img
               src="{{ $t['avatar'] ?? ('https://i.pravatar.cc/96?u=' . urlencode($t['name'])) }}"
@@ -1092,8 +1149,20 @@ $cebuDevs = $accreditedDevelopers['cebu'] ?? [];
               class="testi-avatar"
               loading="lazy">
             <div>
-              <div class="testi-name">{{ $t['name'] }}</div>
-              <div class="testi-role">{{ $t['role'] }}</div>
+              <div class="testi-name"
+                @if (! empty($t['postId']))
+                data-edit-field="testimonial_name"
+                data-edit-type="text"
+                data-edit-label="Testimonial Name"
+                data-edit-post="{{ $t['postId'] }}"
+                @endif>{{ $t['name'] }}</div>
+              <div class="testi-role"
+                @if (! empty($t['postId']))
+                data-edit-field="testimonial_role"
+                data-edit-type="text"
+                data-edit-label="Testimonial Role"
+                data-edit-post="{{ $t['postId'] }}"
+                @endif>{{ $t['role'] }}</div>
             </div>
           </div>
         </div>
