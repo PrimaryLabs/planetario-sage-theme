@@ -50,39 +50,41 @@ $stories = $stories ?? StaticData::stories();
   title="Click to manage stories in WP Admin">
   <div class="container">
     @foreach ($stories as $i => $s)
-    <article class="story reveal {{ $i % 2 === 0 ? 'reveal-left' : 'reveal-right' }}" style="transition-delay:{{ $i * 0.08 }}s">
-      <div class="story-media">
-        @php($mediaType = $s['mediaType'] ?? 'image')
-        @if ($mediaType === 'youtube' && ! empty($s['youtube']['embed']))
-        <div style="position:relative;width:100%;aspect-ratio:16/9;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:#000">
-          <iframe src="{{ $s['youtube']['embed'] }}"
-            title="{{ esc_attr($s['client']) }}"
-            loading="lazy"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen
-            style="position:absolute;inset:0;width:100%;height:100%;border:0"></iframe>
+    <article class="story reveal {{ $i % 2 === 0 ? 'reveal-left' : 'reveal-right' }} grid grid-cols-1 lg:grid-cols-2" style="transition-delay:{{ $i * 0.08 }}s">
+      <div class="h-full bg-(--bg) flex items-center">
+        <div class="story-media">
+          @php($mediaType = $s['mediaType'] ?? 'image')
+          @if ($mediaType === 'youtube' && ! empty($s['youtube']['embed']))
+          <div style="position:relative;width:100%;aspect-ratio:16/9;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:#000">
+            <iframe src="{{ $s['youtube']['embed'] }}"
+              title="{{ esc_attr($s['client']) }}"
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen
+              style="position:absolute;inset:0;width:100%;height:100%;border:0"></iframe>
+          </div>
+          @elseif ($mediaType === 'video' && ! empty($s['video']['url']))
+          <video controls playsinline preload="metadata"
+            @if (! empty($s['image'])) poster="{{ $s['image'] }}" @endif
+            style="width:100%;border-radius:14px;border:1px solid var(--line);background:#000">
+            <source src="{{ $s['video']['url'] }}" type="{{ $s['video']['mime'] }}">
+          </video>
+          @elseif (! empty($s['image']))
+          <img src="{{ $s['image'] }}" alt="{{ esc_attr($s['client']) }}" loading="lazy">
+          @endif
         </div>
-        @elseif ($mediaType === 'video' && ! empty($s['video']['url']))
-        <video controls playsinline preload="metadata"
-          @if (! empty($s['image'])) poster="{{ $s['image'] }}" @endif
-          style="width:100%;border-radius:14px;border:1px solid var(--line);background:#000">
-          <source src="{{ $s['video']['url'] }}" type="{{ $s['video']['mime'] }}">
-        </video>
-        @elseif (! empty($s['image']))
-        <img src="{{ $s['image'] }}" alt="{{ esc_attr($s['client']) }}" loading="lazy">
-        @endif
       </div>
       <div class="story-body">
         <div class="tag-row">
-          <span>Case {{ str_pad($i + 1, 2, '0', STR_PAD_LEFT) }}</span>
+          <span>Story {{ str_pad($i + 1, 2, '0', STR_PAD_LEFT) }}</span>
           <span class="sep">·</span>
           <span style="color:var(--accent)">{{ $s['location'] }}</span>
         </div>
-        <h2 class="h2" style="font-size:clamp(26px,3vw,40px);margin-top:6px">{{ $s['client'] }}</h2>
-        <blockquote style="font-family:var(--font-display);font-style:italic;font-size:clamp(18px,1.6vw,22px);color:var(--ink);margin:0;line-height:1.4;padding-left:18px;border-left:2px solid var(--accent)">
+        <h2 class="h2" style="font-size:clamp(22px,3vw,26px);margin-top:6px">{{ $s['client'] }}</h2>
+        <blockquote style="font-family:var(--font-display);font-style:italic;font-size:clamp(14px,1.6vw,16px);color:var(--ink);margin:0;line-height:1.4;padding-left:18px;border-left:2px solid var(--accent)">
           "{{ $s['quote'] }}"
         </blockquote>
-        <p style="color:var(--ink-2);line-height:1.65;font-size:15px">{{ $s['summary'] }}</p>
+        <p style="color:var(--ink-2);line-height:1.65;font-size:13px">{{ $s['summary'] }}</p>
         <div class="story-stats">
           @foreach ($s['stats'] as $st)
           <div class="s">

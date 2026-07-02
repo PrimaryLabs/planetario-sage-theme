@@ -66,10 +66,10 @@
       </div>
     </div>
 
-    <div class="ev-featured stagger-children"
+    <div class="ev-featured stagger-children grid-cols-[2.2fr_1fr]"
       data-edit-admin="edit.php?post_type=company_event"
       title="Click to manage events in WP Admin"
-      style="display:grid;grid-template-columns:1.4fr 1fr;gap:24px;margin-top:48px">
+      style="display:grid;gap:24px;margin-top:48px">
 
       {{-- Primary featured — full-bleed loc-style card --}}
       @php($primary = $featuredEvents[0])
@@ -91,14 +91,14 @@
             {{ $primary['location'] }}
           </span>
           @endif
-          <h2 class="h2" style="font-size:clamp(22px,2.8vw,36px);margin-top:10px">{{ $primary['title'] }}</h2>
+          <h2 class="h2" style="font-size:clamp(20px,2.8vw,26px);margin-top:10px">{{ $primary['title'] }}</h2>
           @if ($primary['summary'])
           <p class="muted" style="margin-top:8px;max-width:40ch">{{ $primary['summary'] }}</p>
           @endif
           <div style="margin-top:16px;display:inline-flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)">
             View event
             <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-              <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
           </div>
         </div>
@@ -129,7 +129,7 @@
             <div style="margin-top:12px;display:inline-flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)">
               View event
               <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
               </svg>
             </div>
           </div>
@@ -200,7 +200,7 @@
           <div style="margin-top:auto;padding-top:8px;display:inline-flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)">
             View event
             <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-              <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
           </div>
         </div>
@@ -254,16 +254,30 @@
 
 <style>
   @media (max-width: 860px) {
-    .ev-featured { grid-template-columns: 1fr !important }
+    .ev-featured {
+      grid-template-columns: 1fr !important
+    }
   }
+
   @media (max-width: 720px) {
-    .ev-grid { grid-template-columns: repeat(2, 1fr) !important }
+    .ev-grid {
+      grid-template-columns: repeat(2, 1fr) !important
+    }
   }
+
   @media (max-width: 480px) {
-    .ev-grid { grid-template-columns: 1fr !important }
+    .ev-grid {
+      grid-template-columns: 1fr !important
+    }
   }
-  .ev-card:hover { border-color: var(--line-2) !important }
-  .ev-card:hover img { transform: scale(1.04) }
+
+  .ev-card:hover {
+    border-color: var(--line-2) !important
+  }
+
+  .ev-card:hover img {
+    transform: scale(1.04)
+  }
 </style>
 
 @endsection

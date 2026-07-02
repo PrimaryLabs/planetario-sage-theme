@@ -78,7 +78,8 @@ class CompanyEvents extends Composer
                 $videoUrl  = is_array($video) ? (string) ($video['url'] ?? '') : '';
                 $videoMime = is_array($video) ? (string) ($video['mime_type'] ?? '') : '';
 
-                $youtubeEmbed = $this->youtubeEmbedUrl((string) ($row['youtube'] ?? ''));
+                $youtubeId    = $this->youtubeVideoId((string) ($row['youtube'] ?? ''));
+                $youtubeEmbed = $youtubeId ? 'https://www.youtube.com/embed/' . $youtubeId : '';
 
                 if ($mediaType === 'video' && $videoUrl === '') $mediaType = 'image';
                 if ($mediaType === 'youtube' && $youtubeEmbed === '') $mediaType = 'image';
@@ -89,7 +90,7 @@ class CompanyEvents extends Composer
                         'url'         => '',
                         'embed'       => $youtubeEmbed,
                         'mime'        => '',
-                        'poster'      => '',
+                        'poster'      => $posterUrl ?: 'https://img.youtube.com/vi/' . $youtubeId . '/hqdefault.jpg',
                         'alt'         => $title,
                         'title'       => $title,
                         'description' => $description,
@@ -139,19 +140,19 @@ class CompanyEvents extends Composer
         ];
     }
 
-    protected function youtubeEmbedUrl(string $url): string
+    protected function youtubeVideoId(string $url): string
     {
         $url = trim($url);
         if ($url === '') return '';
 
         if (preg_match('#youtu\.be/([A-Za-z0-9_-]{6,})#', $url, $m)) {
-            return 'https://www.youtube.com/embed/' . $m[1];
+            return $m[1];
         }
         if (preg_match('#youtube\.com/(?:watch\?(?:.*&)?v=|embed/|shorts/|v/)([A-Za-z0-9_-]{6,})#', $url, $m)) {
-            return 'https://www.youtube.com/embed/' . $m[1];
+            return $m[1];
         }
         if (preg_match('#^[A-Za-z0-9_-]{6,}$#', $url)) {
-            return 'https://www.youtube.com/embed/' . $url;
+            return $url;
         }
         return '';
     }

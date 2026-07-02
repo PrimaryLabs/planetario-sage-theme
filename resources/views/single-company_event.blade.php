@@ -55,49 +55,56 @@
     @php($galleryItems = $ev['gallery'])
     @php($galleryCount = count($galleryItems))
 
-    {{-- Gallery grid: hero + thumbnails --}}
+    {{-- Gallery grid: slider + thumbnails --}}
     <div class="ev-sl-gallery" style="display:grid;gap:10px">
 
-      {{-- Hero item (first) --}}
+      {{-- Slide viewport (first item on load) --}}
       @php($hero = $galleryItems[0])
-      <button type="button"
-        class="ev-gal-thumb ev-gal-hero"
-        data-ev-idx="0"
-        aria-label="Open gallery"
-        style="position:relative;width:100%;aspect-ratio:16/9;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:#000;cursor:zoom-in;padding:0">
-        @if ($hero['kind'] === 'youtube' && $hero['poster'])
-        <img src="{{ $hero['poster'] }}" alt="{{ esc_attr($hero['alt'] ?: $ev['title']) }}"
-          style="width:100%;height:100%;object-fit:cover;display:block">
-        @elseif ($hero['kind'] === 'youtube')
-        <div style="width:100%;height:100%;background:var(--bg-3);display:flex;align-items:center;justify-content:center">
-          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-            <circle cx="24" cy="24" r="23" stroke="var(--line-2)" stroke-width="2"/>
-            <polygon points="19,15 37,24 19,33" fill="var(--accent)"/>
-          </svg>
+      <div style="position:relative;width:100%;aspect-ratio:16/9;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:#000">
+        <div id="ev-slide-media" style="position:relative;width:100%;height:100%">
+          @if ($hero['kind'] === 'image')
+          <img src="{{ $hero['url'] }}" alt="{{ esc_attr($hero['alt'] ?: $ev['title']) }}"
+            style="width:100%;height:100%;object-fit:cover;display:block">
+          @else
+          <button type="button" class="ev-slide-play" aria-label="Play video"
+            style="position:relative;display:block;width:100%;height:100%;padding:0;border:0;cursor:pointer;background:#000">
+            @if ($hero['poster'])
+            <img src="{{ $hero['poster'] }}" alt="{{ esc_attr($hero['alt'] ?: $ev['title']) }}"
+              style="width:100%;height:100%;object-fit:cover;display:block">
+            @else
+            <div style="width:100%;height:100%;background:var(--bg-3)"></div>
+            @endif
+            <span class="ev-play-badge" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 48 48" fill="none">
+                <circle cx="24" cy="24" r="23" stroke="var(--line-2)" stroke-width="2"/>
+                <polygon points="19,15 37,24 19,33" fill="var(--accent)"/>
+              </svg>
+            </span>
+          </button>
+          @endif
         </div>
-        @elseif ($hero['kind'] === 'video' && $hero['poster'])
-        <img src="{{ $hero['poster'] }}" alt="{{ esc_attr($hero['alt'] ?: $ev['title']) }}"
-          style="width:100%;height:100%;object-fit:cover;display:block">
-        @elseif ($hero['kind'] === 'video')
-        <div style="width:100%;height:100%;background:var(--bg-3);display:flex;align-items:center;justify-content:center">
-          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-            <circle cx="24" cy="24" r="23" stroke="var(--line-2)" stroke-width="2"/>
-            <polygon points="19,15 37,24 19,33" fill="var(--accent)"/>
-          </svg>
-        </div>
-        @else
-        <img src="{{ $hero['url'] }}" alt="{{ esc_attr($hero['alt'] ?: $ev['title']) }}"
-          style="width:100%;height:100%;object-fit:cover;display:block">
-        @endif
 
-        @if ($hero['kind'] !== 'image')
-        <div class="ev-play-badge" aria-hidden="true">
-          <svg width="20" height="20" viewBox="0 0 48 48" fill="none">
-            <polygon points="14,10 42,24 14,38" fill="currentColor"/>
-          </svg>
+        @if ($galleryCount > 1)
+        <div id="ev-slide-counter"
+          style="position:absolute;top:16px;left:50%;transform:translateX(-50%);font-family:var(--font-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);background:rgba(6,13,31,.55);padding:4px 10px;border-radius:20px;pointer-events:none">
+          1 / {{ $galleryCount }}
         </div>
+
+        <button id="ev-slide-prev" type="button" aria-label="Previous"
+          style="position:absolute;left:12px;top:50%;transform:translateY(-50%);background:var(--bg-2);border:1px solid var(--line);border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;color:var(--ink);cursor:pointer">
+          <svg width="15" height="15" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+
+        <button id="ev-slide-next" type="button" aria-label="Next"
+          style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:var(--bg-2);border:1px solid var(--line);border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;color:var(--ink);cursor:pointer">
+          <svg width="15" height="15" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M5 2l5 5-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
         @endif
-      </button>
+      </div>
 
       {{-- Thumbnail strip (remaining items) --}}
       @if ($galleryCount > 1)
@@ -144,20 +151,15 @@
       @endif
     </div>
 
-    {{-- Gallery caption / count --}}
-    <div style="margin-top:14px;display:flex;align-items:start;justify-content:space-between;gap:16px">
-      <div style="min-height:1.2em;display:flex;flex-direction:column;gap:3px">
-        <span id="ev-caption-title"
-          style="font-size:13.5px;font-weight:600;color:var(--ink);display:block">
-          {{ $galleryItems[0]['title'] ?? '' }}
-        </span>
-        <span id="ev-caption-desc"
-          style="font-size:13px;color:var(--ink-3);display:block">
-          {{ $galleryItems[0]['description'] ?? '' }}
-        </span>
-      </div>
-      <span style="font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);white-space:nowrap;padding-top:3px">
-        1 / {{ $galleryCount }}
+    {{-- Gallery caption --}}
+    <div style="margin-top:14px;min-height:1.2em;display:flex;flex-direction:column;gap:3px">
+      <span id="ev-caption-title"
+        style="font-size:13.5px;font-weight:600;color:var(--ink);display:block">
+        {{ $galleryItems[0]['title'] ?? '' }}
+      </span>
+      <span id="ev-caption-desc"
+        style="font-size:13px;color:var(--ink-3);display:block">
+        {{ $galleryItems[0]['description'] ?? '' }}
       </span>
     </div>
   </div>
@@ -252,85 +254,45 @@
 </section>
 @endif
 
-{{-- Lightbox dialog --}}
-@if (! empty($ev['gallery']))
-<dialog id="ev-lb"
-  style="position:fixed;inset:0;width:100%;height:100%;max-width:100%;max-height:100%;background:rgba(6,13,31,.96);border:0;padding:0;display:flex;align-items:center;justify-content:center;z-index:1000">
-  <div style="position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:60px 20px 80px">
-
-    {{-- Close --}}
-    <button id="ev-lb-close" type="button" aria-label="Close gallery"
-      style="position:absolute;top:20px;right:20px;background:var(--bg-2);border:1px solid var(--line);border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;color:var(--ink);cursor:pointer;z-index:10">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-        <path d="M2 2l12 12M14 2L2 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-      </svg>
-    </button>
-
-    {{-- Counter --}}
-    <div id="ev-lb-counter"
-      style="position:absolute;top:24px;left:50%;transform:translateX(-50%);font-family:var(--font-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3)">
-    </div>
-
-    {{-- Media container --}}
-    <div id="ev-lb-media"
-      style="position:relative;max-width:min(1100px,92vw);max-height:80vh;display:flex;align-items:center;justify-content:center">
-    </div>
-
-    {{-- Prev --}}
-    <button id="ev-lb-prev" type="button" aria-label="Previous"
-      style="position:absolute;left:16px;top:50%;transform:translateY(-50%);background:var(--bg-2);border:1px solid var(--line);border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;color:var(--ink);cursor:pointer">
-      <svg width="16" height="16" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-        <path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </button>
-
-    {{-- Next --}}
-    <button id="ev-lb-next" type="button" aria-label="Next"
-      style="position:absolute;right:16px;top:50%;transform:translateY(-50%);background:var(--bg-2);border:1px solid var(--line);border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;color:var(--ink);cursor:pointer">
-      <svg width="16" height="16" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-        <path d="M5 2l5 5-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </button>
-
-    {{-- Caption --}}
-    <div id="ev-lb-cap"
-      style="position:absolute;bottom:24px;left:50%;transform:translateX(-50%);font-size:13px;color:var(--ink-3);text-align:center;max-width:60ch;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">
-    </div>
-  </div>
-</dialog>
-
 {{-- Gallery data island (avoids PHP-in-JS) --}}
+@if (! empty($ev['gallery']))
 <script type="application/json" id="ev-gallery-data">
 {!! json_encode(array_values($ev['gallery']), JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!}
 </script>
 
 <script>
 (function () {
-  var dialog    = document.getElementById('ev-lb');
-  var mediaEl   = document.getElementById('ev-lb-media');
-  var capEl     = document.getElementById('ev-lb-cap');
-  var counterEl = document.getElementById('ev-lb-counter');
+  var slideEl   = document.getElementById('ev-slide-media');
+  var counterEl = document.getElementById('ev-slide-counter');
   var capTitle  = document.getElementById('ev-caption-title');
   var capDesc   = document.getElementById('ev-caption-desc');
+  var prevBtn   = document.getElementById('ev-slide-prev');
+  var nextBtn   = document.getElementById('ev-slide-next');
   var items     = JSON.parse(document.getElementById('ev-gallery-data').textContent);
   var thumbs    = document.querySelectorAll('.ev-gal-thumb');
   var cur       = 0;
 
-  function mediaHtml(item) {
+  function posterHtml(item) {
+    var poster = item.poster
+      ? '<img src="' + item.poster + '" alt="' + (item.alt || '') + '" style="width:100%;height:100%;object-fit:cover;display:block">'
+      : '<div style="width:100%;height:100%;background:var(--bg-3)"></div>';
+    return '<button type="button" class="ev-slide-play" aria-label="Play video"'
+      + ' style="position:relative;display:block;width:100%;height:100%;padding:0;border:0;cursor:pointer;background:#000">'
+      + poster
+      + '<span class="ev-play-badge" aria-hidden="true">'
+      + '<svg width="28" height="28" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="23" stroke="var(--line-2)" stroke-width="2"/><polygon points="19,15 37,24 19,33" fill="var(--accent)"/></svg>'
+      + '</span></button>';
+  }
+
+  function playerHtml(item) {
     if (item.kind === 'youtube') {
-      return '<div style="position:relative;width:min(900px,90vw);aspect-ratio:16/9">'
-        + '<iframe src="' + item.embed + '?autoplay=1" allow="autoplay;encrypted-media" allowfullscreen'
-        + ' style="position:absolute;inset:0;width:100%;height:100%;border:0;border-radius:10px"></iframe>'
-        + '</div>';
+      return '<iframe src="' + item.embed + '?autoplay=1" allow="autoplay;encrypted-media" allowfullscreen'
+        + ' style="width:100%;height:100%;border:0"></iframe>';
     }
-    if (item.kind === 'video') {
-      return '<video controls autoplay playsinline preload="metadata"'
-        + (item.poster ? ' poster="' + item.poster + '"' : '')
-        + ' style="max-width:min(900px,90vw);max-height:78vh;border-radius:10px;background:#000">'
-        + '<source src="' + item.url + '" type="' + item.mime + '"></video>';
-    }
-    return '<img src="' + item.url + '" alt="' + (item.alt || '') + '"'
-      + ' style="max-width:min(1000px,90vw);max-height:78vh;border-radius:10px;object-fit:contain;display:block">';
+    return '<video controls autoplay playsinline preload="metadata"'
+      + (item.poster ? ' poster="' + item.poster + '"' : '')
+      + ' style="width:100%;height:100%;object-fit:contain;background:#000">'
+      + '<source src="' + item.url + '" type="' + item.mime + '"></video>';
   }
 
   function setThumbActive(idx) {
@@ -343,46 +305,28 @@
   function render(idx) {
     cur = (idx + items.length) % items.length;
     var item = items[cur];
-    mediaEl.innerHTML = mediaHtml(item);
-    counterEl.textContent = (cur + 1) + ' / ' + items.length;
-    capEl.textContent = item.title && item.description
-      ? item.title + ' — ' + item.description
-      : (item.title || item.description || '');
+    slideEl.innerHTML = item.kind === 'image'
+      ? '<img src="' + item.url + '" alt="' + (item.alt || '') + '" style="width:100%;height:100%;object-fit:cover;display:block">'
+      : posterHtml(item);
+    if (counterEl) counterEl.textContent = (cur + 1) + ' / ' + items.length;
     if (capTitle) capTitle.textContent = item.title || '';
     if (capDesc)  capDesc.textContent  = item.description || '';
     setThumbActive(cur);
   }
 
-  function openAt(idx) {
-    render(idx);
-    dialog.showModal();
-    dialog.focus();
-  }
-
-  function close() {
-    mediaEl.innerHTML = '';
-    dialog.close();
-  }
+  slideEl.addEventListener('click', function (e) {
+    if (!e.target.closest('.ev-slide-play')) return;
+    slideEl.innerHTML = playerHtml(items[cur]);
+  });
 
   thumbs.forEach(function (el) {
     el.addEventListener('click', function () {
-      openAt(parseInt(el.dataset.evIdx, 10));
+      render(parseInt(el.dataset.evIdx, 10));
     });
   });
 
-  document.getElementById('ev-lb-prev').addEventListener('click', function () { render(cur - 1); });
-  document.getElementById('ev-lb-next').addEventListener('click', function () { render(cur + 1); });
-  document.getElementById('ev-lb-close').addEventListener('click', close);
-
-  dialog.addEventListener('click', function (e) {
-    if (e.target === dialog) close();
-  });
-
-  dialog.addEventListener('keydown', function (e) {
-    if (e.key === 'ArrowLeft')  render(cur - 1);
-    if (e.key === 'ArrowRight') render(cur + 1);
-    if (e.key === 'Escape')     close();
-  });
+  if (prevBtn) prevBtn.addEventListener('click', function () { render(cur - 1); });
+  if (nextBtn) nextBtn.addEventListener('click', function () { render(cur + 1); });
 }());
 </script>
 @endif
@@ -415,8 +359,6 @@
     color: var(--accent);
   }
   .ev-play-badge--sm svg { width: 16px; height: 16px }
-  .ev-gal-hero { display: block }
-  dialog::backdrop { background: rgba(6,13,31,.92) }
   .ev-content h2, .ev-content h3, .ev-content h4 {
     font-family: var(--font-display);
     color: var(--ink);
