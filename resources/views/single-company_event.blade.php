@@ -22,7 +22,7 @@
     <a href="{{ home_url('/events') }}"
       style="display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);margin-bottom:36px">
       <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-        <path d="M12 7H2M6 3L2 7l4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M12 7H2M6 3L2 7l4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
       </svg>
       All events
     </a>
@@ -76,8 +76,8 @@
             @endif
             <span class="ev-play-badge" aria-hidden="true">
               <svg width="28" height="28" viewBox="0 0 48 48" fill="none">
-                <circle cx="24" cy="24" r="23" stroke="var(--line-2)" stroke-width="2"/>
-                <polygon points="19,15 37,24 19,33" fill="var(--accent)"/>
+                <circle cx="24" cy="24" r="23" stroke="var(--line-2)" stroke-width="2" />
+                <polygon points="19,15 37,24 19,33" fill="var(--accent)" />
               </svg>
             </span>
           </button>
@@ -93,14 +93,14 @@
         <button id="ev-slide-prev" type="button" aria-label="Previous"
           style="position:absolute;left:12px;top:50%;transform:translateY(-50%);background:var(--bg-2);border:1px solid var(--line);border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;color:var(--ink);cursor:pointer">
           <svg width="15" height="15" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-            <path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
         </button>
 
         <button id="ev-slide-next" type="button" aria-label="Next"
           style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:var(--bg-2);border:1px solid var(--line);border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;color:var(--ink);cursor:pointer">
           <svg width="15" height="15" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-            <path d="M5 2l5 5-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M5 2l5 5-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
         </button>
         @endif
@@ -108,20 +108,20 @@
 
       {{-- Thumbnail strip (remaining items) --}}
       @if ($galleryCount > 1)
-      <div class="ev-thumbs" style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px">
+      <div class="ev-thumbs grid grid-cols-3 lg:grid-cols-8 gap-3">
         @foreach ($galleryItems as $i => $item)
         <button type="button"
           class="ev-gal-thumb {{ $i === 0 ? 'ev-thumb--active' : '' }}"
           data-ev-idx="{{ $i }}"
           aria-label="View media {{ $i + 1 }}"
-          style="position:relative;aspect-ratio:1;border-radius:8px;overflow:hidden;border:1px solid {{ $i === 0 ? 'var(--accent)' : 'var(--line)' }};background:#000;cursor:pointer;padding:0;transition:border-color .2s">
+          style="position:relative;aspect-ratio:4/2.5;border-radius:8px;overflow:hidden;border:1px solid {{ $i === 0 ? 'var(--accent)' : 'var(--line)' }};background:#000;cursor:pointer;padding:0;transition:border-color .2s">
           @if ($item['kind'] === 'youtube' && $item['poster'])
           <img src="{{ $item['poster'] }}" alt=""
             style="width:100%;height:100%;object-fit:cover;display:block">
           @elseif ($item['kind'] === 'youtube')
           <div style="width:100%;height:100%;background:var(--bg-3);display:flex;align-items:center;justify-content:center">
             <svg width="20" height="20" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-              <polygon points="14,10 42,24 14,38" fill="var(--accent)"/>
+              <polygon points="14,10 42,24 14,38" fill="var(--accent)" />
             </svg>
           </div>
           @elseif ($item['kind'] === 'video' && $item['poster'])
@@ -130,7 +130,7 @@
           @elseif ($item['kind'] === 'video')
           <div style="width:100%;height:100%;background:var(--bg-3);display:flex;align-items:center;justify-content:center">
             <svg width="20" height="20" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-              <polygon points="14,10 42,24 14,38" fill="var(--accent)"/>
+              <polygon points="14,10 42,24 14,38" fill="var(--accent)" />
             </svg>
           </div>
           @else
@@ -141,7 +141,7 @@
           @if ($item['kind'] !== 'image')
           <div class="ev-play-badge ev-play-badge--sm" aria-hidden="true">
             <svg width="12" height="12" viewBox="0 0 48 48" fill="none">
-              <polygon points="14,10 42,24 14,38" fill="currentColor"/>
+              <polygon points="14,10 42,24 14,38" fill="currentColor" />
             </svg>
           </div>
           @endif
@@ -256,118 +256,160 @@
 
 {{-- Gallery data island (avoids PHP-in-JS) --}}
 @if (! empty($ev['gallery']))
-<script type="application/json" id="ev-gallery-data">
-{!! json_encode(array_values($ev['gallery']), JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!}
-</script>
+<script type="application/json" id="ev-gallery-data">{!! json_encode(array_values($ev['gallery']), JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!}</script>
 
 <script>
-(function () {
-  var slideEl   = document.getElementById('ev-slide-media');
-  var counterEl = document.getElementById('ev-slide-counter');
-  var capTitle  = document.getElementById('ev-caption-title');
-  var capDesc   = document.getElementById('ev-caption-desc');
-  var prevBtn   = document.getElementById('ev-slide-prev');
-  var nextBtn   = document.getElementById('ev-slide-next');
-  var items     = JSON.parse(document.getElementById('ev-gallery-data').textContent);
-  var thumbs    = document.querySelectorAll('.ev-gal-thumb');
-  var cur       = 0;
+  (function() {
+    var slideEl = document.getElementById('ev-slide-media');
+    var counterEl = document.getElementById('ev-slide-counter');
+    var capTitle = document.getElementById('ev-caption-title');
+    var capDesc = document.getElementById('ev-caption-desc');
+    var prevBtn = document.getElementById('ev-slide-prev');
+    var nextBtn = document.getElementById('ev-slide-next');
+    var items = JSON.parse(document.getElementById('ev-gallery-data').textContent);
+    var thumbs = document.querySelectorAll('.ev-gal-thumb');
+    var cur = 0;
 
-  function posterHtml(item) {
-    var poster = item.poster
-      ? '<img src="' + item.poster + '" alt="' + (item.alt || '') + '" style="width:100%;height:100%;object-fit:cover;display:block">'
-      : '<div style="width:100%;height:100%;background:var(--bg-3)"></div>';
-    return '<button type="button" class="ev-slide-play" aria-label="Play video"'
-      + ' style="position:relative;display:block;width:100%;height:100%;padding:0;border:0;cursor:pointer;background:#000">'
-      + poster
-      + '<span class="ev-play-badge" aria-hidden="true">'
-      + '<svg width="28" height="28" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="23" stroke="var(--line-2)" stroke-width="2"/><polygon points="19,15 37,24 19,33" fill="var(--accent)"/></svg>'
-      + '</span></button>';
-  }
-
-  function playerHtml(item) {
-    if (item.kind === 'youtube') {
-      return '<iframe src="' + item.embed + '?autoplay=1" allow="autoplay;encrypted-media" allowfullscreen'
-        + ' style="width:100%;height:100%;border:0"></iframe>';
+    function posterHtml(item) {
+      var poster = item.poster ?
+        '<img src="' + item.poster + '" alt="' + (item.alt || '') + '" style="width:100%;height:100%;object-fit:cover;display:block">' :
+        '<div style="width:100%;height:100%;background:var(--bg-3)"></div>';
+      return '<button type="button" class="ev-slide-play" aria-label="Play video"' +
+        ' style="position:relative;display:block;width:100%;height:100%;padding:0;border:0;cursor:pointer;background:#000">' +
+        poster +
+        '<span class="ev-play-badge" aria-hidden="true">' +
+        '<svg width="28" height="28" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="23" stroke="var(--line-2)" stroke-width="2"/><polygon points="19,15 37,24 19,33" fill="var(--accent)"/></svg>' +
+        '</span></button>';
     }
-    return '<video controls autoplay playsinline preload="metadata"'
-      + (item.poster ? ' poster="' + item.poster + '"' : '')
-      + ' style="width:100%;height:100%;object-fit:contain;background:#000">'
-      + '<source src="' + item.url + '" type="' + item.mime + '"></video>';
-  }
 
-  function setThumbActive(idx) {
-    thumbs.forEach(function (t, i) {
-      t.style.borderColor = i === idx ? 'var(--accent)' : 'var(--line)';
-      t.classList.toggle('ev-thumb--active', i === idx);
+    function playerHtml(item) {
+      if (item.kind === 'youtube') {
+        return '<iframe src="' + item.embed + '?autoplay=1" allow="autoplay;encrypted-media" allowfullscreen' +
+          ' style="width:100%;height:100%;border:0"></iframe>';
+      }
+      return '<video controls autoplay playsinline preload="metadata"' +
+        (item.poster ? ' poster="' + item.poster + '"' : '') +
+        ' style="width:100%;height:100%;object-fit:contain;background:#000">' +
+        '<source src="' + item.url + '" type="' + item.mime + '"></video>';
+    }
+
+    function setThumbActive(idx) {
+      thumbs.forEach(function(t, i) {
+        t.style.borderColor = i === idx ? 'var(--accent)' : 'var(--line)';
+        t.classList.toggle('ev-thumb--active', i === idx);
+      });
+    }
+
+    function render(idx) {
+      cur = (idx + items.length) % items.length;
+      var item = items[cur];
+      slideEl.innerHTML = item.kind === 'image' ?
+        '<img src="' + item.url + '" alt="' + (item.alt || '') + '" style="width:100%;height:100%;object-fit:cover;display:block">' :
+        posterHtml(item);
+      if (counterEl) counterEl.textContent = (cur + 1) + ' / ' + items.length;
+      if (capTitle) capTitle.textContent = item.title || '';
+      if (capDesc) capDesc.textContent = item.description || '';
+      setThumbActive(cur);
+    }
+
+    slideEl.addEventListener('click', function(e) {
+      if (!e.target.closest('.ev-slide-play')) return;
+      slideEl.innerHTML = playerHtml(items[cur]);
     });
-  }
 
-  function render(idx) {
-    cur = (idx + items.length) % items.length;
-    var item = items[cur];
-    slideEl.innerHTML = item.kind === 'image'
-      ? '<img src="' + item.url + '" alt="' + (item.alt || '') + '" style="width:100%;height:100%;object-fit:cover;display:block">'
-      : posterHtml(item);
-    if (counterEl) counterEl.textContent = (cur + 1) + ' / ' + items.length;
-    if (capTitle) capTitle.textContent = item.title || '';
-    if (capDesc)  capDesc.textContent  = item.description || '';
-    setThumbActive(cur);
-  }
-
-  slideEl.addEventListener('click', function (e) {
-    if (!e.target.closest('.ev-slide-play')) return;
-    slideEl.innerHTML = playerHtml(items[cur]);
-  });
-
-  thumbs.forEach(function (el) {
-    el.addEventListener('click', function () {
-      render(parseInt(el.dataset.evIdx, 10));
+    thumbs.forEach(function(el) {
+      el.addEventListener('click', function() {
+        render(parseInt(el.dataset.evIdx, 10));
+      });
     });
-  });
 
-  if (prevBtn) prevBtn.addEventListener('click', function () { render(cur - 1); });
-  if (nextBtn) nextBtn.addEventListener('click', function () { render(cur + 1); });
-}());
+    if (prevBtn) prevBtn.addEventListener('click', function() {
+      render(cur - 1);
+    });
+    if (nextBtn) nextBtn.addEventListener('click', function() {
+      render(cur + 1);
+    });
+  }());
 </script>
 @endif
 
 <style>
   @media (max-width: 860px) {
-    .ev-detail-grid { grid-template-columns: 1fr !important }
+    .ev-detail-grid {
+      grid-template-columns: 1fr !important
+    }
   }
+
   @media (max-width: 640px) {
-    .ev-thumbs { grid-template-columns: repeat(4, 1fr) !important }
+    .ev-thumbs {
+      grid-template-columns: repeat(4, 1fr) !important
+    }
   }
+
   @media (max-width: 420px) {
-    .ev-thumbs { grid-template-columns: repeat(3, 1fr) !important }
+    .ev-thumbs {
+      grid-template-columns: repeat(3, 1fr) !important
+    }
   }
+
   @media (max-width: 720px) {
-    .ev-grid { grid-template-columns: repeat(2, 1fr) !important }
+    .ev-grid {
+      grid-template-columns: repeat(2, 1fr) !important
+    }
   }
+
   @media (max-width: 480px) {
-    .ev-grid { grid-template-columns: 1fr !important }
+    .ev-grid {
+      grid-template-columns: 1fr !important
+    }
   }
-  .ev-card:hover { border-color: var(--line-2) !important }
-  .ev-card:hover img { transform: scale(1.04) }
+
+  .ev-card:hover {
+    border-color: var(--line-2) !important
+  }
+
+  .ev-card:hover img {
+    transform: scale(1.04)
+  }
+
   .ev-play-badge {
     position: absolute;
     inset: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(6,13,31,.45);
+    background: rgba(6, 13, 31, .45);
     color: var(--accent);
   }
-  .ev-play-badge--sm svg { width: 16px; height: 16px }
-  .ev-content h2, .ev-content h3, .ev-content h4 {
+
+  .ev-play-badge--sm svg {
+    width: 16px;
+    height: 16px
+  }
+
+  .ev-content h2,
+  .ev-content h3,
+  .ev-content h4 {
     font-family: var(--font-display);
     color: var(--ink);
     margin-top: 28px;
     margin-bottom: 10px;
   }
-  .ev-content a { color: var(--accent); text-decoration: underline !important }
-  .ev-content ul, .ev-content ol { padding-left: 20px; margin-top: 12px }
-  .ev-content li { margin-bottom: 6px }
+
+  .ev-content a {
+    color: var(--accent);
+    text-decoration: underline !important
+  }
+
+  .ev-content ul,
+  .ev-content ol {
+    padding-left: 20px;
+    margin-top: 12px
+  }
+
+  .ev-content li {
+    margin-bottom: 6px
+  }
 </style>
 
 @endif
