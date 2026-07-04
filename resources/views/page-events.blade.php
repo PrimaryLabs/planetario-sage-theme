@@ -45,13 +45,13 @@
 @if (! empty($featuredEvents))
 <section class="section" style="padding-top:88px">
   <div class="container">
-    <div class="section-head">
-      <div class="reveal">
+    <div class="section-head flex!">
+      <div class="reveal w-full!">
         <span class="eyebrow"
           data-edit-field="events_featured_eyebrow"
           data-edit-type="text"
           data-edit-label="Featured — Eyebrow">{{ $eventsSections['featured']['eyebrow'] }}</span>
-        <h2 class="h2" style="margin-top:14px">
+        <h2 class="h2 flex w-full gap-3" style="margin-top:14px">
           <span
             data-edit-field="events_featured_heading_lead"
             data-edit-type="text"
@@ -93,7 +93,7 @@
           @endif
           <h2 class="h2" style="font-size:clamp(20px,2.8vw,26px);margin-top:10px">{{ $primary['title'] }}</h2>
           @if ($primary['summary'])
-          <p class="muted" style="margin-top:8px;max-width:40ch">{{ $primary['summary'] }}</p>
+          <p class="muted line-clamp-5" style="margin-top:8px;max-width:40ch">{{ $primary['summary'] }}</p>
           @endif
           <div style="margin-top:16px;display:inline-flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)">
             View event

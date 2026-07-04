@@ -84,7 +84,9 @@ $stories = $stories ?? StaticData::stories();
         <blockquote style="font-family:var(--font-display);font-style:italic;font-size:clamp(14px,1.6vw,16px);color:var(--ink);margin:0;line-height:1.4;padding-left:18px;border-left:2px solid var(--accent)">
           "{{ $s['quote'] }}"
         </blockquote>
-        <p style="color:var(--ink-2);line-height:1.65;font-size:13px">{{ $s['summary'] }}</p>
+        <div style="color:var(--ink-2);line-height:1.65;font-size:13px">
+          {!! wp_kses_post($s['summary']) !!}
+        </div>
         <div class="story-stats">
           @foreach ($s['stats'] as $st)
           <div class="s">

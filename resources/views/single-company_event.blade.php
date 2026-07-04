@@ -39,10 +39,9 @@
       @endif
     </div>
 
-    <h1 class="display" style="max-width:22ch">{{ $ev['title'] }}</h1>
-
+    <h2 class="h2">{{ $ev['title'] }}</h2>
     @if ($ev['summary'])
-    <p class="lead" style="margin-top:22px;max-width:64ch">{{ $ev['summary'] }}</p>
+    <p class="lead" style="margin-top:22px;">{{ $ev['summary'] }}</p>
     @endif
   </div>
 </section>
