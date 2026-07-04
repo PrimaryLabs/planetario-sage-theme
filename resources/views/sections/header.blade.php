@@ -18,9 +18,10 @@ $storiesDropdown = [
 ['label' => 'Stories', 'url' => home_url('/stories'), 'active' => is_page('stories')],
 ['label' => 'Events', 'url' => home_url('/events'), 'active' => is_page('events')],
 ['label' => 'Blog', 'url' => home_url('/blog'), 'active' => is_page('blog')],
+['label' => 'Vlog', 'url' => home_url('/vlog'), 'active' => is_page('vlog')],
 ];
 
-$storiesActive = is_page('stories') || is_page('events') || is_page('blog');
+$storiesActive = is_page('stories') || is_page('events') || is_page('blog') || is_page('vlog');
 @endphp
 
 <header class="nav" id="site-header">

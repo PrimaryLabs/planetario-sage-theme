@@ -6,7 +6,7 @@
 @if (! $v)
 <section class="section" style="padding-top:140px">
   <div class="container">
-    <h1 class="display">Video not found.</h1>
+    <h2 class="h2">Video not found.</h2>
     <p class="lead" style="margin-top:18px">
       <a href="{{ home_url('/vlog') }}" class="btn">Back to vlogs</a>
     </p>
@@ -33,7 +33,7 @@
     </div>
     @endif
 
-    <h1 class="display" style="max-width:22ch">{{ $v['title'] }}</h1>
+    <h2 class="h2" style="max-width:22ch">{{ $v['title'] }}</h2>
   </div>
 </section>
 

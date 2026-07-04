@@ -481,7 +481,7 @@
 		position: absolute;
 		left: 50%;
 		bottom: -2px;
-		width: 4px;
+		width: 100%;
 		height: 4px;
 		background: var(--accent);
 		border-radius: 50%;
