@@ -13,7 +13,7 @@
     "isEntry": true
   },
   "resources/css/app.css": {
-    "file": "assets/app-BKWPXriz.css",
+    "file": "assets/app-vWIhTnT1.css",
     "name": "app",
     "names": [
       "app.css"
@@ -22,13 +22,17 @@
     "isEntry": true
   },
   "resources/css/editor.css": {
-    "file": "assets/editor-Di_2T_aI.css",
+    "file": "assets/editor-ND8my3LO.css",
     "name": "editor",
     "names": [
       "editor.css"
     ],
     "src": "resources/css/editor.css",
     "isEntry": true
+  },
+  "resources/images/logo.jpeg": {
+    "file": "assets/logo-RPce9ZQs.jpeg",
+    "src": "resources/images/logo.jpeg"
   },
   "resources/js/app.js": {
     "file": "assets/app-R_Rpa4Vv.js",

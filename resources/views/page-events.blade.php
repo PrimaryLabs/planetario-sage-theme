@@ -180,6 +180,12 @@
             style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease"
             loading="lazy">
         </div>
+        @else
+        <div style="aspect-ratio:16/9;overflow:hidden;background:#000;flex-shrink:0">
+          <img src="{{ \Illuminate\Support\Facades\Vite::asset('resources/images/logo.jpeg') }}" alt="{{ esc_attr($ev['title']) }}"
+            style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease"
+            loading="lazy"> 
+        </div>
         @endif
         <div style="padding:22px;flex:1;display:flex;flex-direction:column;gap:10px">
           <div class="tag-row">
@@ -193,9 +199,9 @@
             <span style="color:var(--accent)">{{ $ev['location'] }}</span>
             @endif
           </div>
-          <h3 class="h3" style="margin:0;font-size:clamp(18px,1.8vw,22px)">{{ $ev['title'] }}</h3>
+          <h3 class="h3 line-clamp-1" style="margin:0;font-size:clamp(18px,1.8vw,22px)">{{ $ev['title'] }}</h3>
           @if ($ev['summary'])
-          <p style="color:var(--ink-2);font-size:14px;line-height:1.6;margin:0">{{ $ev['summary'] }}</p>
+          <p class="line-clamp-3" style="color:var(--ink-2);font-size:14px;line-height:1.6;margin:0">{{ $ev['summary'] }}</p>
           @endif
           <div style="margin-top:auto;padding-top:8px;display:inline-flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)">
             View event

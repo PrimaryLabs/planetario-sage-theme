@@ -41,7 +41,7 @@
 
     <h2 class="h2">{{ $ev['title'] }}</h2>
     @if ($ev['summary'])
-    <p class="lead" style="margin-top:22px;">{{ $ev['summary'] }}</p>
+    <p class="lead" style="margin-top:22px;max-width:100ch">{{ $ev['summary'] }}</p>
     @endif
   </div>
 </section>
