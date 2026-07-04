@@ -16,8 +16,11 @@ class Developers extends Composer
 
     public function with(): array
     {
+        $all = $this->all();
+
         return [
-            'developers' => $this->all(),
+            'developers' => $all,
+            'devGroups'  => $this->groupByRegion($all),
         ];
     }
 
@@ -37,6 +40,29 @@ class Developers extends Composer
         if (! $query->have_posts()) return $this->fallback();
 
         return array_map([$this, 'normalize'], $query->posts);
+    }
+
+    private function groupByRegion(array $devs): array
+    {
+        $groups = [];
+
+        foreach ($devs as $d) {
+            $label = trim((string) ($d['region'] ?? ''));
+            $slug  = $label !== '' ? \sanitize_title($label) : 'other';
+            $label = $label !== '' ? $label : 'Other';
+
+            $groups[$slug]['slug']    = $slug;
+            $groups[$slug]['label']   = $label;
+            $groups[$slug]['items'][] = $d;
+        }
+
+        uksort($groups, static function ($a, $b) use ($groups) {
+            if ($a === 'other') return 1;
+            if ($b === 'other') return -1;
+            return strcasecmp($groups[$a]['label'], $groups[$b]['label']);
+        });
+
+        return array_values($groups);
     }
 
     private function normalize(WP_Post $post): array

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-@php use App\Data\StaticData; $devs = $developers ?? StaticData::developers(); @endphp
+@php use App\Data\StaticData; $devs = $developers ?? StaticData::developers(); $devGroups = $devGroups ?? []; @endphp
 
 {{-- Intro — Tier 2 compact hero --}}
 <section class="page-hero page-hero--compact">
@@ -48,43 +48,45 @@
       <button class="managers-tab is-active" role="tab" aria-selected="true" data-dev-filter="all">
         All
       </button>
-      <button class="managers-tab" role="tab" aria-selected="false" data-dev-filter="bohol">
-        Bohol
+      @foreach ($devGroups as $group)
+      <button class="managers-tab" role="tab" aria-selected="false" data-dev-filter="{{ $group['slug'] }}">
+        {{ $group['label'] }}
       </button>
-      <button class="managers-tab" role="tab" aria-selected="false" data-dev-filter="cebu">
-        Cebu
-      </button>
-    </div>
-
-    <div class="stagger-children dev-logo-wall"
-      data-edit-admin="edit.php?post_type=developer"
-      title="Click to manage developers in WP Admin">
-      @foreach ($devs as $d)
-      @php
-        $region = str_contains(strtolower($d['region'] ?? ''), 'cebu') ? 'cebu' : 'bohol';
-      @endphp
-      @if (! empty($d['website']))
-      <a href="{{ $d['website'] }}" class="dev-logo-item reveal" data-dev-region="{{ $region }}"
-        target="_blank" rel="noopener noreferrer">
-        @if (! empty($d['logo']))
-        <img src="{{ $d['logo'] }}" alt="{{ esc_attr($d['name']) }}" loading="lazy">
-        @else
-        <span class="dev-logo-text">{{ $d['name'] }}</span>
-        @endif
-        <span class="dev-logo-label">{{ $d['name'] }}</span>
-      </a>
-      @else
-      <div class="dev-logo-item reveal" data-dev-region="{{ $region }}">
-        @if (! empty($d['logo']))
-        <img src="{{ $d['logo'] }}" alt="{{ esc_attr($d['name']) }}" loading="lazy">
-        @else
-        <span class="dev-logo-text">{{ $d['name'] }}</span>
-        @endif
-        <span class="dev-logo-label">{{ $d['name'] }}</span>
-      </div>
-      @endif
       @endforeach
     </div>
+
+    @foreach ($devGroups as $group)
+    <div class="dev-region-group" data-dev-region="{{ $group['slug'] }}" style="margin-bottom:48px">
+      <h3 class="dev-region-heading" style="margin-bottom:18px">{{ $group['label'] }} Developers</h3>
+
+      <div class="stagger-children dev-logo-wall"
+        data-edit-admin="edit.php?post_type=developer"
+        title="Click to manage developers in WP Admin">
+        @foreach ($group['items'] as $d)
+        @if (! empty($d['website']))
+        <a href="{{ $d['website'] }}" class="dev-logo-item reveal"
+          target="_blank" rel="noopener noreferrer">
+          @if (! empty($d['logo']))
+          <img src="{{ $d['logo'] }}" alt="{{ esc_attr($d['name']) }}" loading="lazy">
+          @else
+          <span class="dev-logo-text">{{ $d['name'] }}</span>
+          @endif
+          <span class="dev-logo-label">{{ $d['name'] }}</span>
+        </a>
+        @else
+        <div class="dev-logo-item reveal">
+          @if (! empty($d['logo']))
+          <img src="{{ $d['logo'] }}" alt="{{ esc_attr($d['name']) }}" loading="lazy">
+          @else
+          <span class="dev-logo-text">{{ $d['name'] }}</span>
+          @endif
+          <span class="dev-logo-label">{{ $d['name'] }}</span>
+        </div>
+        @endif
+        @endforeach
+      </div>
+    </div>
+    @endforeach
   </div>
 </section>
 

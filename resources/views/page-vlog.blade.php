@@ -52,7 +52,7 @@ $vlogs = $vlogs ?? [];
     @if (empty($vlogs))
     <p style="text-align:center;color:var(--ink-2);padding:64px 0">No videos published yet.</p>
     @else
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:36px">
+    <div class="flex flex-col" style="gap:36px">
       @foreach ($vlogs as $v)
       @php
       $mediaType = $v['mediaType'] ?? 'image';
@@ -65,10 +65,10 @@ $vlogs = $vlogs ?? [];
       @endphp
       <a href="{{ $v['permalink'] }}"
         class="vlog-list-card reveal"
-        style="transition-delay:{{ $loop->index * 0.06 }}s;display:flex;flex-direction:column;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--bg);text-decoration:none;color:inherit">
+        style="transition-delay:{{ $loop->index * 0.06 }}s;display:flex;flex-direction:row;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--bg);text-decoration:none;color:inherit">
 
         {{-- Thumbnail with optional play overlay --}}
-        <div style="position:relative;aspect-ratio:16/9;overflow:hidden;background:var(--bg-3);flex-shrink:0">
+        <div class="max-w-1/3" style="position:relative;aspect-ratio:16/9;overflow:hidden;background:var(--bg-3);flex-shrink:0">
           @if ($cardThumb)
           <img src="{{ $cardThumb }}"
             alt="{{ esc_attr($v['title']) }}"

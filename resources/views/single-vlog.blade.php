@@ -15,7 +15,7 @@
 @else
 
 {{-- Header --}}
-<section class="section" style="padding-top:140px">
+<section class="section pb-0!" style="padding-top:140px">
   <div class="container" style="position:relative">
     <x-orbit-deco style="right:-260px;top:-40px;opacity:.18" />
 
@@ -33,14 +33,14 @@
     </div>
     @endif
 
-    <h2 class="h2" style="max-width:22ch">{{ $v['title'] }}</h2>
+    <h2 class="text-4xl! font-bolder w-full" style="">{{ $v['title'] }}</h2>
   </div>
 </section>
 
 {{-- Media --}}
+<section class="section pt-4!" style="padding-top:0">
 @php($mediaType = $v['mediaType'] ?? 'image')
 @if ($mediaType === 'youtube' && ! empty($v['youtube']['embed']))
-<section class="section" style="padding-top:0">
   <div class="container">
     <div style="position:relative;width:100%;aspect-ratio:16/9;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:#000">
       <iframe src="{{ $v['youtube']['embed'] }}"
@@ -51,41 +51,35 @@
         style="position:absolute;inset:0;width:100%;height:100%;border:0"></iframe>
     </div>
   </div>
-</section>
 @elseif ($mediaType === 'video' && ! empty($v['video']['url']))
 @php($poster = ! empty($v['thumbnail']) ? ' poster="' . esc_attr($v['thumbnail']) . '"' : '')
-<section class="section" style="padding-top:0">
   <div class="container">
     <video controls playsinline preload="metadata"{!! $poster !!}
       style="width:100%;border-radius:14px;border:1px solid var(--line);background:#000">
       <source src="{{ $v['video']['url'] }}" type="{{ $v['video']['mime'] }}">
     </video>
   </div>
-</section>
 @elseif (! empty($v['thumbnail']))
-<section class="section" style="padding-top:0">
   <div class="container">
     <div style="width:100%;aspect-ratio:16/9;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:var(--bg-3)">
       <img src="{{ $v['thumbnail'] }}" alt="{{ esc_attr($v['title']) }}"
         style="width:100%;height:100%;object-fit:cover;display:block">
     </div>
   </div>
-</section>
 @endif
 
 {{-- Description --}}
-@if ($v['description'])
-<section class="section" style="background:var(--bg-2);border-top:1px solid var(--line)">
+@if ($v['description']) 
   <div class="container">
-    <div class="vlog-description" style="max-width:72ch;color:var(--ink-2);line-height:1.75;font-size:15.5px">
+    <div class="vlog-description text-base! px-6 pb-6 pt-8 rounded-b-2xl -mt-2 bg-black/50 w-full" style="color:var(--ink-2);line-height:1.75;">
       {!! wp_kses_post($v['description']) !!}
     </div>
-    <div style="margin-top:32px">
+    <div class=" px-4" style="margin-top:32px">
       <a href="{{ home_url('/vlog') }}" class="btn">← Back to vlogs</a>
     </div>
-  </div>
-</section>
+  </div> 
 @endif
+</section>
 
 {{-- Related vlogs --}}
 @if (! empty($otherVlogs))
