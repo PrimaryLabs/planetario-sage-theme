@@ -35,8 +35,7 @@ class CompanyEvents extends Composer
             'post_type'      => CompanyEventPostType::POST_TYPE,
             'post_status'    => 'publish',
             'posts_per_page' => -1,
-            'meta_key'       => 'event_date',
-            'orderby'        => ['meta_value' => 'DESC', 'menu_order' => 'ASC', 'date' => 'DESC'],
+            'orderby'        => ['menu_order' => 'ASC', 'date' => 'DESC'],
         ]);
 
         if (! $query->have_posts()) {

@@ -331,6 +331,11 @@ add_action('admin_enqueue_scripts', function ($hook) {
         $reorder_asset = \get_theme_file_uri('resources/js/team-reorder-admin.js');
         \wp_enqueue_script('planetario-team-reorder', $reorder_asset, [], null, true);
     }
+
+    if ($hook === 'company_event_page_planetario-event-reorder') {
+        $event_reorder_asset = \get_theme_file_uri('resources/js/event-reorder-admin.js');
+        \wp_enqueue_script('planetario-event-reorder', $event_reorder_asset, [], null, true);
+    }
 });
 
 /**

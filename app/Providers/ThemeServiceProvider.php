@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Admin\AcfMetaboxUi;
+use App\Admin\CompanyEventReorderApi;
+use App\Admin\CompanyEventReorderPage;
 use App\Admin\HeroSlidesMetaBox;
 use App\Admin\InlineEditorApi;
 use App\Admin\MetaboxSettingsPage;
@@ -115,12 +117,14 @@ class ThemeServiceProvider extends SageServiceProvider
 
         \add_action('rest_api_init', [InlineEditorApi::class, 'register']);
         \add_action('rest_api_init', [TeamReorderApi::class, 'register']);
+        \add_action('rest_api_init', [CompanyEventReorderApi::class, 'register']);
 
         SiteIdentityPage::register();
         SiteIdentitySync::register();
         ThemeColorsPage::register();
         TeamImportPage::register();
         TeamReorderPage::register();
+        CompanyEventReorderPage::register();
         MetaboxSettingsPage::register();
     }
 }
